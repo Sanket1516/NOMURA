@@ -92,6 +92,7 @@ class ConsentGrant(In):
     purpose: Purpose
     version: Text(20, 1)
     granted: bool
+    lang: Lang | None = None   # the language the consent text was shown in (KI-18)
 
 
 class ConsentsIn(In):
@@ -102,6 +103,7 @@ class ConsentOut(BaseModel):
     purpose: Purpose
     version: str
     granted: bool
+    lang: Lang | None = None
     at: datetime
 
 

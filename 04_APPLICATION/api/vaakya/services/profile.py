@@ -46,14 +46,14 @@ def upsert_profile(db: Session, user_id: uuid.UUID, body: s.ProfileIn) -> s.Prof
 
 def put_consents(db: Session, user_id: uuid.UUID, body: s.ConsentsIn) -> list[s.ConsentOut]:
     for g in body.grants:
-        db.add(Consent(user_id=user_id, purpose=g.purpose, version=g.version, granted=g.granted))
+        db.add(Consent(user_id=user_id, purpose=g.purpose, version=g.version, granted=g.granted, lang=g.lang))
     db.flush()
     emit(db, user_id, "ConsentChanged", {"purposes": [g.purpose for g in body.grants]}, project=False)
     return list_consents(db, user_id)
 
 
 def list_consents(db: Session, user_id: uuid.UUID) -> list[s.ConsentOut]:
-    return [s.ConsentOut(purpose=c.purpose, version=c.version, granted=c.granted, at=c.at) for c in consents(db, user_id).values()]  # type: ignore[arg-type]
+    return [s.ConsentOut(purpose=c.purpose, version=c.version, granted=c.granted, lang=c.lang, at=c.at) for c in consents(db, user_id).values()]  # type: ignore[arg-type]
 
 
 def get_prefs(db: Session, user_id: uuid.UUID) -> dict:

@@ -64,6 +64,7 @@ Indexes / unique: `keycloak_sub`
 | `purpose` | VARCHAR(30) | no |  |
 | `version` | VARCHAR(20) | no |  |
 | `granted` | BOOLEAN | no |  |
+| `lang` | VARCHAR(2) | yes | CHECK en/hi/mr/kn; interface language shown with the text; NULL = not recorded (migration 0004, KI-18) |
 | `at` | DATETIME | no |  |
 
 Indexes / unique: `ix_consents_user_id`
