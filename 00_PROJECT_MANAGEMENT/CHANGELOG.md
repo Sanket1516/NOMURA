@@ -2,6 +2,12 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Documents with real OCR extraction (REMAINING_WORK 18)
+
+- Upload → Tesseract OCR or PDF text → rule-based fields (net, gross, deductions, pay month; balances, salary credit) with confidence and a net ≤ gross check → user confirms or corrects → monthly income.
+- Documents screen in the app. Latest confirmed slip replaces earlier slip income (bug found by re-running the live test).
+- 7 new API tests; live journey 8. Disk-full condition that broke SeaweedFS found and cleared.
+
 ## 2026-11-05: Proactive nudges and monthly review (REMAINING_WORK 16-17)
 
 - Daily proactive job: goal-drift and newly-eligible-scheme notifications, at most one per user per day, never repeated.

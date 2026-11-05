@@ -49,6 +49,7 @@ test("2 educator answers from sources with citations", async ({ page }) => {
 test("3 scam check: pasted text and a screenshot through real OCR", async ({ page }) => {
   await signIn(page, "demo-priya@vaakya.invalid", process.env.DEMO_PASSWORD!);
   await page.goto("/shield");
+  await page.waitForLoadState("networkidle");
   await page.getByLabel("Message, offer or link").fill("Congratulations! You have won Rs 25,00,000 in KBC lucky draw. Pay processing fee of Rs 4,999 to claim");
   await page.getByRole("button", { name: "Check message" }).click();
   await expect(page.getByText(/High risk|Critical risk/).first()).toBeVisible({ timeout: 30_000 });
@@ -134,4 +135,21 @@ test("7 a new user registers in Keycloak and onboards", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Asha");
   await expect(page.getByText("Your data").first()).toBeVisible();
   await shot(page, "10-new-user-dashboard");
+});
+
+test("8 salary slip: real OCR extraction, user confirms, income is used", async ({ page }) => {
+  await signIn(page, "demo-divya@vaakya.invalid", process.env.DEMO_PASSWORD!);
+  await page.goto("/documents");
+  await page.waitForLoadState("networkidle"); // let React attach handlers before choosing the file
+  await page.locator("input[type=file]").setInputFiles(path.resolve(__dirname, "fixtures-salary-slip.png"));
+  await page.getByRole("button", { name: "Upload and read" }).click();
+  const doc = page.locator("article").first();
+  await expect(doc.getByText("Check the values")).toBeVisible({ timeout: 60_000 });
+  await expect(doc.getByLabel("Net monthly pay")).toHaveValue("35000");
+  await expect(doc.getByLabel("Gross monthly pay")).toHaveValue("41500");
+  await shot(page, "12-documents-review-live");
+  await doc.getByRole("button", { name: "These values are correct" }).click();
+  await expect(doc.getByText("Confirmed")).toBeVisible();
+  await page.goto("/home");
+  await expect(page.getByText("Net salary (from salary slip)")).toBeVisible();
 });
