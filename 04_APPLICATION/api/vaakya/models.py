@@ -280,3 +280,16 @@ class DataflowAudit(Base):
     model: Mapped[str] = mapped_column(String(60), nullable=False)
     categories: Mapped[list] = mapped_column(JSONB, nullable=False)
     at: Mapped[datetime] = created()
+
+
+class Scheme(Base):
+    """Scheme catalogue (FR-CON-01, NFR-ACC-01). Loaded from data/schemes.json; reviewed rows record who verified them."""
+    __tablename__ = "schemes"
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    data: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    rules_version: Mapped[str] = mapped_column(String(20), nullable=False)
+    verification: Mapped[str] = mapped_column(String(20), default="unverified_draft", nullable=False)
+    verified_by: Mapped[str | None] = mapped_column(String(80))
+    last_verified_at: Mapped[date | None] = mapped_column(Date)
+    review_due_at: Mapped[date | None] = mapped_column(Date)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, onupdate=utcnow, nullable=False)

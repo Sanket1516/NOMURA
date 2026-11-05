@@ -65,7 +65,7 @@ def clean(request):
     from vaakya.db import engine
     ratelimit.reset()
     with engine().begin() as c:
-        c.execute(text("TRUNCATE users, outbox RESTART IDENTITY CASCADE"))
+        c.execute(text("TRUNCATE users, outbox, schemes RESTART IDENTITY CASCADE"))
     yield
 
 

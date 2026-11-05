@@ -24,11 +24,11 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 133 |
+| PLANNED | 120 |
 | IN PROGRESS | 4 |
-| PARTIALLY IMPLEMENTED | 41 |
+| PARTIALLY IMPLEMENTED | 47 |
 | IMPLEMENTED | 3 |
-| TESTED | 18 |
+| TESTED | 25 |
 | VERIFIED | 0 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
@@ -54,7 +54,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-DOC-01 | Document upload | DK-s12; DK-s11; ES-A5 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Upload API real and tested; storage Step 3 | PARTIAL IMPLEMENTATION |
-| FR-DOC-02 | Secure document vault | ES-STACK; DK-s14; DK-s12; UB-FOSS; D-024 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-DOC-02 | Secure document vault | ES-STACK; DK-s14; DK-s12; UB-FOSS; D-024 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. SeaweedFS + AES-256-GCM envelope, path-bound; tested against real SeaweedFS | REAL IMPLEMENTATION |
 | FR-DOC-03 | OCR extraction | ES-STACK; DK-s12 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-DOC-04 | Structured AI extraction | DK-s12 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-DOC-05 | Extraction validation | DK-s12; UI-02 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -76,16 +76,16 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-FLG-01 | Graph schema | ES-2.1; DK-s13; UB-IN2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FLG-02 | Twin coverage | ES-2.1; UB-IN2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FLG-03 | Create | DK-s13; DK-s11 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FLG-04 | Enrich | DK-s13 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-FLG-01 | Graph schema | ES-2.1; DK-s13; UB-IN2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Neo4j schema, constraints, 10 node labels, 11 relationship types; tested | REAL IMPLEMENTATION |
+| FR-FLG-02 | Twin coverage | ES-2.1; UB-IN2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Profile, goals, learning, risks, schemes, scam history in the graph | REAL IMPLEMENTATION |
+| FR-FLG-03 | Create | DK-s13; DK-s11 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Built from assessment and actions via outbox relay; tested | REAL IMPLEMENTATION |
+| FR-FLG-04 | Enrich | DK-s13 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Incremental re-sync on every event; idempotent; tested | REAL IMPLEMENTATION |
 | FR-FLG-05 | Enrich from external feeds | DK-s13 | P3 | No | No | No | No | NOT STARTED | None | NOT IMPLEMENTED |
-| FR-FLG-06 | Analyze | DK-s13; DK-s10 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FLG-07 | Act and guide | ES-2.1; DK-s13; PS-Q1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-FLG-06 | Analyze | DK-s13; DK-s10 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Rule-based risk analysis + graph queries; richer analysis later | PARTIAL IMPLEMENTATION |
+| FR-FLG-07 | Act and guide | ES-2.1; DK-s13; PS-Q1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Gateway context() query ready; agents consume it in Step 5 | PARTIAL IMPLEMENTATION |
 | FR-FLG-08 | Evolve | DK-s13 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FLG-09 | Graph access gateway | ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FLG-10 | Life Graph screen | UI-09; UI-16 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-FLG-09 | Graph access gateway | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Named, parameterised, user-anchored queries; two-user isolation and injection tests | REAL IMPLEMENTATION |
+| FR-FLG-10 | Life Graph screen | UI-09; UI-16 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. /v1/twin with outline and insights; screen built in Step 6 | PARTIAL IMPLEMENTATION |
 
 ## FCS: Financial Confidence Score
 
@@ -197,7 +197,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-CON-01 | Scheme catalogue | DK-s6; UI-07; ES-A4; PN-KIS-3; UB-IN7 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-CON-01 | Scheme catalogue | DK-s6; UI-07; ES-A4; PN-KIS-3; UB-IN7 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. 10-scheme catalogue with criteria, documents, steps, sources; UNVERIFIED until T0.12 | PARTIAL IMPLEMENTATION |
 | FR-CON-02 | Deterministic eligibility engine | ER; ES-A4; ES-APPB | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-CON-03 | Eligibility explanation | UI-12; PS-R1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Per-criterion eligibility UI; engine not built | PARTIAL IMPLEMENTATION |
 | FR-CON-04 | Benefit estimation | ES-A4; UI-07 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -208,7 +208,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | FR-CON-09 | Farmer scheme flow | PN-KIS-3; PN-KIS-7; PS-E5 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-CON-10 | Opportunities feed | UI-11; DK-s25; DK-s26 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-CON-11 | Proactive eligibility detection | DK-s29; DK-s15; ES-APPB | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-CON-12 | Scheme data freshness | DK-s8; ER | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Shows unverified status per scheme; catalogue not verified (T0.12) | PARTIAL IMPLEMENTATION |
+| FR-CON-12 | Scheme data freshness | DK-s8; ER | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. verification, verified_by, last_verified_at, review_due_at stored; loader preserves human verification | PARTIAL IMPLEMENTATION |
 | FR-CON-13 | Employer-benefit awareness | PN-PRI-6 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 
 ## DSH: Dashboard
@@ -325,10 +325,10 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-SCAL-03 | Inference queue | ER; UB-FOSS | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-AVAIL-01 | LLM failure handling | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-AVAIL-02 | Environments and rollback | ER; UB-Q1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-AVAIL-03 | Data durability | ER; D-007 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-AVAIL-03 | Data durability | ER; D-007 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Graph rebuildable from PostgreSQL; backups in deployment step | PARTIAL IMPLEMENTATION |
 | NFR-SEC-01 | Authentication everywhere | ER; ES-STACK; D-027 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Auth dependency on every /v1 route; token tests; no live Keycloak yet | REAL IMPLEMENTATION |
 | NFR-SEC-02 | Per-user authorisation | ER; PS-R3 | P0 | Yes | Partial | Yes | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Repository scoping + 404 tested and mutation-checked; RLS and graph gateway not yet | PARTIAL IMPLEMENTATION |
-| NFR-SEC-03 | Encryption | DK-s14; DK-s25 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-SEC-03 | Encryption | DK-s14; DK-s25 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Documents encrypted per object; TLS and disk encryption are deployment items | PARTIAL IMPLEMENTATION |
 | NFR-SEC-04 | Secrets management | ER; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-SEC-05 | Upload safety | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Magic bytes, 10 MB cap, EXIF strip, risky PDF rejection, consent; tested | REAL IMPLEMENTATION |
 | NFR-SEC-06 | Prompt-injection resistance | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -337,7 +337,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-SEC-09 | Abuse limits | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Per-user buckets, 429 + Retry-After; single-replica in-memory | REAL IMPLEMENTATION |
 | NFR-SEC-10 | Pre-launch security review | ER; UB-Q1; UB-FOSS | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-PRIV-01 | Data minimisation | DK-s12; PS-R3 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-PRIV-02 | Retention and deletion | PS-R3; ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-PRIV-02 | Retention and deletion | PS-R3; ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Retention rules + purge job; account erase across PostgreSQL, vault, graph; tested | REAL IMPLEMENTATION |
 | NFR-PRIV-03 | DPDP compliance before real users | ER; UB-Q1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-A11Y-01 | WCAG conformance | ER; PS-A1; UB-IN5 | P0 | Yes | Partial | Partial | No | IN PROGRESS | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. axe WCAG 2.2 AA: 0 serious/critical on 17 pages incl. high contrast + 150% text | PARTIAL IMPLEMENTATION |
 | NFR-A11Y-02 | Assistive-technology testing | ER; PN-DIV-2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
