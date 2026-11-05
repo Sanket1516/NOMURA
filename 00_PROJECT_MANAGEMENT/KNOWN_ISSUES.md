@@ -15,7 +15,7 @@
 | KI-20 | LOW | Low-literacy mode only enlarges icons and spacing (FR-LNG-04 is still planned); its description was claiming more and was corrected | Feature is thinner than the name suggests | Build shorter copy and fewer numbers per screen |
 | KI-07 | MEDIUM | CSP allows `'unsafe-inline'` scripts and styles | Weaker XSS defence in depth | Nonce-based CSP |
 | KI-08 | MEDIUM | No screen-reader, real-device or non-Chromium testing | Accessibility and compatibility claims limited to automated checks | Test with TalkBack, NVDA, VoiceOver; Firefox and WebKit |
-| KI-09 | MEDIUM | No load, latency or memory measurements | Capacity and model latency unknown | PERFORMANCE_REPORT.md next steps |
+| KI-09 | MEDIUM | No load, latency or memory measurements | Capacity and model latency unknown | PERFORMANCE_REPORT.md next steps **Script written 2026-11-05 (`web/scripts/load_test.mjs`), not yet run on the real stack; no measurements exist.** |
 | KI-10 | MEDIUM | Rate limits and brute-force protection not tested on the live stack | Abuse resistance unconfirmed | Add tests behind Caddy |
 | KI-11 | LOW | Prometheus, Grafana, Loki configured but never run | No monitoring in practice | Run the `monitoring` profile when Docker Hub allows |
 | KI-12 | LOW | Container images not scanned | Unknown OS-level CVEs | Add Trivy or Grype to CI **Code written 2026-11-05, not yet verified on the live stack: Trivy scan job in the CI workflow; never run yet** |
