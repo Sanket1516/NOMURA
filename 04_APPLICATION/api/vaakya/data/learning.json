@@ -1,0 +1,89 @@
+{
+  "status": "draft_unreviewed",
+  "note": "Written for VAAKYA as general financial education. Must be reviewed for accuracy before release (FR-EDU-07). No product recommendations.",
+  "modules": [
+    {
+      "id": "emergency-fund", "title": "Emergency Fund", "topic": "Saving", "minutes": 6,
+      "sections": [
+        {"heading": "What it is", "body": "An emergency fund is money kept aside only for surprises: a medical bill, a repair, or a month with no income. It stops a bad month from turning into a loan."},
+        {"heading": "How much", "body": "A common rule is three months of household expenses if your income is steady, and six months if it changes or comes by season. Start smaller: even one month helps."},
+        {"heading": "Where to keep it", "body": "Somewhere safe that you can reach within a day or two, such as a savings account or a recurring deposit you can break. Not in shares, and not lent to others."},
+        {"heading": "How to build it", "body": "Move a fixed amount on payday, or a percentage of each payout if your income varies. Refill it after you use it."}
+      ],
+      "quiz": [
+        {"id": "q1", "q": "What is an emergency fund for?", "options": ["Buying gold when prices fall", "Unexpected costs or a month without income", "Paying for a holiday"], "answer": 1},
+        {"id": "q2", "q": "Someone whose income changes every month should usually aim for:", "options": ["About six months of expenses", "One week of expenses", "Nothing until income is steady"], "answer": 0},
+        {"id": "q3", "q": "A good place for an emergency fund is:", "options": ["Shares of one company", "A savings account you can reach quickly", "A loan to a friend"], "answer": 1}
+      ]
+    },
+    {
+      "id": "smart-budgeting", "title": "Smart Budgeting", "topic": "Saving", "minutes": 7,
+      "sections": [
+        {"heading": "Pay yourself first", "body": "Decide your saving before you spend, and move it as soon as money arrives. What is left is for spending."},
+        {"heading": "Needs, wants, saving", "body": "Group spending into needs (rent, food, school fees, EMIs), wants (eating out, new phone) and saving. Cut wants first when money is short."},
+        {"heading": "Track a month", "body": "Write down every expense for one month. Most people find two or three small habits that add up to a large amount."}
+      ],
+      "quiz": [
+        {"id": "q1", "q": "'Pay yourself first' means:", "options": ["Spend first, save what is left", "Move your saving as soon as income arrives", "Buy something for yourself on payday"], "answer": 1},
+        {"id": "q2", "q": "When money is short, which usually gets cut first?", "options": ["Wants", "Rent", "School fees"], "answer": 0},
+        {"id": "q3", "q": "Why track expenses for a month?", "options": ["Banks require it", "To find where money actually goes", "To raise your credit limit"], "answer": 1}
+      ]
+    },
+    {
+      "id": "digital-safety", "title": "Digital Safety", "topic": "Protection", "minutes": 8,
+      "sections": [
+        {"heading": "Never share an OTP or PIN", "body": "A one-time password (OTP), UPI PIN or card PIN is only for you. Banks, government offices and delivery companies do not ask for them. Anyone who asks is trying to take your money."},
+        {"heading": "Receiving money never needs a PIN", "body": "On UPI, you enter your PIN only to send money. If someone asks you to enter a PIN or scan a code to receive money, it is a scam."},
+        {"heading": "Urgency is a warning sign", "body": "Messages saying your account or KYC will be blocked today, or that you won a prize, want you to act before you think. Stop and check through the official app or the number on your card."},
+        {"heading": "If you lose money", "body": "Call the national cyber crime helpline 1930 quickly and report at cybercrime.gov.in. Call your bank on its official number to block the transaction."}
+      ],
+      "quiz": [
+        {"id": "q1", "q": "Your bank calls and asks for the OTP you just received. You should:", "options": ["Share it, it is the bank", "Refuse and hang up", "Share only half of it"], "answer": 1},
+        {"id": "q2", "q": "To receive money on UPI you need to:", "options": ["Enter your UPI PIN", "Do nothing: receiving needs no PIN", "Scan the sender's QR code"], "answer": 1},
+        {"id": "q3", "q": "A message says your KYC expires today and gives a link. This is:", "options": ["A common scam pattern", "Normal bank practice", "A government reminder"], "answer": 0},
+        {"id": "q4", "q": "The national cyber crime helpline number is:", "options": ["100", "1930", "112"], "answer": 1}
+      ]
+    },
+    {
+      "id": "sip-basics", "title": "SIP Basics", "topic": "Investing", "minutes": 8,
+      "sections": [
+        {"heading": "What a SIP is", "body": "A Systematic Investment Plan (SIP) is a way to put a fixed amount into a mutual fund every month. It is a method of investing, not a product with a fixed return."},
+        {"heading": "Risk and time", "body": "Equity funds can fall in value, sometimes for years. They suit goals more than five years away. Money you need soon, or your emergency fund, should not be in equity."},
+        {"heading": "Checking a fund", "body": "Mutual funds are regulated by SEBI. Check that the fund house is SEBI-registered, read the expense ratio, and be wary of anyone promising a fixed or guaranteed return."}
+      ],
+      "quiz": [
+        {"id": "q1", "q": "A SIP is:", "options": ["A product with a guaranteed return", "A way of investing a fixed amount regularly", "A type of bank loan"], "answer": 1},
+        {"id": "q2", "q": "Equity mutual funds are better suited to goals that are:", "options": ["Next month", "More than five years away", "Emergencies"], "answer": 1},
+        {"id": "q3", "q": "Someone promises a guaranteed 3% a month from a fund. You should:", "options": ["Be very cautious: funds cannot guarantee returns", "Invest quickly", "Invest your emergency fund"], "answer": 0}
+      ]
+    },
+    {
+      "id": "insurance-101", "title": "Insurance 101", "topic": "Protection", "minutes": 9,
+      "sections": [
+        {"heading": "Why insure", "body": "Insurance protects your family from a loss they could not pay for themselves, such as the death of an earning member, a hospital stay, or crop failure."},
+        {"heading": "Term insurance", "body": "Term life insurance pays a sum to your family if you die during the term. It has no maturity payout, which is why the premium is low for a large cover."},
+        {"heading": "Mixing insurance and investment", "body": "Products such as ULIPs and endowment plans combine insurance with investment. Compare their cover, charges and lock-in with buying term insurance and investing separately before you decide."},
+        {"heading": "Health insurance", "body": "A health policy pays hospital bills. Check what is covered, waiting periods and whether your nearby hospitals are in the network."}
+      ],
+      "quiz": [
+        {"id": "q1", "q": "Term insurance pays out when:", "options": ["The policy matures", "The insured person dies during the term", "Markets go up"], "answer": 1},
+        {"id": "q2", "q": "Before buying a ULIP, a sensible step is to:", "options": ["Compare it with term insurance plus separate investing", "Buy it because it has insurance", "Ask only the seller"], "answer": 0},
+        {"id": "q3", "q": "In a health policy you should check:", "options": ["Waiting periods and network hospitals", "Only the colour of the card", "Nothing; all are the same"], "answer": 0}
+      ]
+    },
+    {
+      "id": "credit-score", "title": "Loans and Credit Score", "topic": "Borrowing", "minutes": 7,
+      "sections": [
+        {"heading": "The real cost of a loan", "body": "Look at the total you will repay and the effective yearly rate, including processing fees. A small weekly payment can hide a very high yearly rate."},
+        {"heading": "Credit score", "body": "A credit score summarises how you have repaid loans and cards. Paying EMIs on time, keeping card balances low and not applying for many loans at once help it."},
+        {"heading": "Instant loan apps", "body": "Some apps lend without naming a registered lender, charge large fees and ask to read your contacts or photos. Borrow only from banks and lenders regulated by RBI, and never give an app access to your contacts."},
+        {"heading": "How much EMI is too much", "body": "When EMIs take a large share of your monthly income, one bad month can force another loan. Many guides suggest keeping all EMIs well under 40% of income."}
+      ],
+      "quiz": [
+        {"id": "q1", "q": "To compare loans, the most useful number is:", "options": ["The weekly payment", "The effective yearly rate including fees", "How fast it is approved"], "answer": 1},
+        {"id": "q2", "q": "A loan app asks for access to your contacts. This is:", "options": ["Normal", "A warning sign", "Required by RBI"], "answer": 1},
+        {"id": "q3", "q": "Which helps a credit score?", "options": ["Paying EMIs on time", "Applying for many loans in one week", "Using the full card limit every month"], "answer": 0}
+      ]
+    }
+  ]
+}

@@ -2,6 +2,20 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Step 2 of 6, backend
+
+### Added
+
+- `04_APPLICATION/api/`: FastAPI service with Keycloak RS256 JWT verification and just-in-time user provisioning, RFC 9457 errors, structured JSON logging with an allow-list and HMAC user ids, per-user rate limits, body-size limits, request ids.
+- PostgreSQL schema (21 tables) with an Alembic migration.
+- Modules: profile, consent (append-only), preferences, onboarding, dynamic assessment, financial items and monthly budget, goals with idempotent creation, plans with inputs and formulas, contributions, planning calculators, Confidence Score fcs-1 (six dimensions), dashboard, learning (6 draft lessons and quizzes), notifications, document upload validation, export and erase.
+- Deterministic calculators: emergency fund, goal feasibility, irregular-income rule, seasonal plan, loan APR, SIP illustration.
+- 46 tests (17 unit, 29 integration on real PostgreSQL), mutation-checked isolation test, Dockerfile, README with examples.
+
+### Not yet
+
+- Chat, Sentinel, schemes and voice return 503 until Steps 4-6. Vault storage arrives in Step 3.
+
 ## 2026-11-05: Step 1 of 6, frontend
 
 ### Added

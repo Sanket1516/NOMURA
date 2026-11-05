@@ -21,4 +21,7 @@ statuses = re.findall(r"^\| (?:FR|NFR)-[A-Z0-9]+-\d+ \|(?:[^|]*\|){7} ([A-Z ]+?)
 from collections import Counter
 c = Counter(statuses)
 print(dict(c))
+order = ["PLANNED", "IN PROGRESS", "PARTIALLY IMPLEMENTED", "IMPLEMENTED", "TESTED", "VERIFIED", "BLOCKED"]
+rows = "".join(f"| {k} | {c.get(k, 0)} |\n" for k in order) + f"| NOT STARTED (backlog) | {c.get('NOT STARTED', 0)} |\n"
+s = re.sub(r"(\| P0 / P1 / P2 / P3 \| [^\n]*\n)(?:\| [A-Z ()a-z]+ \| \d+ \|\n)+", lambda m: m.group(1) + rows, s, count=1)
 p.write_text(s)

@@ -50,3 +50,7 @@ addopts = "-q"
 [tool.ruff]
 line-length = 120
 target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "UP"]
+ignore = ["E501", "B008", "UP042", "UP017"]
