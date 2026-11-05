@@ -7,6 +7,7 @@ import { formatDate } from "@/lib/format";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { SimpleHome } from "@/components/layout/simple-home";
 import { DashboardHero } from "@/components/layout/dashboard-hero";
 import { ScoreRing } from "@/components/finance/score-ring";
 import { SavingsBars } from "@/components/finance/charts";
@@ -27,7 +28,9 @@ export default async function HomePage() {
     <>
       <DashboardHero d={d} lang={lang} />
 
-      <div className="stagger grid gap-5 lg:grid-cols-12">
+      <SimpleHome d={d} lang={lang} />
+
+      <div className="lit-detail stagger grid gap-5 lg:grid-cols-12">
         <Card className="lg:col-span-5" aria-labelledby="score-h">
           <CardHeader id="score-h" eyebrow={tr(lang, "home.score.eyebrow")} title={tr(lang, "home.score.title")}
             action={<Link href="/score" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">Details<span className="sr-only"> of your score</span></Link>} />
@@ -147,7 +150,7 @@ export default async function HomePage() {
           <p className="mt-3 text-sm text-ink-3">VAAKYA does not connect to your bank. Entries come from what you type or confirm from uploaded documents.</p>
         </Card>
       </div>
-      <p className="mt-6 text-center text-sm"><Link href="/assistant" className="inline-flex items-center gap-1 font-semibold text-primary">{tr(lang, "home.ask")} <ArrowRight aria-hidden className="size-4" /></Link></p>
+      <p className="lit-detail mt-6 text-center text-sm"><Link href="/assistant" className="inline-flex items-center gap-1 font-semibold text-primary">{tr(lang, "home.ask")} <ArrowRight aria-hidden className="size-4" /></Link></p>
     </>
   );
 }

@@ -159,6 +159,26 @@ test("install button appears only when the browser offers installation, and work
   expect(await page.evaluate(() => (window as unknown as { __prompted: boolean }).__prompted)).toBe(true);
 });
 
+test("simple-words mode: home shows a short view with few numbers and big voice and scam buttons, and passes axe", async ({ page }) => {
+  await previewAs(page);
+  await page.goto("/home");
+  // standard view: the simple view is hidden, the detail cards are shown
+  await expect(page.getByRole("heading", { name: "Your money today" })).toBeHidden();
+  await expect(page.getByRole("heading", { name: "Recent financial entries" })).toBeVisible();
+  await page.goto("/settings/accessibility");
+  await page.getByRole("switch", { name: /Simple words mode/ }).click();
+  await page.goto("/home");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your money today" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Ask by voice" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Check a message" }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Recent financial entries" })).toBeHidden();
+  await expect(page.getByRole("table")).toHaveCount(0);   // hidden content is out of the accessibility tree too
+  const numbers = await page.locator("main").innerText().then((t) => (t.match(/\d[\d,.]*/g) ?? []).length);
+  expect(numbers).toBeLessThanOrEqual(12);
+  expect(await axe(page)).toEqual([]);
+});
+
 test("API proxy refuses without session and in preview", async ({ page, request }) => {
   expect((await request.get("/api/proxy/v1/dashboard")).status()).toBe(401);
   await previewAs(page);

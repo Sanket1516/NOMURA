@@ -40,6 +40,8 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 24 | Interface language from the profile on first sign-in (KI-19) | CODE WRITTEN; 3 unit tests; not tried through Keycloak |
 | 25 | PWA install button | DONE in preview (E2E with a synthetic install event); real install prompt not tried on a device |
 | 26 | Nonce CSP | Preview E2E 29/29 passes; Docker rebuild and live E2E TODO (`08_HANDOVER/OWNER_LOCAL_TASKS.md` B1) |
+| 28 | Low-literacy mode: Home simple view (KI-20) | DONE for Home only; other screens, real-user testing and wording review TODO |
+| 29 | Second scam set (KI-05), load script (KI-09), consent language (KI-18) | Written; see CHANGELOG. Scam recall on the untuned set is 10/28; rules need improving. Load script never run on the real stack |
 | 27 | Everything that needs the owner's machine | See `08_HANDOVER/OWNER_LOCAL_TASKS.md` |
 
 ## Found along the way (to do)

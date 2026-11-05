@@ -11,6 +11,7 @@ All notable changes to project plans, requirements and code. Newest first.
 - KI-18: `consents.lang` (migration 0004) stores the interface language shown with each consent; the consent form sends it. Tested on a real PostgreSQL 16 here: API 144 passed normal and with RLS; migration up/down/up on a database with old rows. (Project target is PostgreSQL 18; rerun on 18 locally.)
 - KI-05: second labelled scam set (not independent) and evaluation script. Result: recall 10/28, false alarms 0/24 (the tuned set said 12/12). Rules deliberately not tuned to it; regression floor test added.
 - KI-09: `web/scripts/load_test.mjs` (read-path load at 1/5/10/25 users, percentiles, status codes, chat timing, docker stats) with unit-tested statistics. Exercised only against a mock server; no real measurement yet.
+- KI-20: low-literacy mode now changes the Home screen: `SimpleHome` (saved this month, next goal, one next step, big voice and scam buttons) replaces the number-heavy cards; CSS-driven (`.lit-simple` / `.lit-detail`), no flash. E2E added (preview 30 passed). Other screens unchanged apart from larger icons. Wording is an unreviewed draft in hi/mr/kn.
 - PWA install button (shows only when the browser offers installation); preview E2E now 29 passed. Trackers and next-AI prompt updated.
 - `08_HANDOVER/OWNER_LOCAL_TASKS.md`: everything that must run on the owner's machine.
 
