@@ -101,7 +101,7 @@ def analyse_links(text: str) -> list[Finding]:
         labels = host.split(".")
         reg = ".".join(labels[-3:]) if host.endswith((".gov.in", ".co.in", ".org.in", ".nic.in")) else ".".join(labels[-2:])
 
-        def add(sig, sev, w, expl, act="Do not open the link. Go to the official app or website yourself."):
+        def add(sig, sev, w, expl, act="Do not open the link. Go to the official app or website yourself.", raw=raw):
             out.append(Finding(sig, sev, w, raw, expl, act))
         if re.fullmatch(r"\d{1,3}(\.\d{1,3}){3}", host):
             add("link_ip_address", "high", 30, "The link goes to a bare IP address, not a named website.")

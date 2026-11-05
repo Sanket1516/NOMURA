@@ -19,8 +19,8 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 8 | LangGraph orchestrator: routing, shared state, handoff, safety review | 4 | DONE | `05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md` |
 | 9 | The four agents: Educator, Strategy Builder, Sentinel, Connector | 5 | DONE | `05_TESTING/agents/STEP5_AGENTS_RESULTS.md`; rule-based until a model runs |
 | 10 | Scam signal engine and link heuristics; scheme eligibility engine | 5 | DONE | 23 + 14 tests |
-| 11 | Inference service: Tesseract OCR, eSpeak NG speech | 6 | IN PROGRESS | |
-| 12 | Keycloak realm, Docker Compose for the whole stack | 6 | TODO | |
+| 11 | Inference service: Tesseract OCR, eSpeak NG speech | 6 | DONE | Real OCR and TTS tested (14 tests); Docker image build waits on a Docker Hub rate limit; STT needs a model (T0.08) |
+| 12 | Keycloak realm, Docker Compose for the whole stack | 6 | IN PROGRESS | |
 | 13 | Wire every screen to the live API; end-to-end journeys through real sign-in | 6 | TODO | |
 | 14 | UI polish: animated numbers and charts, staggered motion, richer visuals | 6 | TODO | Owner asked for the UI to be "as beautiful and dynamic as possible" |
 | 15 | Final trackers, handover, next-AI prompt | 6 | TODO | |
