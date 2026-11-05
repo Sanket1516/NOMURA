@@ -93,3 +93,10 @@ def test_grounded_agents_must_cite():
 def test_high_stakes_adds_help_route():
     o, _ = orch()
     assert safety.HELP in ask(o, "I lost money to a fraud, what is a chargeback?")["text"]
+
+
+def test_warnings_and_quotes_about_blocked_claims_are_allowed():
+    o, _ = orch(educator=Echo("educator", "Be wary of anyone promising a guaranteed return.", cite=True))
+    assert ask(o, "Is SIP safe?")["text"].startswith("Be wary")
+    o, _ = orch(sentinel=Echo("sentinel", "It promises fixed returns. Found: “Guaranteed 3% daily returns”", cite=False))
+    assert "Found" in ask(o, "Guaranteed 3% daily returns, is it a scam?")["text"]

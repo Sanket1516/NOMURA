@@ -28,6 +28,8 @@ class Settings(BaseSettings):
     neo4j_password: str | None = None
     qdrant_url: str | None = None
     ollama_url: str | None = None
+    llm_private_model: str | None = Field(None, description="Chosen by T0.03, e.g. an Apache-2.0 small model")
+    llm_reasoning_model: str | None = None
 
 
 @lru_cache

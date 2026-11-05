@@ -23,7 +23,7 @@ class AgentContext:
     profile: dict[str, Any]
     llm: LLMAdapter | None
     knowledge: Any                    # KnowledgeStore or None
-    prior: list["AgentOutput"] = field(default_factory=list)   # outputs of earlier agents in this request (handoff)
+    prior: list[AgentOutput] = field(default_factory=list)   # outputs of earlier agents in this request (handoff)
     channel: Literal["text", "voice", "image"] = "text"
 
 

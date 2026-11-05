@@ -51,13 +51,26 @@ def _norm(s: str) -> str:
     return s.replace("₹", "").replace(",", "").replace("%", "").strip()
 
 
+_WARN = re.compile(r"(?i)\b(not|no|never|cannot|can'?t|wary|beware|avoid|promis\w*|claims?|unless|fake|scam\w*)\b")
+
+
+def _warning_context(text: str, m: re.Match) -> bool:
+    """A blocked phrase is allowed when it is quoted evidence (inside “…” or "…") or part of a warning about it."""
+    before = text[max(0, m.start() - 60): m.start()]
+    if before.count("“") > before.count("”") or before.count('"') % 2 == 1:
+        return True
+    return bool(_WARN.search(before))
+
+
 def review(out: AgentOutput, question: str, source_texts: list[str]) -> tuple[bool, list[str]]:
     """Returns (ok, problems). Numbers must come from tools, the question or cited sources; no blocked claims;
     grounded agents must cite or abstain."""
     problems = []
     for p in _BLOCKED:
-        if p.search(out.text):
-            problems.append(f"blocked phrase: {p.pattern}")
+        for m in p.finditer(out.text):
+            if not _warning_context(out.text, m):
+                problems.append(f"blocked phrase: {p.pattern}")
+                break
     ok_nums = allowed_numbers(out, question)
     for t in source_texts:
         ok_nums.update(_norm(x) for x in _NUM.findall(t))
