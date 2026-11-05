@@ -11,6 +11,7 @@ export const NAV_LABELS: Record<string, Record<Lang, string>> = {
   schemes: { en: "Schemes", hi: "योजनाएँ", mr: "शासकीय योजना", kn: "ಯೋಜನೆಗಳು" },
   learn: { en: "Learn", hi: "सीखें", mr: "शिका", kn: "ಕಲಿಯಿರಿ" },
   score: { en: "Confidence Score", hi: "विश्वास स्कोर", mr: "आत्मविश्वास गुण", kn: "ವಿಶ್ವಾಸ ಅಂಕ" },
+  lifegraph: { en: "Life Graph", hi: "जीवन ग्राफ़", mr: "जीवन आलेख", kn: "ಜೀವನ ನಕ್ಷೆ" },
   voice: { en: "Voice", hi: "आवाज़", mr: "आवाज", kn: "ಧ್ವನಿ" },
   notifications: { en: "Notifications", hi: "सूचनाएँ", mr: "सूचना", kn: "ಅಧಿಸೂಚನೆಗಳು" },
   profile: { en: "Profile", hi: "प्रोफ़ाइल", mr: "प्रोफाइल", kn: "ಪ್ರೊಫೈಲ್" },

@@ -7,7 +7,7 @@ export function Progress({ value, label, tone = "primary", className }: { value:
   return (
     <div role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={v} aria-label={label}
       className={cn("ring-line h-2.5 w-full overflow-hidden rounded-full bg-surface-2 ring-1 ring-inset", className)}>
-      <div className={cn("h-full rounded-full transition-[width] duration-700", fill)} style={{ width: `${v}%` }} />
+      <div className={cn("grow-x h-full rounded-full", fill)} style={{ width: `${v}%` }} />
     </div>
   );
 }

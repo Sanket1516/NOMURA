@@ -15,4 +15,7 @@ printf 'VAAKYA_DATABASE_URL=postgresql+psycopg://vaakya:%s@postgres:5432/vaakya\
   "$PG" "$NEO" "$INF" "$(rand)" "$(head -c 32 /dev/urandom | base64)" > secrets/api.env
 printf 'OIDC_CLIENT_SECRET=%s\n' "$WEB" > secrets/web.env
 chmod 600 secrets/*
+# Compose file secrets are bind-mounted with host permissions; the postgres user must read these two.
+# The secrets directory itself stays 700.
+chmod 644 secrets/postgres_password.txt secrets/keycloak_db_password.txt
 echo "Secrets created in infra/secrets. Demo user password: $DEMO"

@@ -2,6 +2,19 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Step 6 of 6 complete, integration
+
+### Added
+
+- Full stack ran in Docker Compose (9 services); Ubuntu base image built with debootstrap to get past Docker Hub limits.
+- Web app wired to the live API: onboarding redirect, live schemes, plan formula and limits, server voice summary, lesson reader with quiz, Life Graph screen.
+- UI polish: dashboard hero, count-up numbers, drawing ring and charts, staggered entry, hover lift, hub-and-sector Life Graph.
+- 7 live Playwright journeys through real Keycloak sign-in and registration; 10 live screenshots.
+
+### Fixed
+
+- Seven integration defects (Keycloak DB secret permissions, demo user names, worker healthcheck, cached onboarding redirect, reduced-motion delays, activity duplicates, unreadable graph). See the Step 6 results.
+
 ## 2026-11-05: Step 6 of 6 (in progress), integration; session stopped by the owner
 
 ### Added

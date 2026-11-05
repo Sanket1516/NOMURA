@@ -13,9 +13,11 @@ export function ScoreRing({ score, size = 168, withTable = true }: { score: Scor
       <g transform="rotate(135 90 90)">
         <circle cx="90" cy="90" r={r} fill="none" stroke="var(--surface-2)" strokeWidth="14" strokeLinecap="round" strokeDasharray={`${c * arc} ${c}`} />
         <circle cx="90" cy="90" r={r} fill="none" stroke={bandColor[score.band]} strokeWidth="14" strokeLinecap="round"
-          strokeDasharray={`${filled} ${c}`} style={{ transition: "stroke-dasharray 900ms cubic-bezier(.2,.7,.2,1)" }} />
+          strokeDasharray={`${filled} ${c}`} className="ring-draw" />
       </g>
       <text x="90" y="92" textAnchor="middle" className="font-display" fontSize="46" fill="var(--ink)">{score.overall}</text>
+      <circle cx={90 + r * Math.cos(((135 + 270 * score.overall / 100) * Math.PI) / 180)} cy={90 + r * Math.sin(((135 + 270 * score.overall / 100) * Math.PI) / 180)}
+        r="9" fill="var(--surface)" stroke={bandColor[score.band]} strokeWidth="4" className="grow-y" />
       <text x="90" y="118" textAnchor="middle" fontSize="13" fontWeight="600" fill="var(--ink-2)">{score.band}</text>
       <text x="90" y="150" textAnchor="middle" fontSize="11" fill="var(--ink-3)">out of 100</text>
     </svg>

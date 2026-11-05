@@ -198,3 +198,12 @@ export interface Problem {
   detail?: string;
   request_id?: string;
 }
+
+export interface TwinNode { id: string; type: string; label: string }
+export interface Twin {
+  nodes: TwinNode[];
+  edges: { from: string; to: string; type: string }[];
+  outline: { group: string; items: string[] }[];
+  insights: { text: string; agent: AgentId; query?: string }[];
+  source: "neo4j" | "sample";
+}

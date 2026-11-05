@@ -94,7 +94,7 @@
       "email": "demo-priya@vaakya.invalid",
       "emailVerified": true,
       "firstName": "Priya",
-      "lastName": "(demo)",
+      "lastName": "Demo",
       "enabled": true,
       "realmRoles": [
         "user"
@@ -113,7 +113,7 @@
       "email": "demo-rajesh@vaakya.invalid",
       "emailVerified": true,
       "firstName": "Rajesh",
-      "lastName": "(demo)",
+      "lastName": "Demo",
       "enabled": true,
       "realmRoles": [
         "user"
@@ -132,7 +132,7 @@
       "email": "demo-kisan@vaakya.invalid",
       "emailVerified": true,
       "firstName": "Kisan",
-      "lastName": "(demo)",
+      "lastName": "Demo",
       "enabled": true,
       "realmRoles": [
         "user"
@@ -151,7 +151,7 @@
       "email": "demo-divya@vaakya.invalid",
       "emailVerified": true,
       "firstName": "Divya",
-      "lastName": "(demo)",
+      "lastName": "Demo",
       "enabled": true,
       "realmRoles": [
         "user"

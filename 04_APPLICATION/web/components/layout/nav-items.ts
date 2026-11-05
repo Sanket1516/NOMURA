@@ -1,4 +1,4 @@
-import { Bell, BookOpen, CircleGauge, Compass, Home, Landmark, MessageCircle, Mic, ShieldCheck, Target, User, Accessibility } from "lucide-react";
+import { Bell, BookOpen, Network, CircleGauge, Compass, Home, Landmark, MessageCircle, Mic, ShieldCheck, Target, User, Accessibility } from "lucide-react";
 
 export const NAV = [
   { key: "home", href: "/home", Icon: Home },
@@ -9,6 +9,7 @@ export const NAV = [
   { key: "schemes", href: "/schemes", Icon: Landmark },
   { key: "learn", href: "/learn", Icon: BookOpen },
   { key: "score", href: "/score", Icon: CircleGauge },
+  { key: "lifegraph", href: "/life-graph", Icon: Network },
   { key: "voice", href: "/voice", Icon: Mic },
 ] as const;
 

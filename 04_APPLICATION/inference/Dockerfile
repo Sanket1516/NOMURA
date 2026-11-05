@@ -1,7 +1,9 @@
 # VAAKYA inference service. Ubuntu packages: tesseract-ocr (Apache-2.0) with eng/hin/mar/kan data, espeak-ng (GPLv3, separate process).
-FROM ubuntu:24.04
+ARG BASE=ubuntu:24.04
+FROM ${BASE}
 ARG HTTPS_PROXY
 ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1
+RUN grep -qs universe /etc/apt/sources.list.d/ubuntu.sources || printf 'deb http://archive.ubuntu.com/ubuntu noble main universe\ndeb http://archive.ubuntu.com/ubuntu noble-updates main universe\ndeb http://security.ubuntu.com/ubuntu noble-security main universe\n' > /etc/apt/sources.list
 RUN apt-get update && apt-get install -y --no-install-recommends \
       python3 python3-venv tesseract-ocr tesseract-ocr-eng tesseract-ocr-hin tesseract-ocr-mar tesseract-ocr-kan espeak-ng ca-certificates \
  && rm -rf /var/lib/apt/lists/*

@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -28,7 +27,6 @@ const EMPTY: Form = { display_name: "", birth_year: "", occupation: "", state: "
 const toPaise = (v: string) => Math.round(Number(v.replace(/[,\s₹]/g, "")) * 100);
 
 export function ProfileWizard({ persona }: { persona: PersonaId | null }) {
-  const router = useRouter();
   const announce = useAnnounce();
   const [part, setPart] = useState<1 | 2>(1);
   const [f, setF] = useState<Form>({ ...EMPTY, ...(persona ? TEMPLATES[persona] : {}) });
@@ -88,7 +86,8 @@ export function ProfileWizard({ persona }: { persona: PersonaId | null }) {
     const r2 = r1.ok ? await api("/v1/assessment/complete", { method: "POST", json: {} }) : r1;
     setBusy(false);
     if (!r2.ok && !isPreviewProblem(r2.problem)) { setProblem(r2.problem); return; }
-    router.push("/home");
+    // Full navigation: the client router may hold the earlier /home → /onboarding redirect in its cache.
+    window.location.assign("/home");
   }
 
   const err = (k: keyof Form) => errors[k];

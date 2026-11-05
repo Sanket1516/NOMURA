@@ -20,17 +20,28 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 9 | The four agents: Educator, Strategy Builder, Sentinel, Connector | 5 | DONE | `05_TESTING/agents/STEP5_AGENTS_RESULTS.md`; rule-based until a model runs |
 | 10 | Scam signal engine and link heuristics; scheme eligibility engine | 5 | DONE | 23 + 14 tests |
 | 11 | Inference service: Tesseract OCR, eSpeak NG speech | 6 | DONE | Real OCR and TTS tested (14 tests); Docker image build waits on a Docker Hub rate limit; STT needs a model (T0.08) |
-| 12 | Keycloak realm, Docker Compose for the whole stack | 6 | IN PROGRESS | Realm file imports cleanly into Keycloak 26.8.1 (verified). `infra/compose.yaml` passes `docker compose config`. NOT yet run with `docker compose up`; web and inference images not yet built (Docker Hub rate limit) |
-| 13 | Wire every screen to the live API; end-to-end journeys through real sign-in | 6 | TODO | See HANDOVER "Next steps" for the exact list |
-| 14 | UI polish: animated numbers and charts, staggered motion, richer visuals | 6 | TODO | Owner asked for the UI to be "as beautiful and dynamic as possible". Plan in HANDOVER |
-| 15 | Final trackers, handover, next-AI prompt | 6 | PARTIAL | Handover and next-AI prompt refreshed at the owner's request to stop (2026-11-05); final pass after items 12-14 |
+| 12 | Keycloak realm, Docker Compose for the whole stack | 6 | DONE | All 9 services ran together; `05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md` |
+| 13 | Wire every screen to the live API; end-to-end journeys through real sign-in | 6 | DONE | 7/7 live journeys incl. registration; stable over 3 runs |
+| 14 | UI polish: animated numbers and charts, staggered motion, richer visuals | 6 | DONE | Hero, count-ups, drawing charts, stagger, hover lift, Life Graph; reduced-motion safe; axe clean |
+| 15 | Final trackers, handover, next-AI prompt | 6 | DONE | Updated 2026-11-05 after Step 6 |
+
+## Next build items (after Step 6)
+
+| # | Item | Status |
+|---|---|---|
+| 16 | Proactive nudges job: goal drift, newly eligible schemes → notifications | TODO |
+| 17 | Monthly review generation and report screen (FR-COA-01/02) | TODO |
+| 18 | Document upload screen + extraction review (FR-DOC-01..05) using real OCR | TODO |
+| 19 | Production profile: Caddy TLS, Prometheus/Loki/Grafana, encrypted backups | TODO |
+| 20 | PostgreSQL Row Level Security as second line of defence | TODO |
+| 21 | Page-content translations (hi, mr, kn) beyond navigation | TODO |
 
 ## Found along the way (to do)
 
 | Item | Note |
 |---|---|
 | Independent labelled scam set (T6.05) | Sentinel rules were tuned on the developer set |
-| Proactive nudges (goal drift, newly eligible schemes) | Scheduler job not written yet |
+| Proactive nudges (goal drift, newly eligible schemes) | Scheduler job not written yet (next) |
 | PostgreSQL Row Level Security | Isolation is enforced and tested in code; RLS is the second line of defence |
 
 ## Outside what software can close in this environment

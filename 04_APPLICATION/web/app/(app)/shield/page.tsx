@@ -14,7 +14,7 @@ export default async function ShieldPage() {
   return (
     <>
       <PageHeader title="Scam Shield" origin={d.origin} description="Check a message, offer, link or screenshot before you act. Sentinel never opens links or runs files you send." />
-      <div className="grid gap-5 lg:grid-cols-12">
+      <div className="stagger grid gap-5 lg:grid-cols-12">
         <Card className="lg:col-span-7" aria-labelledby="check-h">
           <CardHeader id="check-h" eyebrow="Sentinel" title="Check something suspicious" />
           <ScamCheck />
