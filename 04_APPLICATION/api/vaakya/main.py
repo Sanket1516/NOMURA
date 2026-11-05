@@ -17,7 +17,7 @@ from .core import errors, metrics
 from .core.logging import configure
 from .db import engine
 from .features import Features
-from .routes import ai, documents, finance, me, progress
+from .routes import ai, documents, finance, me, progress, public
 
 MAX_JSON_BYTES = 1024 * 1024
 MAX_MULTIPART_BYTES = 11 * 1024 * 1024
@@ -62,7 +62,7 @@ def create_app(features: Features | None = None) -> FastAPI:
         app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_credentials=False,
                            allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"], allow_headers=["authorization", "content-type", "idempotency-key"])
     errors.install(app)
-    for r in (me.router, finance.router, progress.router, documents.router, ai.router):
+    for r in (me.router, finance.router, progress.router, documents.router, ai.router, public.router):
         app.include_router(r)
 
     @app.get("/healthz", tags=["health"])

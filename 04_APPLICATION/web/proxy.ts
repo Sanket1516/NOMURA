@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 
 // Route guard (Next.js 16 proxy, formerly middleware) and per-request Content-Security-Policy.
 // The guard only checks cookie presence; pages and the API proxy validate the session themselves.
-const PUBLIC = ["/", "/login", "/register", "/offline", "/about-ai"];
+const PUBLIC = ["/", "/login", "/register", "/offline", "/about-ai", "/lessons"];
+const PUBLIC_PREFIXES = ["/lessons/"];   // public lesson text, built from the no-login API; nothing personal
 
 /** Scripts run only with this request's nonce (Next.js adds it to its own scripts from the CSP request header).
  *  Styles keep 'unsafe-inline' because React and the charts set style attributes, which a nonce cannot cover. */
@@ -30,7 +31,7 @@ function withCsp(req: NextRequest): NextResponse {
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (PUBLIC.includes(pathname)) return withCsp(req);
+  if (PUBLIC.includes(pathname) || PUBLIC_PREFIXES.some((p) => pathname.startsWith(p))) return withCsp(req);
   const hasSession = req.cookies.has("vaakya_sid") || req.cookies.has("vaakya_preview");
   if (!hasSession) {
     const url = new URL("/login", req.url);
