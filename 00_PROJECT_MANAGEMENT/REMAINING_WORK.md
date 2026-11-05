@@ -29,8 +29,8 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 
 | # | Item | Status |
 |---|---|---|
-| 16 | Proactive nudges job: goal drift, newly eligible schemes → notifications | TODO |
-| 17 | Monthly review generation and report screen (FR-COA-01/02) | TODO |
+| 16 | Proactive nudges job: goal drift, newly eligible schemes → notifications | DONE (4 tests; daily in worker) |
+| 17 | Monthly review generation and report screen (FR-COA-01/02) | DONE (API + screen; live E2E) |
 | 18 | Document upload screen + extraction review (FR-DOC-01..05) using real OCR | TODO |
 | 19 | Production profile: Caddy TLS, Prometheus/Loki/Grafana, encrypted backups | TODO |
 | 20 | PostgreSQL Row Level Security as second line of defence | TODO |
@@ -41,7 +41,6 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | Item | Note |
 |---|---|
 | Independent labelled scam set (T6.05) | Sentinel rules were tuned on the developer set |
-| Proactive nudges (goal drift, newly eligible schemes) | Scheduler job not written yet (next) |
 | PostgreSQL Row Level Security | Isolation is enforced and tested in code; RLS is the second line of defence |
 
 ## Outside what software can close in this environment

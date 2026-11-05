@@ -24,11 +24,11 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 74 |
+| PLANNED | 70 |
 | IN PROGRESS | 4 |
 | PARTIALLY IMPLEMENTED | 51 |
 | IMPLEMENTED | 3 |
-| TESTED | 67 |
+| TESTED | 71 |
 | VERIFIED | 0 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
@@ -167,7 +167,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | FR-STR-08 | Goal progress tracking | DK-s29; DK-s25; UI-03 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Contributions update progress and on-track; graph projection Step 3 | PARTIAL IMPLEMENTATION |
 | FR-STR-09 | Bite-sized next steps | PN-RAJ-5; DK-s15 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. next_steps from plan verdicts | PARTIAL IMPLEMENTATION |
 | FR-STR-10 | Retirement planning | PN-PRI-2; PS-E9; DK-s24 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-11 | Proactive nudges | ES-A5; ES-APPB; PS-U1 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-STR-11 | Proactive nudges | ES-A5; ES-APPB; PS-U1 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/services/{proactive,reviews}.py; tests/integration/test_proactive_reviews.py. Goal-drift nudge, one per day, never repeated; daily worker job | REAL IMPLEMENTATION |
 | FR-STR-12 | Debt-trap guidance | PN-RAJ-4; PN-KIS-2; PS-Q4 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Loan APR check with safer options; tested | REAL IMPLEMENTATION |
 | FR-STR-13 | Trade-off guidance | PN-KIS-5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-STR-14 | Farming context information | PN-KIS-6; PS-E9 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -207,7 +207,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | FR-CON-08 | Disability benefits | PN-DIV-8; ES-2.2 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. UDID and IGNDPS in catalogue | PARTIAL IMPLEMENTATION |
 | FR-CON-09 | Farmer scheme flow | PN-KIS-3; PN-KIS-7; PS-E5 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. PM-KISAN, PMFBY, KCC rules; Kannada not available (no translation) | PARTIAL IMPLEMENTATION |
 | FR-CON-10 | Opportunities feed | UI-11; DK-s25; DK-s26 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-CON-11 | Proactive eligibility detection | DK-s29; DK-s15; ES-APPB | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-CON-11 | Proactive eligibility detection | DK-s29; DK-s15; ES-APPB | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/services/{proactive,reviews}.py; tests/integration/test_proactive_reviews.py. Newly likely-eligible scheme → notification | REAL IMPLEMENTATION |
 | FR-CON-12 | Scheme data freshness | DK-s8; ER | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. verification, verified_by, last_verified_at, review_due_at stored; loader preserves human verification | PARTIAL IMPLEMENTATION |
 | FR-CON-13 | Employer-benefit awareness | PN-PRI-6 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 
@@ -225,8 +225,8 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-COA-01 | Monthly review generation | DK-s24; DK-s25; DK-s11 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-COA-02 | Monthly report screen | UI-13 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-COA-01 | Monthly review generation | DK-s24; DK-s25; DK-s11 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/services/{proactive,reviews}.py; tests/integration/test_proactive_reviews.py. Review from recorded activity: score change, savings, lessons, checks, schemes, alerts, focus | REAL IMPLEMENTATION |
+| FR-COA-02 | Monthly report screen | UI-13 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/web/app/(app)/reviews; live E2E journey 5 and preview axe | REAL IMPLEMENTATION |
 | FR-COA-03 | Review email | DK-s24; DK-s27; UB-FOSS | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-COA-04 | One-click review loop | DK-s24 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-COA-05 | Reminders | DK-s25; DK-s8; DK-s13 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |

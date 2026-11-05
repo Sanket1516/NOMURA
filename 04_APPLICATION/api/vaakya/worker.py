@@ -8,7 +8,7 @@ import structlog
 from .bootstrap import build_features
 from .core.logging import configure
 from .db import session_factory
-from .services import retention, twin
+from .services import proactive, retention, twin
 
 
 def run_once(features) -> dict:
@@ -35,6 +35,10 @@ def main() -> None:
                     p = retention.purge(db)
                     db.commit()
                 log.info("retention", job="retention_purge", count=sum(p.values()))
+                with session_factory()() as db:
+                    n = proactive.run_all(db)
+                    db.commit()
+                log.info("proactive", job="proactive_scan", count=n)
                 last_purge = time.time()
         except Exception as e:  # noqa: BLE001
             log.error("worker_error", error_type=type(e).__name__)

@@ -2,6 +2,12 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Proactive nudges and monthly review (REMAINING_WORK 16-17)
+
+- Daily proactive job: goal-drift and newly-eligible-scheme notifications, at most one per user per day, never repeated.
+- `GET /v1/reviews`, `GET /v1/reviews/{month}` and the Monthly review screen with month navigation.
+- 4 new API tests; live journey 5 covers the review screen.
+
 ## 2026-11-05: Step 6 of 6 complete, integration
 
 ### Added

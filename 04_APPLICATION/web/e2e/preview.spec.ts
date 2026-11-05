@@ -15,6 +15,7 @@ const PAGES = [
   ["profile", "/profile", /Profile/],
   ["notifications", "/notifications", /Notifications/],
   ["life-graph", "/life-graph", /Financial Life Graph/],
+  ["review", "/reviews/2026-11", /Nov 2026/],
 ] as const;
 
 async function previewAs(page: Page, persona = "priya") {
