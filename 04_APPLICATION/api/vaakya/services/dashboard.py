@@ -52,8 +52,15 @@ def build(db: Session, user_id: uuid.UUID) -> dict:
     ef_saved = f["savings"] + sum(g.saved.paise for g in goals if g.type == "emergency_fund")
     entries = db.scalars(select(FinancialItem).where(FinancialItem.user_id == user_id, FinancialItem.kind.in_(["income", "expense", "saving", "loan"]))
                          .order_by(FinancialItem.on_date.desc(), FinancialItem.created_at.desc()).limit(8)).all()
-    events = db.scalars(select(Event).where(Event.user_id == user_id, Event.type.in_(list(ACTIVITY_TEXT)))
-                        .order_by(Event.occurred_at.desc()).limit(6)).all()
+    recent = db.scalars(select(Event).where(Event.user_id == user_id, Event.type.in_(list(ACTIVITY_TEXT)))
+                        .order_by(Event.occurred_at.desc()).limit(60)).all()
+    events, seen_kinds = [], set()
+    for ev in recent:  # one line per kind of activity, newest first (a scheme scan emits one event per scheme)
+        if (ev.type, ev.payload.get("agent")) not in seen_kinds:
+            seen_kinds.add((ev.type, ev.payload.get("agent")))
+            events.append(ev)
+        if len(events) == 6:
+            break
     checks = db.scalars(select(SentinelCheck).where(SentinelCheck.user_id == user_id).order_by(SentinelCheck.created_at.desc()).limit(3)).all()
     dims = {d["key"]: d["score"] for d in sv["dimensions"]}
     recs = [{"id": f"r-{a['dimension']}", "agent": AGENT_FOR[a["dimension"]], "title": a["text"], "href": a["href"],

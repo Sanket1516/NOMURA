@@ -20,7 +20,8 @@ export function SavingsBars({ data, plannedPaise }: { data: { month: string; sav
           return (
             <g key={d.month}>
               <rect x={pad + i * bw + bw * 0.18} y={y(d.saved_paise)} width={bw * 0.64} height={Math.max(h, 1.5)} rx="6"
-                fill={ok ? "var(--primary)" : "var(--accent)"} opacity={i === data.length - 1 ? 1 : 0.78} />
+                fill={ok ? "var(--primary)" : "var(--accent)"} opacity={i === data.length - 1 ? 1 : 0.78}
+                className="grow-y" style={{ animationDelay: `${i * 70}ms` }} />
               <text x={pad + i * bw + bw / 2} y={H - 6} textAnchor="middle" fontSize="17" fill="var(--ink-3)">{formatMonth(d.month).split(" ")[0]}</text>
             </g>
           );
@@ -56,7 +57,7 @@ export function ScoreLine({ data }: { data: { month: string; overall: number }[]
           </linearGradient>
         </defs>
         <path d={area} fill="url(#scoreFill)" />
-        <path d={path} fill="none" stroke="var(--primary)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={path} fill="none" stroke="var(--primary)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" className="draw-line" />
         {data.map((d, i) => <circle key={d.month} cx={xs(i)} cy={ys(d.overall)} r={i === data.length - 1 ? 4.5 : 2.5} fill="var(--primary)" />)}
         <text x={xs(data.length - 1)} y={ys(last.overall) - 10} textAnchor="end" fontSize="17" fontWeight="700" fill="var(--ink)">{last.overall}</text>
         {data.map((d, i) => <text key={`l${d.month}`} x={xs(i)} y={H - 4} textAnchor="middle" fontSize="15" fill="var(--ink-3)">{formatMonth(d.month).split(" ")[0]}</text>)}

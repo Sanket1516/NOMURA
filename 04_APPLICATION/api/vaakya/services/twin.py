@@ -127,19 +127,34 @@ def _describe(label: str, p: dict) -> str:
 def twin_view(graph, user_id: uuid.UUID) -> dict:
     """Life Graph screen model: nodes, edges, an accessible outline, and insights from graph queries."""
     t = graph.twin(user_id)
-    kind_order = ["Income", "Expense", "Goal", "Risk", "Scheme", "LearningModule", "KnowledgeTopic", "Recommendation", "ScamCheck"]
-    names = {"Income": "Income", "Expense": "Spending", "Goal": "Goals", "Risk": "Risks", "Scheme": "Schemes", "LearningModule": "Lessons completed",
-             "KnowledgeTopic": "Topics", "Recommendation": "Recommendations", "ScamCheck": "Scam checks"}
-    nodes = []
+    status = {e["to"]: (e.get("props") or {}).get("status") for e in t["edges"] if e["type"] == "ELIGIBLE_FOR"}
+    kind_order = ["Income", "Expense", "Goal", "Risk", "Scheme", "SchemeToCheck", "LearningModule", "KnowledgeTopic", "Recommendation", "ScamCheck"]
+    names = {"Income": "Income", "Expense": "Spending", "Goal": "Goals", "Risk": "Risks", "Scheme": "Schemes you may get",
+             "SchemeToCheck": "Schemes to check", "LearningModule": "Lessons completed", "KnowledgeTopic": "Topics",
+             "Recommendation": "Recommendations", "ScamCheck": "Scam checks"}
+    nodes, scam = [], []
     for n in t["nodes"]:
         label = next((x for x in n["labels"] if x in kind_order), n["labels"][0] if n["labels"] else "Node")
-        text = _describe(label, n["props"])
-        nodes.append({"id": n["id"], "type": label, "label": text})
+        if label == "Scheme":
+            st = status.get(n["id"])
+            if st == "not_eligible" or st is None:
+                continue  # the graph shows what may help; ineligible schemes stay listed on the Schemes screen
+            label = "Scheme" if st == "likely_eligible" else "SchemeToCheck"
+        if label == "ScamCheck":
+            scam.append(n["props"].get("level"))
+            continue
+        nodes.append({"id": n["id"], "type": label, "label": _describe("Scheme" if label == "SchemeToCheck" else label, n["props"])})
+    if scam:
+        serious = sum(1 for x in scam if x in ("high", "critical"))
+        nodes.append({"id": f"{user_id}:scam-summary", "type": "ScamCheck",
+                      "label": f"{len(scam)} messages checked, {serious} high or critical risk"})
+    keep = {n["id"] for n in nodes} | {"user", str(user_id)}
     outline = [{"group": names[k], "items": [n["label"] for n in nodes if n["type"] == k]} for k in kind_order if any(n["type"] == k for n in nodes)]
     insights = [{"text": f"{r['detail']}. No goal addresses this yet.", "agent": "strategy", "query": "unmitigated_risks"} for r in graph.unmitigated_risks(user_id)]
     insights += [{"text": f"You may be eligible for {s['name']} and have not reviewed it.", "agent": "connector", "query": "eligible_unreviewed"}
                  for s in graph.eligible_unreviewed(user_id)]
-    return {"nodes": nodes, "edges": [{"from": e["from"], "to": e["to"], "type": e["type"]} for e in t["edges"]], "outline": outline,
+    edges = [{"from": e["from"], "to": e["to"], "type": e["type"]} for e in t["edges"] if e["to"] in keep and (e["from"] in keep or e["from"] == str(user_id))]
+    return {"nodes": nodes, "edges": edges, "outline": outline,
             "insights": insights, "source": "neo4j"}
 
 

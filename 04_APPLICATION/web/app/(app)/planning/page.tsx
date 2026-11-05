@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Calculator, Info } from "lucide-react";
 import { loadDashboard } from "@/lib/server/data";
+import { apiFetch } from "@/lib/server/api";
 import { formatINR, formatDate } from "@/lib/format";
 import { PageHeader } from "@/components/layout/page-header";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -30,12 +31,15 @@ export default async function PlanningPage() {
     { label: "Unplanned", value: left, cls: "bg-surface-2" },
   ];
   const top = d.goals[0];
+  // Live: the plan's own inputs, formula, assumptions and limits from the Strategy Builder's calculators.
+  type Plan = { feasibility: string; formula: string; assumptions: string[]; limitations: string[]; next_steps: string[]; figures: Record<string, unknown> };
+  const goalPlan = d.origin === "live" && top ? await apiFetch<Plan>(`/v1/goals/${top.id}/plan`).catch(() => null) : null;
   const remaining = top ? (top.target.paise - top.saved.paise) / 100 : 0;
   const perMonth = top ? top.monthly_plan.paise / 100 : 0;
   return (
     <>
       <PageHeader title="Financial planning" origin={d.origin} description="A budget that fits how your income arrives, and a plan for your priority goal." />
-      <div className="grid gap-5 lg:grid-cols-12">
+      <div className="stagger grid gap-5 lg:grid-cols-12">
         <Card className="lg:col-span-7" aria-labelledby="budget-h">
           <CardHeader id="budget-h" eyebrow="Monthly budget" title={<>Where <MoneyText value={d.snapshot.monthly_income} /> goes</>}
             action={d.profile.income_type !== "salaried" ? <Badge tone="warning">Average month</Badge> : undefined} />
@@ -69,9 +73,14 @@ export default async function PlanningPage() {
                 <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm text-ink-2">
                   <li>Still needed: {formatINR(top.target.paise / 100)} − {formatINR(top.saved.paise / 100)} = <strong>{formatINR(remaining)}</strong></li>
                   {perMonth > 0 ? <li>At {formatINR(perMonth)} a month: {formatINR(remaining)} ÷ {formatINR(perMonth)} ≈ <strong>{Math.ceil(remaining / perMonth)} months</strong></li> : <li>No monthly amount is planned; money is set aside when income arrives.</li>}
-                  <li>Assumes no interest or returns, so the real result can only be better if the money earns interest.</li>
+                  {goalPlan ? <li>Formula: {goalPlan.formula}</li> : null}
                 </ol>
-                <p className="mt-3 flex items-start gap-2 text-xs text-ink-3"><Info aria-hidden className="mt-0.5 size-3.5 shrink-0" />Calculated by VAAKYA&apos;s code, not by AI. Limitations: it does not predict income changes or emergencies.</p>
+                <p className="mt-3 text-sm font-semibold">Assumptions</p>
+                <ul className="list-disc pl-5 text-sm text-ink-2">{(goalPlan?.assumptions ?? ["No interest or returns are counted, so the real result can only be better if the money earns interest."]).map((a) => <li key={a}>{a}</li>)}</ul>
+                <p className="mt-2 text-sm font-semibold">Limits</p>
+                <ul className="list-disc pl-5 text-sm text-ink-2">{(goalPlan?.limitations ?? ["It does not predict income changes or emergencies."]).map((a) => <li key={a}>{a}</li>)}</ul>
+                {goalPlan?.next_steps.length ? <><p className="mt-2 text-sm font-semibold">Next step</p><p className="text-sm text-ink-2">{goalPlan.next_steps[0]}</p></> : null}
+                <p className="mt-3 flex items-start gap-2 text-xs text-ink-3"><Info aria-hidden className="mt-0.5 size-3.5 shrink-0" />Calculated by VAAKYA&apos;s code, not by AI.{goalPlan ? ` Verdict: ${goalPlan.feasibility.replace(/_/g, " ")}.` : ""}</p>
               </details>
             </div>
             <p className="mt-4 text-sm"><Link href="/assistant?agent=strategy&q=Help+me+improve+my+savings+plan" className="font-semibold text-primary underline">Ask the Strategy Builder to adjust this plan</Link></p>

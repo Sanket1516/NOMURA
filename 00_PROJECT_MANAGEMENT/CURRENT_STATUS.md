@@ -1,7 +1,7 @@
 # Current Status
 
 **Last updated:** 2026-11-05
-**Current stage:** **Build Steps 1-5 of 6 DONE; Step 6 (integration) IN PROGRESS.** Session stopped at the owner's request; see `HANDOVER.md` next steps and `REMAINING_WORK.md`.
+**Current stage:** **All six build steps DONE.** The full stack runs in Docker and passes 7 live journeys through real sign-in. Model-dependent features wait for the owner's GPU (T0.03, T0.08-T0.10). Next build items: `REMAINING_WORK.md` 16-21.
 **Owner:** Sanket Mali
 **Next gate:** Phase 0 gate (IMPLEMENTATION_ROADMAP PH0 acceptance criteria)
 
@@ -19,7 +19,7 @@
 | Phase 0 | T0.06 DONE, T0.15 DONE. 10 tasks TODO, 3 dropped |
 | Application code | Web (`04_APPLICATION/web`), API with four agents (`04_APPLICATION/api`), inference service (`04_APPLICATION/inference`), infra (`04_APPLICATION/infra`). Web not yet wired to the live API |
 | Tests | Web 19 unit + 12 E2E; API 142 (unit + integration on real PostgreSQL, Neo4j, SeaweedFS, Qdrant, Tesseract, eSpeak NG); inference 10. All pass |
-| Deployment | Compose file written and validated; not yet run end to end |
+| Deployment | Full Compose stack ran locally (9 services); no production host, TLS or monitoring yet |
 | Git | `main`: commit b3abcb7 plus this session's final commit |
 
 ## Feature status

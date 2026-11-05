@@ -82,6 +82,7 @@ services:
   worker:
     build: ../api
     command: python -m vaakya.worker
+    healthcheck: { disable: true }  # no HTTP server in the worker
     environment: *api_env
     env_file: [./secrets/api.env]
     depends_on: { api: { condition: service_started } }

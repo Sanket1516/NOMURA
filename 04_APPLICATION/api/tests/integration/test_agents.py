@@ -187,4 +187,6 @@ def test_dashboard_reflects_agent_work(agents, onboarded):
     d = onboarded.get("/v1/dashboard").json()
     assert d["scam_alerts"] and d["scam_alerts"][0]["level"] in ("high", "critical")
     assert any(a["agent"] == "sentinel" for a in d["activity"]) and any(s["id"] == "pmjjby" for s in d["schemes"])
+    kinds = [(a["agent"], a["text"]) for a in d["activity"]]
+    assert len(kinds) == len(set(kinds))  # a scheme scan must not flood the feed
     _ = date.today()

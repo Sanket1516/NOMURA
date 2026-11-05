@@ -1,6 +1,6 @@
 # Handover
 
-**Last updated:** 2026-11-05 (session stopped at the owner's request in the middle of Step 6)
+**Last updated:** 2026-11-05 (all six build steps done; continuing with REMAINING_WORK items 16-21)
 **For:** any person or AI model continuing VAAKYA.
 **Read next:** `REMAINING_WORK.md` (live checklist), `CURRENT_STATUS.md`, `08_HANDOVER/NEXT_AI_PROMPT.md`.
 
@@ -23,12 +23,12 @@ VAAKYA - AI Financial Guardian: a multi-agent financial companion for four perso
 
 | Step | Status | Evidence |
 |---|---|---|
-| 1 Frontend | DONE (runs on sample data in preview mode; not yet wired to the live API) | `05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md` |
+| 1 Frontend | DONE (preview mode on sample data and live mode on the API) | `05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md` |
 | 2 Backend | DONE | `05_TESTING/backend/STEP2_BACKEND_RESULTS.md` |
 | 3 Data layer | DONE | `05_TESTING/data/STEP3_DATA_RESULTS.md` |
 | 4 AI infrastructure | DONE (no model has run; downloads blocked) | `05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md` |
 | 5 Four agents | DONE (deterministic paths; `llm_used: false`) | `05_TESTING/agents/STEP5_AGENTS_RESULTS.md` |
-| 6 Integration | IN PROGRESS: inference service done; Keycloak realm and Compose written; live wiring, UI polish, E2E not done | this file |
+| 6 Integration | DONE: full stack, live wiring, UI polish, 7 live journeys | `05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md` |
 
 ## Where the code is
 
@@ -57,21 +57,21 @@ cd 04_APPLICATION/web && npm test && PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers n
 
 Last full results: API 138 passed + 4 inference-integration passed; inference service 10 passed; web 19 unit + 12 E2E passed.
 
-## Next steps, in order (Step 6 remainder)
+## Run the whole stack
 
-1. **Run the whole stack:** `cd 04_APPLICATION/infra && ./init-secrets.sh && docker compose up --build`. Fix what breaks. Then `docker compose exec api python -m vaakya.seed all` (catalogue + four demo users whose ids match the realm). The demo password is printed by `init-secrets.sh`. Not yet done: web and inference images were never built (Docker Hub returned 429 for `ubuntu:24.04` in this environment).
-2. **Wire the web app to the live API** (live mode is coded but untested):
-   - `app/(app)/layout.tsx`: when `/v1/dashboard` returns 409 with `next: /onboarding`, redirect to `/onboarding` instead of showing an error.
-   - `app/(app)/schemes/page.tsx`: in live mode load `/v1/schemes` (the dashboard only has `{id, status}`).
-   - Onboarding sends `persona` in the profile body; the API accepts it. Verify the full consent → profile → answers → complete flow.
-   - Score page `VoiceSummary`: in live mode call `POST /v1/voice/speak` (real eSpeak audio) and play `/api/proxy/v1/voice/audio/{id}`; keep the on-device fallback.
-   - Add `/learn/[moduleId]` (lesson sections + quiz → `POST /v1/learning/modules/{id}/quiz-attempts`) and `/life-graph` (`GET /v1/twin`: accessible outline first, then an SVG radial graph). Add both to navigation.
-   - Planning page: show `GET /v1/budget` and the plan from `GET /v1/goals/{id}/plan` (formula, assumptions, limitations).
-3. **UI polish (owner asked for "as beautiful and dynamic as possible"):** animated count-up numbers and score ring from 0 on mount, staggered card entry, card hover lift, animated progress bars, a richer dashboard header; all disabled under reduced motion. Keep axe at 0 serious/critical and the 360 px no-overflow test passing.
-4. **End-to-end through real sign-in:** Playwright logs in at Keycloak as `demo-priya@vaakya.invalid`, checks live dashboard, asks the assistant (Educator answer with citations), runs a scam check (paste text and screenshot with real OCR), opens a scheme's eligibility, and registers a new user through the Keycloak registration page then onboards. Capture new screenshots into `07_HACKATHON_DELIVERABLES/PRODUCT_SCREENSHOTS/FRONTEND/live/`.
-5. **Final documentation:** update FEATURE_TRACKER, TASK_TRACKER, CHANGELOG, CURRENT_STATUS, this file, `REMAINING_WORK.md`, regenerate `08_HANDOVER/NEXT_AI_PROMPT.md`, re-run `python3 02_ARCHITECTURE/tools/coverage.py` and `PYTHONPATH=. uv run python tools/schema_doc.py` (in `api/`).
+```bash
+cd 04_APPLICATION/infra && ./init-secrets.sh            # prints the demo password
+docker compose up -d --build                             # or build images by hand (see results doc) if Docker Hub rate-limits
+docker compose exec api python -m vaakya.seed all        # schemes + four demo users
+# http://localhost:3000 — sign in as demo-priya@vaakya.invalid
+cd ../web && LIVE_E2E=1 E2E_BASE_URL=http://localhost:3000 DEMO_PASSWORD=... npx playwright test e2e/live.spec.ts
+```
 
-Also open (smaller): proactive nudges job (goal drift, newly eligible schemes), PostgreSQL Row Level Security, independent Sentinel evaluation set (T6.05), monthly report screen, risk-profile card, page-content translations (only nav labels exist, as drafts).
+If Docker Hub refuses `ubuntu:24.04`, build a base with `debootstrap --variant=minbase noble <dir> http://archive.ubuntu.com/ubuntu`, `docker import`, and pass `--build-arg BASE=<that image>` to the inference build.
+
+## Next steps
+
+Work through `REMAINING_WORK.md` items 16-21 in order: proactive nudges, monthly review, document upload and extraction review, production profile (Caddy TLS, monitoring, backups), PostgreSQL RLS, page translations. Keep the test suites green and update trackers with `tools_update_tracker.py`.
 
 ## Known facts about this environment (cloud container)
 

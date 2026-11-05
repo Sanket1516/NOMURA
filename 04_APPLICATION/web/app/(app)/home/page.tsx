@@ -6,7 +6,7 @@ import { formatDate } from "@/lib/format";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { PageHeader } from "@/components/layout/page-header";
+import { DashboardHero } from "@/components/layout/dashboard-hero";
 import { ScoreRing } from "@/components/finance/score-ring";
 import { SavingsBars } from "@/components/finance/charts";
 import { GoalCard } from "@/components/finance/goal-card";
@@ -16,26 +16,16 @@ import { AgentBadge } from "@/components/ai/agent";
 
 export const metadata: Metadata = { title: "Home" };
 
-function greeting(hourIst: number) {
-  return hourIst < 12 ? "Good morning" : hourIst < 17 ? "Good afternoon" : "Good evening";
-}
-
 const ENTRY_ICON = { income: ArrowDownLeft, expense: ArrowUpRight, saving: PiggyBank, loan: LoanIcon };
 
 export default async function HomePage() {
   const d = await loadDashboard();
-  const hour = Number(new Intl.DateTimeFormat("en-IN", { hour: "numeric", hour12: false, timeZone: "Asia/Kolkata" }).format(new Date()));
   const s = d.score;
   return (
     <>
-      <PageHeader
-        eyebrow={formatDate(new Date().toISOString(), { weekday: "long", day: "numeric", month: "long" })}
-        title={<>{greeting(hour)}, {d.profile.display_name}</>}
-        description={<>Your score is <strong>{s.overall}</strong> ({s.band}), {s.change_30d >= 0 ? "up" : "down"} {Math.abs(s.change_30d)} points this month.</>}
-        origin={d.origin}
-      />
+      <DashboardHero d={d} />
 
-      <div className="grid gap-5 lg:grid-cols-12">
+      <div className="stagger grid gap-5 lg:grid-cols-12">
         <Card className="lg:col-span-5" aria-labelledby="score-h">
           <CardHeader id="score-h" eyebrow="Financial Confidence Score" title="How confident you are with money"
             action={<Link href="/score" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">Details<span className="sr-only"> of your score</span></Link>} />

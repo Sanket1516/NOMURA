@@ -18,8 +18,8 @@ export default async function ScorePage() {
     <>
       <PageHeader title="Financial Confidence Score" origin={d.origin}
         description="How confident and protected you are with money. This is not a credit score and lenders never see it."
-        action={<VoiceSummary text={s.text_equivalent} />} />
-      <div className="grid gap-5 lg:grid-cols-12">
+        action={<VoiceSummary text={s.text_equivalent} server={d.origin === "live"} lang={d.profile.preferred_lang} />} />
+      <div className="stagger grid gap-5 lg:grid-cols-12">
         <Card className="lg:col-span-5" aria-labelledby="now-h">
           <CardHeader id="now-h" eyebrow={`Updated ${formatDate(s.computed_at)}`} title="Your score now" />
           <ScoreRing score={s} size={220} />

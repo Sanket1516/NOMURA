@@ -48,12 +48,12 @@ export function SchemeExplorer({ schemes }: { schemes: SchemeSummary[] }) {
         </div>
       </div>
       <p className="mt-3 text-sm text-ink-3" role="status">{shown.length} scheme{shown.length === 1 ? "" : "s"}</p>
-      <ul className="mt-3 grid gap-4 md:grid-cols-2">
+      <ul className="stagger mt-3 grid gap-4 md:grid-cols-2">
         {shown.map((s) => {
           const st = STATUS[s.status];
           const r = result[s.id];
           return (
-            <li key={s.id} className="flex flex-col rounded-2xl border border-line bg-surface p-5 shadow-card">
+            <li key={s.id} className="lift flex flex-col rounded-2xl border border-line bg-surface p-5 shadow-card">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div><p className="text-xs font-semibold uppercase tracking-wide text-ink-3">{s.category}</p><h2 className="font-display text-xl">{s.name}</h2></div>
                 <Badge tone={st.tone}><st.Icon aria-hidden className="size-3.5" />{st.label}</Badge>

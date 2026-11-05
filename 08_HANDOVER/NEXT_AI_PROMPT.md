@@ -1,6 +1,6 @@
 # Next AI Prompt
 
-**Generated:** 2026-11-05, when the owner asked to stop mid-Step 6 and hand over. Paste the block below into the next session.
+**Generated:** 2026-11-05, after all six build steps were completed. Paste the block below into the next session.
 
 ---
 
@@ -17,13 +17,13 @@ Verify claims by running the tests before you build on them.
 
 ## State
 
-- Steps 1-5 of the owner's six-step build are done and committed to `main`: Next.js 16 frontend (preview mode on sample data), FastAPI backend on PostgreSQL, Neo4j Life Graph, encrypted SeaweedFS vault, Qdrant knowledge base, LangGraph orchestrator, four deterministic agents, inference service with real Tesseract OCR and eSpeak NG speech.
-- Step 6 (integration) is in progress: Keycloak realm and `infra/compose.yaml` are written and the realm import was verified; nothing has run as a full Compose stack; the web app is not yet wired to the live API; UI polish and real-login E2E are not done.
-- No LLM, speech-recognition, translation or embedding model has ever run (downloads were blocked). Those are owner tasks T0.03, T0.08, T0.09, T0.10 on his RTX 3050.
+- All six build steps are done and committed to `main`: Next.js 16 PWA (preview and live modes), FastAPI API with four deterministic agents, PostgreSQL, Neo4j Life Graph, encrypted SeaweedFS vault, Qdrant knowledge base, LangGraph orchestrator, inference service (real Tesseract OCR, eSpeak NG speech), Keycloak, Docker Compose.
+- The full stack ran in Docker and passed 7 live Playwright journeys through real Keycloak sign-in and registration (`05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md`).
+- No LLM, speech-recognition, translation or embedding model has run (downloads blocked here). Those are owner tasks T0.03, T0.08, T0.09, T0.10.
 
 ## Your task
 
-Do HANDOVER "Next steps" 1 to 5 in order: run the stack with Compose and seed it; wire every screen to the live API (redirect to onboarding on 409, schemes via `/v1/schemes`, voice summary via `/v1/voice/speak`, new `/learn/[moduleId]` and `/life-graph` pages, budget and plan on the planning page); make the UI as beautiful and dynamic as possible (count-up numbers, animated ring and bars, staggered entry, hover lift; respect reduced motion; keep axe and the 360 px test green); write Playwright journeys through real Keycloak sign-in and registration; capture live screenshots; then update all trackers and regenerate this prompt.
+Continue `00_PROJECT_MANAGEMENT/REMAINING_WORK.md` items 16-21 in order: proactive nudges job; monthly review and report screen; document upload with OCR extraction and review; production profile (Caddy TLS, Prometheus/Loki/Grafana, encrypted backups); PostgreSQL Row Level Security; page-content translations. Keep every test suite green (API, inference, web unit, preview E2E, live E2E) and update the trackers.
 
 ## Rules
 

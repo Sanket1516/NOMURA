@@ -219,6 +219,7 @@ body {
 /* Reduced motion: explicit setting or OS preference. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
+    animation-delay: 0ms !important;
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
@@ -228,6 +229,7 @@ body {
 :root[data-motion="reduce"] *,
 :root[data-motion="reduce"] *::before,
 :root[data-motion="reduce"] *::after {
+  animation-delay: 0ms !important;
   animation-duration: 0.001ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.001ms !important;
@@ -266,3 +268,68 @@ body {
   width: 1.75rem;
   height: 1.75rem;
 }
+
+/* ---------- Motion system (all disabled by prefers-reduced-motion and data-motion="reduce" above) ---------- */
+@keyframes ring-draw {
+  from { stroke-dasharray: 0 999; }
+}
+.ring-draw {
+  animation: ring-draw 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: 150ms;
+}
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+}
+.grow-x {
+  transform-origin: left center;
+  animation: grow-x 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: 200ms;
+}
+@keyframes grow-y {
+  from { transform: scaleY(0); }
+}
+.grow-y {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: grow-y 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes draw-line {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+.draw-line {
+  stroke-dasharray: 1000;
+  animation: draw-line 1400ms ease-out both;
+}
+/* Staggered entry for card grids */
+.stagger > * { animation: rise 480ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 60ms; }
+.stagger > *:nth-child(3) { animation-delay: 120ms; }
+.stagger > *:nth-child(4) { animation-delay: 180ms; }
+.stagger > *:nth-child(5) { animation-delay: 240ms; }
+.stagger > *:nth-child(6) { animation-delay: 300ms; }
+.stagger > *:nth-child(7) { animation-delay: 360ms; }
+.stagger > *:nth-child(8) { animation-delay: 420ms; }
+.stagger > *:nth-child(n + 9) { animation-delay: 480ms; }
+/* Interactive lift */
+.lift { transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease; }
+.lift:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgb(19 33 58 / 0.06), 0 16px 32px -16px rgb(19 33 58 / 0.28); }
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(12px, -10px) scale(1.04); }
+}
+.float-slow { animation: float 14s ease-in-out infinite; }
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+.shimmer-text {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 50%, var(--primary) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+:root[data-contrast="high"] .shimmer-text { color: var(--ink); background: none; -webkit-background-clip: border-box; background-clip: border-box; }
