@@ -13,11 +13,11 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 2 | Encrypted document vault on SeaweedFS (AES-256-GCM per file) | 3 | DONE | Tested against real SeaweedFS |
 | 3 | Scheme catalogue with eligibility rules (unverified drafts until T0.12) | 3 | DONE | 10 schemes; engine that evaluates them is item 10 |
 | 4 | Retention and purge rules; seeded demo accounts for the four personas; schema docs | 3 | DONE | `06_DOCUMENTATION/DATABASE_SCHEMA.md` |
-| 5 | LLM adapter for Ollama: timeouts, retries, structured output, fallback | 4 | IN PROGRESS | |
-| 6 | Private Tier redaction of Indian identifiers, plus a data-flow audit | 4 | TODO | |
-| 7 | Knowledge base and retrieval in Qdrant, with citations and abstention | 4 | TODO | |
-| 8 | LangGraph orchestrator: routing, shared state, handoff, safety review | 4 | TODO | |
-| 9 | The four agents: Educator, Strategy Builder, Sentinel, Connector | 5 | TODO | |
+| 5 | LLM adapter for Ollama: timeouts, retries, structured output, fallback | 4 | DONE | Contract-tested; no model has run here (T0.03) |
+| 6 | Private Tier redaction of Indian identifiers, plus a data-flow audit | 4 | DONE | 10 identifier types; NER names need T0.04 |
+| 7 | Knowledge base and retrieval in Qdrant, with citations and abstention | 4 | DONE | Lexical now; e5 dense pending T0.10 |
+| 8 | LangGraph orchestrator: routing, shared state, handoff, safety review | 4 | DONE | `05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md` |
+| 9 | The four agents: Educator, Strategy Builder, Sentinel, Connector | 5 | IN PROGRESS | |
 | 10 | Scam signal engine and link heuristics; scheme eligibility engine | 5 | TODO | |
 | 11 | Inference service: Tesseract OCR, eSpeak NG speech | 6 | TODO | |
 | 12 | Keycloak realm, Docker Compose for the whole stack | 6 | TODO | |
@@ -31,7 +31,7 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 |---|---|---|
 | Choose Private and Reasoning Tier models (T0.03) | Needs the RTX 3050; model downloads are blocked in the cloud container | Owner's machine |
 | Speech-to-text model (faster-whisper) and Indian-language TTS quality (T0.07, T0.08) | Model weights cannot be downloaded here | Owner's machine |
-| IndicTrans2 translation and e5 embeddings (T0.09, T0.10) | Model weights cannot be downloaded here | Owner's machine |
+| IndicTrans2 translation and e5 embeddings (T0.09, T0.10) | Model weights cannot be downloaded here. Until then answers are English (`translated: false`) and retrieval is lexical | Owner's machine |
 | Human verification of scheme facts (T0.12) | Must be checked by a person against official sources | Owner or reviewer |
 | Review of the six draft lessons (FR-EDU-07) | Content accuracy review | Reviewer |
 | Native-speaker review of hi, mr, kn strings | Draft translations | Reviewers |

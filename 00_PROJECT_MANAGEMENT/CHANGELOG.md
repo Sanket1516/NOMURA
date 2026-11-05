@@ -2,6 +2,20 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Step 4 of 6, AI infrastructure
+
+### Added
+
+- Ollama LLM adapter with two tiers, retries, JSON-schema output, fallback and a `RedactedText` privacy gate.
+- Private Tier redaction of 10 Indian identifier types with Verhoeff and Luhn checks.
+- Qdrant knowledge base (46 chunks: lessons, schemes, 10 scam patterns), lexical sparse retrieval with IDF, filters, abstention.
+- LangGraph orchestrator: rule router in three scripts, redaction gate, twin context, handoff, safety review, SSE events, audit.
+- 33 new tests; retrieval 15/15 top-3 on a labelled set.
+
+### Not done
+
+- No LLM, translation or embedding model has run: downloads are blocked in this environment (T0.03, T0.09, T0.10).
+
 ## 2026-11-05: Step 3 of 6, data layer
 
 ### Added
