@@ -87,6 +87,10 @@ test("5 planning, life graph, lesson quiz", async ({ page }) => {
   await page.goto("/score");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Financial Confidence Score");
   await shot(page, "08-score-live");
+  await page.goto("/reviews");
+  await expect(page.getByText("Monthly review").first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Achievements" })).toBeVisible();
+  await shot(page, "11-monthly-review-live");
 });
 
 test("6 voice reports the missing speech model honestly", async ({ browser }) => {

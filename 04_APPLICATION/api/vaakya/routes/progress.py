@@ -10,7 +10,7 @@ from ..core.errors import ConflictError
 from ..db import get_db
 from ..ratelimit import limit
 from ..features import Features, features, need
-from ..services import dashboard, learning, notifications, twin
+from ..services import dashboard, learning, notifications, reviews, twin
 from ..services.score import history, score_view
 
 router = APIRouter(prefix="/v1", tags=["score", "dashboard", "learning", "notifications"])
@@ -40,6 +40,16 @@ def get_twin(user: User_, db: DB, f: Annotated[Features, Depends(features)]) -> 
     graph = need(f.graph, "The Financial Life Graph")
     graph.sync_user(user.id, twin.snapshot(db, user.id))  # read-your-writes for this user
     return twin.twin_view(graph, user.id)
+
+
+@router.get("/reviews", summary="Months that have a review")
+def list_reviews(user: User_, db: DB) -> list[str]:
+    return reviews.months(db, user.id)
+
+
+@router.get("/reviews/{month}", summary="Monthly review built from recorded activity")
+def get_review(month: str, user: User_, db: DB) -> dict:
+    return reviews.build(db, user.id, month)
 
 
 @router.get("/learning/modules")
