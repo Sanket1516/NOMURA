@@ -9,6 +9,7 @@ All notable changes to project plans, requirements and code. Newest first.
 - `.github/workflows/ci.yml` (KI-16, KI-12): never run on GitHub yet. `ruff` now skips applied migrations.
 - Interface language set from the profile on first sign-in (KI-19): `lib/lang-from-profile.ts`, 3 unit tests; not tried through Keycloak.
 - KI-18: `consents.lang` (migration 0004) stores the interface language shown with each consent; the consent form sends it. Tested on a real PostgreSQL 16 here: API 144 passed normal and with RLS; migration up/down/up on a database with old rows. (Project target is PostgreSQL 18; rerun on 18 locally.)
+- KI-05: second labelled scam set (not independent) and evaluation script. Result: recall 10/28, false alarms 0/24 (the tuned set said 12/12). Rules deliberately not tuned to it; regression floor test added.
 - PWA install button (shows only when the browser offers installation); preview E2E now 29 passed. Trackers and next-AI prompt updated.
 - `08_HANDOVER/OWNER_LOCAL_TASKS.md`: everything that must run on the owner's machine.
 
