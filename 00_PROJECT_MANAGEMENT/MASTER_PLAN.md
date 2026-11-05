@@ -5,10 +5,10 @@
 **Owner:** Sanket Mali
 **Origin:** Built from the Nomura KakushIN 2026 hackathon concept. The hackathon is complete.
 **Goal:** A fully functional, production-ready application, using only free and open-source software.
-**Plan status:** Updated with the owner's decisions, awaiting approval to begin Phase 0
+**Plan status:** Phase 0 in progress (D-029, owner to confirm). Detailed architecture: `02_ARCHITECTURE/`
 **Last updated:** 2026-11-05
 
-> **No application code exists.** Implementation must not start until the owner approves this plan.
+> **No application code exists.** Phase 0 evaluations and the architecture set exist. PH1 starts only after the Phase 0 gate.
 
 > **Design constraint:** everything must be free and open source (D-026). Firebase, AWS and paid LLM APIs from the original documents are replaced with self-hosted open-source components.
 

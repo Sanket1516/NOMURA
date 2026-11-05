@@ -1,6 +1,6 @@
 # Implementation Roadmap
 
-**Last updated:** 2026-11-05 | **Status:** Awaiting approval to begin Phase 0 | **Owner:** Sanket Mali
+**Last updated:** 2026-11-05 | **Status:** Phase 0 in progress (T0.06 done; D-029) | **Owner:** Sanket Mali
 
 Implementation has not started. Tasks are in `TASK_TRACKER.md`. Acceptance criteria are in `01_REQUIREMENTS/ACCEPTANCE_CRITERIA.md`.
 

@@ -204,7 +204,7 @@ flowchart TB
     RR -- no --> Top5[Top 5 by score]
     Rerank & Top5 --> Th{best score >= threshold?}
     Th -- no --> Abstain[Say: not in trusted sources + suggest human route]
-    Th -- yes --> Gen[Reasoning Tier: answer only from numbered context, cite [n]]
+    Th -- yes --> Gen["Reasoning Tier: answer only from numbered context, cite [n]"]
     Gen --> Check[Citation check: each claim sentence cites an id present in context]
     Check --> Ans[Answer + citations with publisher and date]
   end
