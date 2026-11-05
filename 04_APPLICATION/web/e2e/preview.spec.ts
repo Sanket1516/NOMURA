@@ -179,6 +179,15 @@ test("simple-words mode: home shows a short view with few numbers and big voice 
   expect(await axe(page)).toEqual([]);
 });
 
+test("public lessons page is reachable without signing in and says so honestly when the server is not connected", async ({ page }) => {
+  const r = await page.goto("/lessons");
+  expect(r?.status()).toBe(200);                       // not redirected to the sign-in page
+  await expect(page.getByRole("heading", { level: 1, name: "Lessons" })).toBeVisible();
+  await expect(page.getByText("Lessons are not available right now")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Save lessons for offline" })).toHaveCount(0);
+  expect(await axe(page)).toEqual([]);
+});
+
 test("API proxy refuses without session and in preview", async ({ page, request }) => {
   expect((await request.get("/api/proxy/v1/dashboard")).status()).toBe(401);
   await previewAs(page);

@@ -12,6 +12,7 @@ All notable changes to project plans, requirements and code. Newest first.
 - KI-05: second labelled scam set (not independent) and evaluation script. Result: recall 10/28, false alarms 0/24 (the tuned set said 12/12). Rules deliberately not tuned to it; regression floor test added.
 - KI-09: `web/scripts/load_test.mjs` (read-path load at 1/5/10/25 users, percentiles, status codes, chat timing, docker stats) with unit-tested statistics. Exercised only against a mock server; no real measurement yet.
 - KI-20: low-literacy mode now changes the Home screen: `SimpleHome` (saved this month, next goal, one next step, big voice and scam buttons) replaces the number-heavy cards; CSS-driven (`.lit-simple` / `.lit-detail`), no flash. E2E added (preview 30 passed). Other screens unchanged apart from larger icons. Wording is an unreviewed draft in hi/mr/kn.
+- Offline lessons: public no-login lesson API (`/v1/public/lessons`, text only, no progress or quiz answers), public pages `/lessons`, `/lessons/[id]`, a Save/Remove control, and a service-worker rule that serves only those saved pages offline. Signed-in pages and API responses are still never cached. Tested end to end with a real API and the browser offline (preview 31 passed, unit 28, API 147 normal and RLS). Quizzes still need a connection.
 - PWA install button (shows only when the browser offers installation); preview E2E now 29 passed. Trackers and next-AI prompt updated.
 - `08_HANDOVER/OWNER_LOCAL_TASKS.md`: everything that must run on the owner's machine.
 

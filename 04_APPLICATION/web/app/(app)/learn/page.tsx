@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { tr, trf, type PageKey } from "@/lib/i18n/pages";
+import { SaveOffline } from "@/components/layout/save-offline";
 
 export const metadata: Metadata = { title: "Learn" };
 
@@ -33,6 +34,7 @@ export default async function LearnPage() {
           </li>
         ))}
       </ul>
+      <SaveOffline ids={d.learning.map((m) => m.id)} lang={lang} />
       <p className="mt-6 text-sm text-ink-3">{t("learn.note")}</p>
     </>
   );

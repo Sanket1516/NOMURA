@@ -42,6 +42,7 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 26 | Nonce CSP | Preview E2E 29/29 passes; Docker rebuild and live E2E TODO (`08_HANDOVER/OWNER_LOCAL_TASKS.md` B1) |
 | 28 | Low-literacy mode: Home simple view (KI-20) | DONE for Home only; other screens, real-user testing and wording review TODO |
 | 29 | Second scam set (KI-05), load script (KI-09), consent language (KI-18) | Written; see CHANGELOG. Scam recall on the untuned set is 10/28; rules need improving. Load script never run on the real stack |
+| 30 | Offline lessons | DONE: saved lesson text opens offline (E2E `offline-lessons.spec.ts`, needs a running API); quizzes and progress stay online-only; saved copy is in the language used when saving |
 | 27 | Everything that needs the owner's machine | See `08_HANDOVER/OWNER_LOCAL_TASKS.md` |
 
 ## Found along the way (to do)

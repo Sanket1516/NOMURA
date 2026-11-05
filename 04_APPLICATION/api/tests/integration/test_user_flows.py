@@ -150,3 +150,18 @@ def test_export_and_erase(onboarded):
     assert r["status"] == "deleted" and r["report"]["remaining_rows"] == 0
     # A fresh token for the same subject provisions a new, empty account.
     assert onboarded.get("/v1/me").json()["profile"] is None
+
+
+def test_public_lessons_need_no_sign_in_and_carry_nothing_personal(client, alice):
+    """Offline lessons: these responses are cached by the browser, so they must be identical for everyone."""
+    assert alice.post("/v1/learning/modules/emergency-fund/complete").status_code == 200   # alice has progress; it must never appear
+    listing = client.get("/v1/public/lessons")
+    assert listing.status_code == 200 and listing.json()
+    first = "emergency-fund"
+    assert first in [m["id"] for m in listing.json()]
+    one = client.get(f"/v1/public/lessons/{first}")
+    assert one.status_code == 200
+    body = one.json()
+    assert set(body) == {"id", "title", "topic", "minutes", "sections", "content_status"}
+    assert "progress_pct" not in listing.text and "quiz" not in one.text and "answer" not in one.text
+    assert client.get("/v1/public/lessons/nope").status_code == 404

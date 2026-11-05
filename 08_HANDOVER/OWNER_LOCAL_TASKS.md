@@ -16,6 +16,7 @@ Setup once: `cd 04_APPLICATION/infra && export VAAKYA_DOMAIN=localhost`. Command
 | A5 | CI workflow (KI-16/KI-12) | Push a branch, open the Actions tab | Jobs run. Expect small fixes on first run (inference deps, Trivy findings). Do not hide findings; fix or record them in KNOWN_ISSUES |
 | A7 | Low-literacy mode (KI-20) | Settings → Accessibility → Simple words mode, then open Home on a phone. Show it to someone who finds the standard screens hard; note what confuses them | Home is understood without help; list what is still unclear |
 | A8 | Consent language (KI-18) | Register a new user in Marathi, accept consent, then `select purpose, lang from consents` in Postgres | `lang` is `mr` |
+| A9 | Offline lessons | On the live stack: open /lessons, press Save, switch the phone to airplane mode, open a saved lesson. Then run `API_URL=<api> npx next start -p 3100` and `E2E_BASE_URL=http://localhost:3100 E2E_API=1 npx playwright test e2e/offline-lessons.spec.ts` | Lesson opens offline; test passes |
 | A6 | PWA install button | Open https://localhost in Chrome or Edge, sign in, look for the download icon in the top bar, click it, confirm the app installs and opens standalone. Safari and Firefox should show no button | Installs on Chrome/Edge; no dead button elsewhere |
 
 ## B. Unfinished from HANDOFF_STATUS section 3
