@@ -1,0 +1,6 @@
+services:
+  inference:
+    gpus: all
+    environment:
+      STT_DEVICE: cuda
+      STT_COMPUTE_TYPE: int8_float16

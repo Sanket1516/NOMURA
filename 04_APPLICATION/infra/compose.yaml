@@ -66,8 +66,12 @@ services:
 
   inference:
     build: ../inference
-    environment: { WHISPER_MODEL_DIR: "${WHISPER_MODEL_DIR:-}" }
+    environment:
+      WHISPER_MODEL_DIR: ${WHISPER_MODEL_DIR:-/models/whisper}
+      STT_DEVICE: ${STT_DEVICE:-cpu}
+      STT_COMPUTE_TYPE: ${STT_COMPUTE_TYPE:-int8}
     env_file: [./secrets/inference.env]
+    volumes: [whispermodels:/models/whisper]
     read_only: true
     tmpfs: [/tmp]
     networks: [ai]
@@ -113,4 +117,4 @@ networks:
   ai: { internal: true }
   app: {}
 
-volumes: { pgdata: {}, neo4jdata: {}, qdrantdata: {}, swdata: {} }
+volumes: { pgdata: {}, neo4jdata: {}, qdrantdata: {}, swdata: {}, whispermodels: {} }

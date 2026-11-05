@@ -1,5 +1,5 @@
 # VAAKYA inference service. Ubuntu packages: tesseract-ocr (Apache-2.0) with eng/hin/mar/kan data, espeak-ng (GPLv3, separate process).
-ARG BASE=ubuntu:24.04
+ARG BASE=nvidia/cuda:12.3.2-cudnn9-runtime-ubuntu22.04
 FROM ${BASE}
 ARG HTTPS_PROXY
 ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1
@@ -12,7 +12,9 @@ RUN --mount=type=secret,id=ca,required=false \
     if [ -f /run/secrets/ca ]; then export PIP_CERT=/run/secrets/ca; fi; \
     python3 -m venv /opt/venv && /opt/venv/bin/pip install --no-cache-dir -r /srv/requirements.txt
 COPY app.py /srv/app.py
-RUN useradd --create-home --uid 10002 inference
+RUN useradd --create-home --uid 10002 inference \
+ && mkdir -p /models/whisper \
+ && chown -R inference:inference /models
 USER inference
 WORKDIR /srv
 EXPOSE 8100

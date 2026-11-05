@@ -97,7 +97,11 @@ async def stt(audio: UploadFile = File(...), lang: str = Form("en"), x_inference
         raise HTTPException(413, "audio too large")
     if _whisper is None:
         from faster_whisper import WhisperModel  # imported lazily; only present in the full image
-        _whisper = WhisperModel(WHISPER_DIR, device=os.environ.get("STT_DEVICE", "cpu"), compute_type="int8")
+        _whisper = WhisperModel(
+            WHISPER_DIR,
+            device=os.environ.get("STT_DEVICE", "cpu"),
+            compute_type=os.environ.get("STT_COMPUTE_TYPE", "int8"),
+        )
     with tempfile.NamedTemporaryFile(suffix=".audio", dir="/tmp") as tmp:
         tmp.write(data)
         tmp.flush()

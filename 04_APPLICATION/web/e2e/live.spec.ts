@@ -5,6 +5,14 @@ import path from "node:path";
 // Run: LIVE_E2E=1 E2E_BASE_URL=http://localhost:3000 DEMO_PASSWORD=... npx playwright test e2e/live.spec.ts
 test.skip(!process.env.LIVE_E2E, "live stack only");
 test.describe.configure({ mode: "serial" });
+const cspViolations = new WeakMap<Page, string[]>();
+test.beforeEach(async ({ page }) => {
+  const violations: string[] = [];
+  cspViolations.set(page, violations);
+  page.on("console", (m) => { if (/content security policy|refused to (execute|load|apply)/i.test(m.text())) violations.push(m.text()); });
+  page.on("pageerror", (e) => violations.push(String(e)));
+});
+test.afterEach(async ({ page }) => expect(cspViolations.get(page)).toEqual([]));
 
 const OUT = path.resolve(__dirname, "../../../07_HACKATHON_DELIVERABLES/PRODUCT_SCREENSHOTS/FRONTEND/live");
 const shot = (page: Page, name: string) => page.screenshot({ path: `${OUT}/${name}.png`, fullPage: true });
@@ -12,8 +20,10 @@ const shot = (page: Page, name: string) => page.screenshot({ path: `${OUT}/${nam
 const BASE = process.env.E2E_BASE_URL ?? "http://localhost:3000";
 const esc = (x: string) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const APP = (p: string) => new RegExp(`^${esc(BASE)}/${p}`);
+const OWN_DATA_LABEL = /(Your data|आपका डेटा|तुमचा डेटा|ನಿಮ್ಮ ಡೇಟಾ)/;
 
-async function signIn(page: Page, email: string, password: string) {
+async function signIn(page: Page, email: string, password: string, language: string | null = "en") {
+  if (language) await page.context().addCookies([{ name: "vaakya_lang", value: language, url: BASE }]);
   await page.goto("/login");
   await page.locator("a[href=\"/api/auth/login\"]").click();
   await page.waitForURL(/\/realms\/vaakya\//);
@@ -27,9 +37,11 @@ test.use({ reducedMotion: "reduce", viewport: { width: 1440, height: 900 }, devi
   launchOptions: { args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"] } });
 
 test("1 demo user signs in through Keycloak and sees live data", async ({ page }) => {
-  await signIn(page, "demo-priya@vaakya.invalid", process.env.DEMO_PASSWORD!);
+  await signIn(page, "demo-priya@vaakya.invalid", process.env.DEMO_PASSWORD!, null);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Priya");
-  await expect(page.getByText("Your data").first()).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("lang", "mr");
+  await expect.poll(async () => (await page.context().cookies(BASE)).find((c) => c.name === "vaakya_lang")?.value).toBe("mr");
+  await expect(page.getByText(OWN_DATA_LABEL).first()).toBeVisible();
   await expect(page.getByText("Preview with sample data")).toHaveCount(0);
   await shot(page, "01-dashboard-live");
 });
@@ -113,6 +125,7 @@ test("6 voice reports the missing speech model honestly", async ({ browser }) =>
 
 test("7 a new user registers in Keycloak and onboards", async ({ page }) => {
   const email = `e2e-${Date.now()}@vaakya.invalid`;
+  await page.context().addCookies([{ name: "vaakya_lang", value: "en", url: BASE }]);
   await page.goto("/register");
   await page.locator("a[href=\"/api/auth/login?register=1\"]").click();
   await page.waitForURL(/\/realms\/vaakya\//);
@@ -137,7 +150,7 @@ test("7 a new user registers in Keycloak and onboards", async ({ page }) => {
   await page.getByRole("button", { name: "See my score" }).click();
   await page.waitForURL("**/home", { timeout: 30_000 });
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Asha");
-  await expect(page.getByText("Your data").first()).toBeVisible();
+  await expect(page.getByText(OWN_DATA_LABEL).first()).toBeVisible();
   await shot(page, "10-new-user-dashboard");
 });
 
