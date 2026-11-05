@@ -24,11 +24,11 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 99 |
+| PLANNED | 79 |
 | IN PROGRESS | 4 |
-| PARTIALLY IMPLEMENTED | 59 |
+| PARTIALLY IMPLEMENTED | 64 |
 | IMPLEMENTED | 3 |
-| TESTED | 34 |
+| TESTED | 49 |
 | VERIFIED | 0 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
@@ -94,7 +94,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | FR-FCS-01 | Overall score | ES-INV; UB-IN3; UI-04; UI-10 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Score screen on SAMPLE data; engine not built | PARTIAL IMPLEMENTATION |
 | FR-FCS-02 | Score dimensions | ES-INV; UI-10 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Six dimensions (D-035); tested | REAL IMPLEMENTATION |
 | FR-FCS-03 | Deterministic explainable formula | ER; PS-R1 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Versioned deterministic formula from recorded activity; unit + integration tests | REAL IMPLEMENTATION |
-| FR-FCS-04 | Confidence Engine | DK-s29 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Recomputed on assessment, lessons, quizzes; Sentinel/scheme inputs arrive in Step 5 | PARTIAL IMPLEMENTATION |
+| FR-FCS-04 | Confidence Engine | DK-s29 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Recomputed on assessment, lessons, quizzes, scam checks; scheme reviews counted | REAL IMPLEMENTATION |
 | FR-FCS-05 | Improvement actions | UI-10; UI-11; DK-s26 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Actions with point estimates from the formula; web wiring Step 6 | PARTIAL IMPLEMENTATION |
 | FR-FCS-06 | Score history | UI-04; UI-13; DK-s11 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Snapshots and /v1/score/history real; web wiring Step 6 | PARTIAL IMPLEMENTATION |
 
@@ -106,8 +106,8 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | FR-ORC-02 | Shared state | DK-s10; ES-STACK | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Shared typed state; agents communicate only via state | REAL IMPLEMENTATION |
 | FR-ORC-03 | Multi-agent handoff | DK-s15; PS-T1 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Handoff up to 2 hops, loop-safe; tested | REAL IMPLEMENTATION |
 | FR-ORC-04 | Graceful failure | ER; PS-R2 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Safety failure → safe fallback; graph/LLM outages degrade, never fabricate | REAL IMPLEMENTATION |
-| FR-ORC-05 | Multimodal input | ES-A5; PS-A2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-ORC-06 | Agent attribution | UI-03; UI-06; UI-07; UI-08; D-018 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Agent badges on every AI output and activity item; orchestrator not built | PARTIAL IMPLEMENTATION |
+| FR-ORC-05 | Multimodal input | ES-A5; PS-A2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Text and image inputs through one pipeline; voice in Step 6 | PARTIAL IMPLEMENTATION |
+| FR-ORC-06 | Agent attribution | UI-03; UI-06; UI-07; UI-08; D-018 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Agent list returned with every answer and shown in UI | REAL IMPLEMENTATION |
 | FR-ORC-07 | LLM provider abstraction | UB-Q2; UB-FOSS; ER; D-002 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Ollama adapter with per-task tiers, retries, fallback; contract-tested; no model run (T0.03) | PARTIAL IMPLEMENTATION |
 
 ## DL: Dual-LLM privacy tier
@@ -141,15 +141,15 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-EDU-01 | Grounded financial Q&A | ES-A1; ES-A5; PS-E1; DK-s29 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-EDU-02 | Simple-language explanations | ES-A1; DK-s15; PN-PRI-1; PS-U1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-EDU-03 | Role-based content | DK-s24; PN-PRI-5; PN-RAJ-6; PN-KIS-7 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-EDU-01 | Grounded financial Q&A | ES-A1; ES-A5; PS-E1; DK-s29 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Grounded, cited answers from 46-chunk corpus; extractive without LLM; corpus drafts unreviewed | PARTIAL IMPLEMENTATION |
+| FR-EDU-02 | Simple-language explanations | ES-A1; DK-s15; PN-PRI-1; PS-U1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Shorter answers for low-literacy users; LLM simplification pending T0.03 | PARTIAL IMPLEMENTATION |
+| FR-EDU-03 | Role-based content | DK-s24; PN-PRI-5; PN-RAJ-6; PN-KIS-7 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Answers mention the user's role; role-specific content limited | PARTIAL IMPLEMENTATION |
 | FR-EDU-04 | Micro-learning modules | UI-08; DK-s15; DK-s24; PS-E1 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Six lessons API real; content draft, unreviewed | PARTIAL IMPLEMENTATION |
 | FR-EDU-05 | Quizzes and knowledge-gap detection | DK-s24 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Quiz scoring server-side, answers hidden, gaps returned; tested | PARTIAL IMPLEMENTATION |
 | FR-EDU-06 | Adaptive learning path | DK-s15; DK-s24; DK-s25 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-EDU-07 | Reviewed learning content | DK-s8; PS-R4 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-EDU-08 | Learning progress | DK-s29; DK-s14 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Progress persisted and feeds the score; tested | PARTIAL IMPLEMENTATION |
-| FR-EDU-09 | Product evaluation assistant | ES-2.2; DK-s6; PN-PRI-3 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-EDU-09 | Product evaluation assistant | ES-2.2; DK-s6; PN-PRI-3 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. ULIP vs term etc. via Insurance 101 sources; no product recommendations | PARTIAL IMPLEMENTATION |
 | FR-EDU-10 | Statement explanation | PN-DIV-5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-EDU-11 | Tax-saving education | PN-DIV-4; UI-11; DK-s6 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 
@@ -158,17 +158,17 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-STR-01 | Goal Studio | DK-s11; DK-s24; UI-02; UI-03; PN-PRI-2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Goal CRUD API real with idempotency; web wiring Step 6 | PARTIAL IMPLEMENTATION |
-| FR-STR-02 | AI-recommended goals | DK-s24 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-STR-02 | AI-recommended goals | DK-s24 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Strategy suggests insurance and debt steps from graph risks | PARTIAL IMPLEMENTATION |
 | FR-STR-03 | Feasibility analysis | DK-s24; UI-03 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Feasibility verdicts and suggested date; tested | REAL IMPLEMENTATION |
 | FR-STR-04 | Deterministic financial calculators | ER; PS-R2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Calculators unit-tested with hand-checked values | REAL IMPLEMENTATION |
-| FR-STR-05 | AI roadmap | DK-s24; DK-s11; ES-A2; UI-03 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Monthly targets and 12 milestones; AI wording comes with Strategy Builder (Step 5) | PARTIAL IMPLEMENTATION |
-| FR-STR-06 | Irregular-income planning | PS-E3; PS-E9; PN-RAJ-1; PN-RAJ-2; ES-2.2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Percentage-plus-floor rule; tested | REAL IMPLEMENTATION |
-| FR-STR-07 | Seasonal-income planning | PS-E3; PS-E9; PN-KIS-1; PN-KIS-4 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Seasonal calculator real and tested; seasonal plan generation in Strategy Builder (Step 5) | PARTIAL IMPLEMENTATION |
+| FR-STR-05 | AI roadmap | DK-s24; DK-s11; ES-A2; UI-03 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Plans with steps, assumptions, limits; LLM wording pending | PARTIAL IMPLEMENTATION |
+| FR-STR-06 | Irregular-income planning | PS-E3; PS-E9; PN-RAJ-1; PN-RAJ-2; ES-2.2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Irregular income rule through the agent; tested | REAL IMPLEMENTATION |
+| FR-STR-07 | Seasonal-income planning | PS-E3; PS-E9; PN-KIS-1; PN-KIS-4 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Seasonal split through the agent | REAL IMPLEMENTATION |
 | FR-STR-08 | Goal progress tracking | DK-s29; DK-s25; UI-03 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Contributions update progress and on-track; graph projection Step 3 | PARTIAL IMPLEMENTATION |
 | FR-STR-09 | Bite-sized next steps | PN-RAJ-5; DK-s15 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. next_steps from plan verdicts | PARTIAL IMPLEMENTATION |
 | FR-STR-10 | Retirement planning | PN-PRI-2; PS-E9; DK-s24 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-STR-11 | Proactive nudges | ES-A5; ES-APPB; PS-U1 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-12 | Debt-trap guidance | PN-RAJ-4; PN-KIS-2; PS-Q4 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Loan cost APR calculator real; agent guidance Step 5 | PARTIAL IMPLEMENTATION |
+| FR-STR-12 | Debt-trap guidance | PN-RAJ-4; PN-KIS-2; PS-Q4 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Loan APR check with safer options; tested | REAL IMPLEMENTATION |
 | FR-STR-13 | Trade-off guidance | PN-KIS-5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-STR-14 | Farming context information | PN-KIS-6; PS-E9 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 
@@ -177,17 +177,17 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-SEN-01 | Suspicious content capture | UI-06; ES-A5; DK-s29 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Paste text or upload PNG/JPG <=10 MB with client validation; API not built | PARTIAL IMPLEMENTATION |
-| FR-SEN-02 | Message and offer analysis | ES-INV; ES-A3; UB-IN6; PS-E2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SEN-03 | OCR for screenshots | ES-A5; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SEN-04 | Risk score and verdict | ES-A3; UI-06; DK-s10 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SEN-05 | Explainable reasons | UI-06; PS-R1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Verdict UI with reasons and evidence; Sentinel not built | PARTIAL IMPLEMENTATION |
-| FR-SEN-06 | Recommended protective actions | UI-06; DK-s15; DK-s29 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Actions UI; Sentinel not built | PARTIAL IMPLEMENTATION |
-| FR-SEN-07 | Known-pattern matching | UI-06; DK-s14 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SEN-08 | Predatory loan detection | ES-2.1; ES-A3; PN-RAJ-4; DK-s10 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SEN-09 | Investment-tip verification | PN-PRI-4; ES-2.1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-SEN-02 | Message and offer analysis | ES-INV; ES-A3; UB-IN6; PS-E2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Text, SMS, ads, loan offers, links analysed; tested | REAL IMPLEMENTATION |
+| FR-SEN-03 | OCR for screenshots | ES-A5; ES-STACK | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. OCR client wired; inference service in Step 6 | PARTIAL IMPLEMENTATION |
+| FR-SEN-04 | Risk score and verdict | ES-A3; UI-06; DK-s10 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Indicator + LOW/MEDIUM/HIGH/CRITICAL, labelled not a probability | REAL IMPLEMENTATION |
+| FR-SEN-05 | Explainable reasons | UI-06; PS-R1 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Reasons with quoted evidence; tested evidence is a substring | REAL IMPLEMENTATION |
+| FR-SEN-06 | Recommended protective actions | UI-06; DK-s15; DK-s29 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Actions per signal + reporting routes | REAL IMPLEMENTATION |
+| FR-SEN-07 | Known-pattern matching | UI-06; DK-s14 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Scam-pattern similarity from Qdrant | PARTIAL IMPLEMENTATION |
+| FR-SEN-08 | Predatory loan detection | ES-2.1; ES-A3; PN-RAJ-4; DK-s10 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Instant loan, contacts permission, fees signals + Strategy handoff | REAL IMPLEMENTATION |
+| FR-SEN-09 | Investment-tip verification | PN-PRI-4; ES-2.1 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Guaranteed and daily-return signals | REAL IMPLEMENTATION |
 | FR-SEN-10 | Scam Knowledge Center | UI-15; DK-s15; PS-E2 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SEN-11 | Scam history | DK-s10; DK-s25 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SEN-12 | Link analysis | DK-s15; ES-A3 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-SEN-11 | Scam history | DK-s10; DK-s25 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Checks stored, in dashboard, in graph, feed safety score | REAL IMPLEMENTATION |
+| FR-SEN-12 | Link analysis | DK-s15; ES-A3 | P2 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Textual link heuristics only; no reputation lookup | PARTIAL IMPLEMENTATION |
 | FR-SEN-13 | Call analysis | DK-s15 | P3 | No | No | No | No | NOT STARTED | None | NOT IMPLEMENTED |
 | FR-SEN-14 | Transaction analysis | DK-s15 | P3 | No | No | No | No | NOT STARTED | None | NOT IMPLEMENTED |
 | FR-SEN-15 | Real-time passive monitoring | DK-s15; DK-s11; ES-APPB | P3 | No | No | No | No | NOT STARTED | None | NOT IMPLEMENTED |
@@ -198,14 +198,14 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-CON-01 | Scheme catalogue | DK-s6; UI-07; ES-A4; PN-KIS-3; UB-IN7 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. 10-scheme catalogue with criteria, documents, steps, sources; UNVERIFIED until T0.12 | PARTIAL IMPLEMENTATION |
-| FR-CON-02 | Deterministic eligibility engine | ER; ES-A4; ES-APPB | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-CON-03 | Eligibility explanation | UI-12; PS-R1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Per-criterion eligibility UI; engine not built | PARTIAL IMPLEMENTATION |
-| FR-CON-04 | Benefit estimation | ES-A4; UI-07 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-CON-05 | Application guidance | ES-A4; ES-APPB; DK-s29; PN-KIS-3 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-CON-06 | Scheme search and filters | UI-07 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Search and category filters work client-side over sample catalogue | PARTIAL IMPLEMENTATION |
+| FR-CON-02 | Deterministic eligibility engine | ER; ES-A4; ES-APPB | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Deterministic engine; boundary tests | REAL IMPLEMENTATION |
+| FR-CON-03 | Eligibility explanation | UI-12; PS-R1 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Per-criterion results with questions for unknowns | REAL IMPLEMENTATION |
+| FR-CON-04 | Benefit estimation | ES-A4; UI-07 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Published fixed amounts only; no personal estimates | PARTIAL IMPLEMENTATION |
+| FR-CON-05 | Application guidance | ES-A4; ES-APPB; DK-s29; PN-KIS-3 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Steps and documents per scheme | REAL IMPLEMENTATION |
+| FR-CON-06 | Scheme search and filters | UI-07 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Search and category filters via API | REAL IMPLEMENTATION |
 | FR-CON-07 | Match ranking | UI-07; UI-11 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-CON-08 | Disability benefits | PN-DIV-8; ES-2.2 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-CON-09 | Farmer scheme flow | PN-KIS-3; PN-KIS-7; PS-E5 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-CON-08 | Disability benefits | PN-DIV-8; ES-2.2 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. UDID and IGNDPS in catalogue | PARTIAL IMPLEMENTATION |
+| FR-CON-09 | Farmer scheme flow | PN-KIS-3; PN-KIS-7; PS-E5 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. PM-KISAN, PMFBY, KCC rules; Kannada not available (no translation) | PARTIAL IMPLEMENTATION |
 | FR-CON-10 | Opportunities feed | UI-11; DK-s25; DK-s26 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-CON-11 | Proactive eligibility detection | DK-s29; DK-s15; ES-APPB | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-CON-12 | Scheme data freshness | DK-s8; ER | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. verification, verified_by, last_verified_at, review_due_at stored; loader preserves human verification | PARTIAL IMPLEMENTATION |
@@ -331,7 +331,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-SEC-03 | Encryption | DK-s14; DK-s25 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Documents encrypted per object; TLS and disk encryption are deployment items | PARTIAL IMPLEMENTATION |
 | NFR-SEC-04 | Secrets management | ER; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-SEC-05 | Upload safety | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Magic bytes, 10 MB cap, EXIF strip, risky PDF rejection, consent; tested | REAL IMPLEMENTATION |
-| NFR-SEC-06 | Prompt-injection resistance | ER; PS-R2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Agents see redacted text; fixed subgraphs; Sentinel evidence checks in Step 5 | PARTIAL IMPLEMENTATION |
+| NFR-SEC-06 | Prompt-injection resistance | ER; PS-R2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Sentinel analyses untrusted text deterministically; evidence must be a quote; LLM not in the decision path | PARTIAL IMPLEMENTATION |
 | NFR-SEC-07 | Safe logging | ER; PS-R3 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Allow-listed structlog keys, HMAC user ids, PII regex backstop | REAL IMPLEMENTATION |
 | NFR-SEC-08 | Patched dependencies | ER; D-020 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-SEC-09 | Abuse limits | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Per-user buckets, 429 + Retry-After; single-replica in-memory | REAL IMPLEMENTATION |
@@ -348,7 +348,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-ACC-01 | Scheme fact accuracy | DK-s8; ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-ACC-02 | Financial arithmetic correctness | ER; C-015 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Calculators tested; cross-screen reconciliation pending Step 6 | PARTIAL IMPLEMENTATION |
 | NFR-ACC-03 | Grounded answers | ER; ES-A5 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Abstention 5/5 out-of-scope, 15/15 in-scope on small developer set | PARTIAL IMPLEMENTATION |
-| NFR-ACC-04 | Scam detection quality | ER; DK-s8 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-ACC-04 | Scam detection quality | ER; DK-s8 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. 12/12 recall, 0/7 false alarms on a developer set used for tuning; independent set needed | PARTIAL IMPLEMENTATION |
 | NFR-ACC-05 | Routing accuracy | ER | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Rule router tested on 8 cases; 40-prompt set pending | PARTIAL IMPLEMENTATION |
 | NFR-ACC-06 | Safety evaluation | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-ACC-07 | OCR quality | DK-s8 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |

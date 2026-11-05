@@ -1,10 +1,25 @@
-"""Build optional subsystems from settings. Each is registered only when its service is configured."""
+"""Build subsystems from settings. Optional services are registered only when configured; agents always are,
+because their core work is deterministic (calculators, signals, eligibility). Missing pieces degrade honestly."""
 from __future__ import annotations
 
 import structlog
 
 from .config import get_settings
 from .features import Features
+
+
+def build_agents(f: Features, llm=None, knowledge=None, ocr=None) -> None:
+    from .agents.connector_agent import Connector
+    from .agents.educator import Educator
+    from .agents.orchestrator import Orchestrator
+    from .agents.sentinel_agent import Sentinel
+    from .agents.strategy import StrategyBuilder
+    from .services.connector import ConnectorService
+    from .services.sentinel import SentinelService
+    f.sentinel = SentinelService(knowledge=knowledge, ocr=ocr, llm=llm)
+    f.connector = ConnectorService()
+    f.orchestrator = Orchestrator({"educator": Educator(), "strategy": StrategyBuilder(), "sentinel": Sentinel(f.sentinel),
+                                   "connector": Connector(f.connector)}, graph=f.graph, llm=llm, knowledge=knowledge)
 
 
 def build_features() -> Features:
@@ -25,4 +40,32 @@ def build_features() -> Features:
             f.graph.init_schema()
         except Exception:  # noqa: BLE001
             log.warning("graph_unreachable", feature="graph")
-    return f  # Steps 4-6 add: orchestrator, sentinel, connector, speech
+    knowledge = None
+    if s.qdrant_url:
+        from .ai.knowledge import COLLECTION, KnowledgeStore
+        knowledge = KnowledgeStore(s.qdrant_url)
+        try:
+            knowledge.ensure()
+            if knowledge.client.count(COLLECTION).count == 0:
+                knowledge.ingest()
+        except Exception:  # noqa: BLE001
+            log.warning("knowledge_unreachable", feature="knowledge")
+    from .ai.llm import from_settings
+    llm = from_settings(s.ollama_url, s.llm_private_model, s.llm_reasoning_model)
+    ocr = None
+    if s.inference_url:
+        from .ai.inference import InferenceClient
+        f.speech = InferenceClient(s.inference_url, s.inference_token)
+        ocr = f.speech.ocr
+    try:
+        from .db import session_factory
+        from .models import Scheme
+        from .seed import load_schemes
+        with session_factory()() as db:
+            if db.query(Scheme).count() == 0:
+                load_schemes(db)
+                db.commit()
+    except Exception:  # noqa: BLE001
+        log.warning("scheme_catalogue_not_loaded", feature="connector")
+    build_agents(f, llm=llm, knowledge=knowledge, ocr=ocr)
+    return f

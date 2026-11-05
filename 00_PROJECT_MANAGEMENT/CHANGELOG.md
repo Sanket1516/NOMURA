@@ -2,6 +2,15 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Step 5 of 6, four agents
+
+### Added
+
+- Educator (grounded, cited, abstains), Strategy Builder (calculators, risks, assumptions), Sentinel (16 signals, link heuristics, evidence, levels, handoff), Connector (eligibility engine over 10 schemes).
+- Agents registered at startup; `/v1/chat`, `/v1/sentinel/checks`, `/v1/schemes*` now real.
+- `06_DOCUMENTATION/CONFIDENCE_SCORE.md`.
+- 92 new tests; 138 backend tests pass. Six defects found by tests and fixed.
+
 ## 2026-11-05: Step 4 of 6, AI infrastructure
 
 ### Added

@@ -75,7 +75,13 @@ async def sentinel_check(request: Request, user: User_, db: DB, f: F) -> dict:
             raise DomainValidationError("Send an 'image' file or JSON text")
         data = await read_capped(upload)  # type: ignore[arg-type]
         return sentinel.check_image(db, user.id, data)
-    body = s.SentinelTextIn.model_validate(await request.json())
+    from pydantic import ValidationError
+
+    from ..core.errors import DomainValidationError
+    try:
+        body = s.SentinelTextIn.model_validate(await request.json())
+    except (ValidationError, ValueError) as e:
+        raise DomainValidationError("Send JSON with 'text' (1 to 5000 characters) or an 'image' file.") from e
     return sentinel.check_text(db, user.id, body.text, body.kind)
 
 

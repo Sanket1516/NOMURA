@@ -17,13 +17,21 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 6 | Private Tier redaction of Indian identifiers, plus a data-flow audit | 4 | DONE | 10 identifier types; NER names need T0.04 |
 | 7 | Knowledge base and retrieval in Qdrant, with citations and abstention | 4 | DONE | Lexical now; e5 dense pending T0.10 |
 | 8 | LangGraph orchestrator: routing, shared state, handoff, safety review | 4 | DONE | `05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md` |
-| 9 | The four agents: Educator, Strategy Builder, Sentinel, Connector | 5 | IN PROGRESS | |
-| 10 | Scam signal engine and link heuristics; scheme eligibility engine | 5 | TODO | |
-| 11 | Inference service: Tesseract OCR, eSpeak NG speech | 6 | TODO | |
+| 9 | The four agents: Educator, Strategy Builder, Sentinel, Connector | 5 | DONE | `05_TESTING/agents/STEP5_AGENTS_RESULTS.md`; rule-based until a model runs |
+| 10 | Scam signal engine and link heuristics; scheme eligibility engine | 5 | DONE | 23 + 14 tests |
+| 11 | Inference service: Tesseract OCR, eSpeak NG speech | 6 | IN PROGRESS | |
 | 12 | Keycloak realm, Docker Compose for the whole stack | 6 | TODO | |
 | 13 | Wire every screen to the live API; end-to-end journeys through real sign-in | 6 | TODO | |
 | 14 | UI polish: animated numbers and charts, staggered motion, richer visuals | 6 | TODO | Owner asked for the UI to be "as beautiful and dynamic as possible" |
 | 15 | Final trackers, handover, next-AI prompt | 6 | TODO | |
+
+## Found along the way (to do)
+
+| Item | Note |
+|---|---|
+| Independent labelled scam set (T6.05) | Sentinel rules were tuned on the developer set |
+| Proactive nudges (goal drift, newly eligible schemes) | Scheduler job not written yet |
+| PostgreSQL Row Level Security | Isolation is enforced and tested in code; RLS is the second line of defence |
 
 ## Outside what software can close in this environment
 
