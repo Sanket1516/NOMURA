@@ -24,11 +24,11 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 70 |
+| PLANNED | 66 |
 | IN PROGRESS | 4 |
 | PARTIALLY IMPLEMENTED | 51 |
 | IMPLEMENTED | 3 |
-| TESTED | 71 |
+| TESTED | 75 |
 | VERIFIED | 0 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
@@ -46,21 +46,21 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | FR-ONB-02 | Landing experience | UI-01; PS-U2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Landing page, axe-clean | REAL IMPLEMENTATION |
 | FR-ONB-03 | Profile setup | DK-s11; DK-s12; PS-U3 | P0 | Yes | Yes | Yes | No | TESTED | 05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md. Live E2E journey 7 | REAL IMPLEMENTATION |
 | FR-ONB-04 | Consent capture | DK-s8; PS-R3 | P0 | Yes | Yes | Yes | No | TESTED | 05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md. Itemised consent saved via API, journey 7 | REAL IMPLEMENTATION |
-| FR-ONB-05 | Two onboarding paths | DK-s12 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md. Persona and questionnaire path live; document path UI not built | PARTIAL IMPLEMENTATION |
+| FR-ONB-05 | Two onboarding paths | DK-s12 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/services/extraction.py; web/app/(app)/documents; live E2E journey 8. Both onboarding paths now available: questionnaire and document upload | REAL IMPLEMENTATION |
 | FR-ONB-06 | Context-adaptive onboarding | PS-Q1; PS-U3; PN-RAJ-1; PN-KIS-1 | P0 | Yes | Yes | Yes | No | TESTED | 05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md. Persona templates and seasonal question; journey 7 | REAL IMPLEMENTATION |
 
 ## DOC: Document intelligence and Document Hub
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-DOC-01 | Document upload | DK-s12; DK-s11; ES-A5 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Upload API real and tested; storage Step 3 | PARTIAL IMPLEMENTATION |
+| FR-DOC-01 | Document upload | DK-s12; DK-s11; ES-A5 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/services/extraction.py; web/app/(app)/documents; live E2E journey 8. Upload screen + API with validation, live journey 8 | REAL IMPLEMENTATION |
 | FR-DOC-02 | Secure document vault | ES-STACK; DK-s14; DK-s12; UB-FOSS; D-024 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. SeaweedFS + AES-256-GCM envelope, path-bound; tested against real SeaweedFS | REAL IMPLEMENTATION |
-| FR-DOC-03 | OCR extraction | ES-STACK; DK-s12 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/inference; 04_APPLICATION/api/vaakya/ai/inference.py. Tesseract eng/hin/mar/kan real; document extraction job not built | PARTIAL IMPLEMENTATION |
-| FR-DOC-04 | Structured AI extraction | DK-s12 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-DOC-05 | Extraction validation | DK-s12; UI-02 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-DOC-06 | Raw-document isolation | DK-s12; DK-s14; ES-INV | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-DOC-03 | OCR extraction | ES-STACK; DK-s12 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/services/extraction.py; web/app/(app)/documents; live E2E journey 8. Real Tesseract OCR and PDF text layer; scanned PDFs need a photo (no PDF rasteriser); PaddleOCR pending T0.13 | PARTIAL IMPLEMENTATION |
+| FR-DOC-04 | Structured AI extraction | DK-s12 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/services/extraction.py; web/app/(app)/documents; live E2E journey 8. Rule-based extraction for salary slips and bank statements with confidence; Private Tier model for messy layouts pending T0.04 | PARTIAL IMPLEMENTATION |
+| FR-DOC-05 | Extraction validation | DK-s12; UI-02 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/services/extraction.py; web/app/(app)/documents; live E2E journey 8. User confirms or corrects every value before use; latest slip replaces earlier income | REAL IMPLEMENTATION |
+| FR-DOC-06 | Raw-document isolation | DK-s12; DK-s14; ES-INV | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/services/extraction.py; web/app/(app)/documents; live E2E journey 8. Raw text never stored; only confirmed fields reach finances; agents read financial items | REAL IMPLEMENTATION |
 | FR-DOC-07 | All supported document types | DK-s12; DK-s14; PN-DIV-5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-DOC-08 | Financial Document Hub | DK-s25; DK-s26 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-DOC-08 | Financial Document Hub | DK-s25; DK-s26 | P2 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/services/extraction.py; web/app/(app)/documents; live E2E journey 8. Document list, status, delete; search not built | PARTIAL IMPLEMENTATION |
 
 ## ASM: Financial assessment and dynamic questionnaire
 

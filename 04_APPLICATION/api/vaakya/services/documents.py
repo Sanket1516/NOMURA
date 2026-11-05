@@ -100,8 +100,8 @@ def upload(db: Session, vault: DocumentVault | None, user_id: uuid.UUID, data: b
 def out(db: Session, d: Document) -> dict:
     fields = db.scalars(select(ExtractedField).where(ExtractedField.document_id == d.id)).all()
     return {"id": str(d.id), "kind": d.kind, "status": d.status, "mime": d.mime, "size": d.size, "created_at": d.created_at.isoformat(),
-            "fields": [{"field": f.field, "value": f.confirmed_value or f.value, "confidence": f.confidence, "confirmed": f.confirmed_value is not None}
-                       for f in fields]}
+            "fields": [{"field": f.field, "value": (f.confirmed_value or f.value)["v"], "confidence": f.confidence,
+                        "confirmed": f.confirmed_value is not None, "warning": f.value.get("warning")} for f in fields]}
 
 
 def list_(db: Session, user_id: uuid.UUID) -> list[dict]:
