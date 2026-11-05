@@ -671,6 +671,7 @@ export const PAGE_TEXT = {
   "land.orpreview": r("Or preview with sample data", "या नमूना डेटा के साथ प्रिव्यू देखें", "किंवा नमुना डेटासह पूर्वावलोकन पहा", "ಅಥವಾ ಮಾದರಿ ಡೇಟಾದೊಂದಿಗೆ ಪೂರ್ವವೀಕ್ಷಣೆ ನೋಡಿ"),
   "shell.home": r("VAAKYA home", "VAAKYA होम", "VAAKYA मुख्यपृष्ठ", "VAAKYA ಮುಖಪುಟ"),
   "shell.menu": r("Menu", "मेन्यू", "मेनू", "ಮೆನು"),
+  "shell.install": r("Install app", "ऐप इंस्टॉल करें", "ॲप इंस्टॉल करा", "ಆ್ಯಪ್ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ"),
   "shell.openmenu": r("Open menu", "मेन्यू खोलें", "मेनू उघडा", "ಮೆನು ತೆರೆಯಿರಿ"),
   "shell.closemenu": r("Close menu", "मेन्यू बंद करें", "मेनू बंद करा", "ಮೆನು ಮುಚ್ಚಿ"),
   "shell.main": r("Main", "मुख्य", "मुख्य", "ಮುಖ್ಯ"),

@@ -1,6 +1,6 @@
 # Current Status
 
-**Last updated:** 2026-11-05
+**Last updated:** 2026-11-05 (later: cloud session added a metrics token, a CI workflow, language from profile and a PWA install button, all unverified on the live stack; open items in `08_HANDOVER/OWNER_LOCAL_TASKS.md`)
 **Current stage:** All six build steps DONE, plus nudges, monthly review, document OCR, the production profile and Row Level Security (verified on the full stack). A quality and security audit ran on 2026-11-05 (`05_TESTING/audit/`, `KNOWN_ISSUES.md`). Page translations (hi, mr, kn) are done as unreviewed drafts for all interface text. Summary: `08_HANDOVER/WORK_SUMMARY.md`.
 **Owner:** Sanket Mali
 **Next gate:** Phase 0 gate (IMPLEMENTATION_ROADMAP PH0 acceptance criteria)

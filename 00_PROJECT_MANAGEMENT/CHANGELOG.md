@@ -8,6 +8,7 @@ All notable changes to project plans, requirements and code. Newest first.
 - `/metrics` optional bearer token (KI-13): `VAAKYA_METRICS_TOKEN`; Prometheus reads `secrets/metrics_token.txt`; `init-secrets.sh` adds it to an existing secrets folder. Guard checked directly (401, 401, 200); the DB-backed test was not run here.
 - `.github/workflows/ci.yml` (KI-16, KI-12): never run on GitHub yet. `ruff` now skips applied migrations.
 - Interface language set from the profile on first sign-in (KI-19): `lib/lang-from-profile.ts`, 3 unit tests; not tried through Keycloak.
+- PWA install button (shows only when the browser offers installation); preview E2E now 29 passed. Trackers and next-AI prompt updated.
 - `08_HANDOVER/OWNER_LOCAL_TASKS.md`: everything that must run on the owner's machine.
 
 ## 2026-11-05 (late): hand-off written; nonce CSP and local Ollama model in progress

@@ -56,7 +56,7 @@ cd 04_APPLICATION/api && uv run pytest          # 142 tests; service-dependent t
 cd 04_APPLICATION/web && npm test && PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers npx playwright test   # 19 unit + 12 E2E
 ```
 
-Last full results: API 138 passed + 4 inference-integration passed; inference service 10 passed; web 23 unit + 27 E2E passed.
+Last full results: API 138 passed + 4 inference-integration passed; inference service 10 passed; web 26 unit + 29 preview E2E passed (cloud run); the live E2E and DB-backed API tests last ran before the nonce CSP and the later code-only items, see `08_HANDOVER/OWNER_LOCAL_TASKS.md`.
 
 ## Run the whole stack
 

@@ -14,6 +14,7 @@ Setup once: `cd 04_APPLICATION/infra && export VAAKYA_DOMAIN=localhost`. Command
 | A3 | Language from profile (KI-19) | Clear cookies, sign in as the Marathi demo persona through Keycloak | Interface is in Marathi without touching the picker. A user who already picked a language keeps it |
 | A4 | Live E2E | Command in section 6 (rebuild `web` first, see B1) | 8 passed |
 | A5 | CI workflow (KI-16/KI-12) | Push a branch, open the Actions tab | Jobs run. Expect small fixes on first run (inference deps, Trivy findings). Do not hide findings; fix or record them in KNOWN_ISSUES |
+| A6 | PWA install button | Open https://localhost in Chrome or Edge, sign in, look for the download icon in the top bar, click it, confirm the app installs and opens standalone. Safari and Firefox should show no button | Installs on Chrome/Edge; no dead button elsewhere |
 
 ## B. Unfinished from HANDOFF_STATUS section 3
 

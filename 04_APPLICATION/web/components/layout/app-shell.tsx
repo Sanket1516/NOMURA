@@ -7,6 +7,7 @@ import { cn } from "@/lib/cn";
 import type { DataOrigin, Lang } from "@/lib/types";
 import { NAV_LABELS } from "@/lib/i18n/nav";
 import { tr, trf } from "@/lib/i18n/pages";
+import { InstallButton } from "./install-button";
 import { BOTTOM, NAV, SECONDARY } from "./nav-items";
 import { Wordmark } from "./logo";
 
@@ -61,6 +62,7 @@ export function AppShell({ children, name, lang, origin, unread, previewPersona 
             <Link href="/home" className="lg:hidden" aria-label={tr(lang, "shell.home")}><Wordmark /></Link>
             <span className="hidden lg:block" />
             <div className="flex items-center gap-1">
+              <InstallButton lang={lang} />
               <Link href="/notifications" className="relative grid size-11 place-items-center rounded-full hover:bg-surface-2"
                 aria-label={`${label("notifications")}${unread ? `, ${trf(lang, "shell.unreadn", { n: unread })}` : ""}`}>
                 <Bell aria-hidden className="size-5" />
