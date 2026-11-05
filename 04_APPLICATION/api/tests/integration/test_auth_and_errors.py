@@ -81,6 +81,20 @@ def test_metrics_endpoint_counts_requests_without_user_data(client, alice):
     assert "alice" not in body
 
 
+def test_metrics_need_the_token_when_one_is_configured(client, monkeypatch):
+    from vaakya.config import get_settings
+    monkeypatch.setenv("VAAKYA_METRICS_TOKEN", "s3cret-token")
+    get_settings.cache_clear()
+    try:
+        assert client.get("/metrics").status_code == 401
+        assert client.get("/metrics", headers={"Authorization": "Bearer wrong"}).status_code == 401
+        ok = client.get("/metrics", headers={"Authorization": "Bearer s3cret-token"})
+        assert ok.status_code == 200 and "vaakya_http_requests_total" in ok.text
+    finally:
+        monkeypatch.delenv("VAAKYA_METRICS_TOKEN")
+        get_settings.cache_clear()
+
+
 def test_interactive_docs_exist_in_development_but_not_in_production(app, client, monkeypatch):
     from vaakya.config import get_settings
     from vaakya.main import create_app

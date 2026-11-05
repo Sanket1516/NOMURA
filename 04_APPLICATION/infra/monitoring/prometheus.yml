@@ -3,6 +3,7 @@ global:
 scrape_configs:
   - job_name: vaakya-api
     metrics_path: /metrics
+    authorization: { type: Bearer, credentials_file: /etc/prometheus/metrics_token }
     static_configs: [{ targets: ["api:8000"] }]
   - job_name: keycloak
     metrics_path: /auth/metrics

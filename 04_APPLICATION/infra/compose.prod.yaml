@@ -54,7 +54,7 @@ services:
   prometheus:
     image: prom/prometheus:v3.5.0
     profiles: [monitoring]
-    volumes: [./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro, promdata:/prometheus]
+    volumes: [./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro, ./secrets/metrics_token.txt:/etc/prometheus/metrics_token:ro, promdata:/prometheus]
     networks: [app]
   grafana:
     image: grafana/grafana-oss:12.1.1
