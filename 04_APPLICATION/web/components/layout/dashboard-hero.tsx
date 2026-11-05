@@ -34,11 +34,11 @@ export function DashboardHero({ d, lang = "en" }: { d: Dashboard; lang?: Lang })
           <h1 id="hero-h" className="mt-2 font-display text-[2.1rem] leading-[1.05] tracking-tight sm:text-[2.8rem]">
             {greeting(hour, lang)}, <span className="shimmer-text">{d.profile.display_name}</span>
           </h1>
-          <p className="mt-3 max-w-xl text-ink-2">
+          <p className="lit-detail mt-3 max-w-xl text-ink-2">
             {trf(lang, "hero.line", { overall: s.overall, band: tr(lang, `score.band.${s.band.toLowerCase()}` as PageKey) })}{" "}
             {s.change_30d !== 0 ? trf(lang, up ? "hero.up" : "hero.down", { n: Math.abs(s.change_30d) }) : t("hero.steady")}
           </p>
-          <ul className="mt-5 flex flex-wrap gap-2">
+          <ul className="lit-detail mt-5 flex flex-wrap gap-2">
             {[{ href: "/assistant", label: t("hero.ask"), Icon: MessageCircle }, { href: "/shield", label: t("hero.check"), Icon: ShieldCheck },
               { href: "/voice", label: t("hero.talk"), Icon: Mic }].map(({ href, label, Icon }) => (
               <li key={href}>
@@ -49,7 +49,7 @@ export function DashboardHero({ d, lang = "en" }: { d: Dashboard; lang?: Lang })
             ))}
           </ul>
         </div>
-        <div className="grid gap-3">
+        <div className="lit-detail grid gap-3">
           <Link href="/score" className="lift flex items-center justify-between rounded-2xl bg-ink p-5 text-paper">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.12em] opacity-75">{t("hero.cs")}</p>

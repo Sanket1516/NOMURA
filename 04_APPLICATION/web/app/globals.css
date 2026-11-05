@@ -263,7 +263,11 @@ body {
   border: 0;
 }
 
-/* Low-literacy mode enlarges icons and spacing; content components also swap copy. */
+/* Low-literacy mode (FR-LNG-04): larger icons, a simple home view, and the number-heavy cards hidden.
+   `.lit-detail` = shown only in the standard view; `.lit-simple` = shown only in low-literacy mode. */
+.lit-simple { display: none; }
+:root[data-literacy="low"] .lit-simple { display: block; }
+:root[data-literacy="low"] .lit-detail { display: none; }
 :root[data-literacy="low"] .lit-icon {
   width: 1.75rem;
   height: 1.75rem;

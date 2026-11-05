@@ -14,6 +14,8 @@ Setup once: `cd 04_APPLICATION/infra && export VAAKYA_DOMAIN=localhost`. Command
 | A3 | Language from profile (KI-19) | Clear cookies, sign in as the Marathi demo persona through Keycloak | Interface is in Marathi without touching the picker. A user who already picked a language keeps it |
 | A4 | Live E2E | Command in section 6 (rebuild `web` first, see B1) | 8 passed |
 | A5 | CI workflow (KI-16/KI-12) | Push a branch, open the Actions tab | Jobs run. Expect small fixes on first run (inference deps, Trivy findings). Do not hide findings; fix or record them in KNOWN_ISSUES |
+| A7 | Low-literacy mode (KI-20) | Settings → Accessibility → Simple words mode, then open Home on a phone. Show it to someone who finds the standard screens hard; note what confuses them | Home is understood without help; list what is still unclear |
+| A8 | Consent language (KI-18) | Register a new user in Marathi, accept consent, then `select purpose, lang from consents` in Postgres | `lang` is `mr` |
 | A6 | PWA install button | Open https://localhost in Chrome or Edge, sign in, look for the download icon in the top bar, click it, confirm the app installs and opens standalone. Safari and Firefox should show no button | Installs on Chrome/Edge; no dead button elsewhere |
 
 ## B. Unfinished from HANDOFF_STATUS section 3
@@ -28,8 +30,8 @@ Setup once: `cd 04_APPLICATION/infra && export VAAKYA_DOMAIN=localhost`. Command
 
 1. KI-09: `cd 04_APPLICATION/web && NODE_TLS_REJECT_UNAUTHORIZED=0 BASE=https://localhost DEMO_PASSWORD=<from infra/secrets/keycloak.env> OUT=../../05_TESTING/audit/load_result.md node scripts/load_test.mjs` (add `CHAT=5` once with the model off, once on). Paste the output into PERFORMANCE_REPORT.md with date and machine.
 2. KI-10: Keycloak brute-force lockout on the live stack (5 wrong passwords, then correct one).
-2. Models on the RTX 3050: faster-whisper (T0.08), IndicTrans2 (T0.09), e5 embeddings (T0.10), Indic TTS (T0.07). Hindi, Marathi and Kannada generation with qwen2:7b is unproven; test it before turning `translated` on.
-3. Real phones, TalkBack, NVDA, VoiceOver, Firefox and Safari (KI-08).
+3. Models on the RTX 3050: faster-whisper (T0.08), IndicTrans2 (T0.09), e5 embeddings (T0.10), Indic TTS (T0.07). Hindi, Marathi and Kannada generation with qwen2:7b is unproven; test it before turning `translated` on.
+4. Real phones, TalkBack, NVDA, VoiceOver, Firefox and Safari (KI-08).
 5. KI-15: email verification and password reset with a real mail relay.
 
 ## D. Humans only (no software can close these)
