@@ -26,10 +26,10 @@ Setup once: `cd 04_APPLICATION/infra && export VAAKYA_DOMAIN=localhost`. Command
 
 ## C. Tests only you can do on your hardware or with people
 
-1. KI-10: Keycloak brute-force lockout on the live stack (5 wrong passwords, then correct one).
+1. KI-09: `cd 04_APPLICATION/web && NODE_TLS_REJECT_UNAUTHORIZED=0 BASE=https://localhost DEMO_PASSWORD=<from infra/secrets/keycloak.env> OUT=../../05_TESTING/audit/load_result.md node scripts/load_test.mjs` (add `CHAT=5` once with the model off, once on). Paste the output into PERFORMANCE_REPORT.md with date and machine.
+2. KI-10: Keycloak brute-force lockout on the live stack (5 wrong passwords, then correct one).
 2. Models on the RTX 3050: faster-whisper (T0.08), IndicTrans2 (T0.09), e5 embeddings (T0.10), Indic TTS (T0.07). Hindi, Marathi and Kannada generation with qwen2:7b is unproven; test it before turning `translated` on.
 3. Real phones, TalkBack, NVDA, VoiceOver, Firefox and Safari (KI-08).
-4. KI-09 load numbers: run a simple concurrent test against https://localhost and write real numbers into `05_TESTING/audit/PERFORMANCE_REPORT.md`.
 5. KI-15: email verification and password reset with a real mail relay.
 
 ## D. Humans only (no software can close these)
