@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Check, UserPlus } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
-import { liveEnabled } from "@/lib/server/config";
+import { config, liveEnabled } from "@/lib/server/config";
 import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = { title: "Create account" };
@@ -31,7 +31,7 @@ export default function RegisterPage() {
           ) : (
             <Alert tone="warning" title="Registration is not configured on this server">You can preview VAAKYA with sample data instead.</Alert>
           )}
-          <Link href="/login#preview" className={cn(buttonVariants({ size: "lg", variant: "secondary" }))}>Preview with sample data</Link>
+          {config.previewEnabled ? <Link href="/login#preview" className={cn(buttonVariants({ size: "lg", variant: "secondary" }))}>Preview with sample data</Link> : null}
         </div>
         <p className="mt-6 text-sm text-ink-3">Already registered? <Link href="/login" className="font-semibold text-primary underline">Sign in</Link></p>
       </section>

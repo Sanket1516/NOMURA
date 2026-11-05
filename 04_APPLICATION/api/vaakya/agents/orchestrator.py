@@ -168,6 +168,11 @@ class Orchestrator:
         for out in state.get("outputs", []):
             for ev, payload in out.events:
                 emit(db, user_id, ev, payload)
+        from ..core import metrics
+        for a in final["agents"]:
+            metrics.AGENT_ANSWERS.labels(a, str(final["llm_used"]).lower()).inc()
+        if final["safety_problems"]:
+            metrics.SAFETY_FALLBACKS.inc()
         if final["agents"]:
             emit(db, user_id, "AnswerGiven", {"agent": final["agents"][0], "agents": final["agents"], "llm_used": final["llm_used"]})
         if final["llm_used"]:

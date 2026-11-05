@@ -1,0 +1,27 @@
+# VAAKYA public entry (DEPLOYMENT_ARCHITECTURE §1). The only container with published ports.
+# VAAKYA_DOMAIN=vaakya.example.org → Let's Encrypt certificate. VAAKYA_DOMAIN=localhost → Caddy's local CA (testing).
+{$VAAKYA_DOMAIN} {
+	encode zstd gzip
+	request_body {
+		max_size 12MB
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(self), microphone=(self), geolocation=()"
+		-Server
+	}
+	# Keycloak's admin console and master realm are never public (use an SSH tunnel).
+	@kcadmin path /auth/admin* /auth/realms/master*
+	handle @kcadmin {
+		respond 404
+	}
+	handle /auth/* {
+		reverse_proxy keycloak:8080
+	}
+	handle {
+		reverse_proxy web:3000
+	}
+}

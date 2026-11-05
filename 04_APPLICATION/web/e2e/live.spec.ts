@@ -9,17 +9,21 @@ test.describe.configure({ mode: "serial" });
 const OUT = path.resolve(__dirname, "../../../07_HACKATHON_DELIVERABLES/PRODUCT_SCREENSHOTS/FRONTEND/live");
 const shot = (page: Page, name: string) => page.screenshot({ path: `${OUT}/${name}.png`, fullPage: true });
 
+const BASE = process.env.E2E_BASE_URL ?? "http://localhost:3000";
+const esc = (x: string) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const APP = (p: string) => new RegExp(`^${esc(BASE)}/${p}`);
+
 async function signIn(page: Page, email: string, password: string) {
   await page.goto("/login");
   await page.locator("a[href=\"/api/auth/login\"]").click();
-  await page.waitForURL(/localhost:8080\/realms\/vaakya/);
+  await page.waitForURL(/\/realms\/vaakya\//);
   await page.locator("#username").fill(email);
   await page.locator("#password").fill(password);
   await page.locator("#kc-login").click();
-  await page.waitForURL(/localhost:3000\/(home|onboarding)/);
+  await page.waitForURL(APP("(home|onboarding)"));
 }
 
-test.use({ reducedMotion: "reduce", viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2,
+test.use({ reducedMotion: "reduce", viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2, ignoreHTTPSErrors: true,
   launchOptions: { args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"] } });
 
 test("1 demo user signs in through Keycloak and sees live data", async ({ page }) => {
@@ -95,7 +99,7 @@ test("5 planning, life graph, lesson quiz", async ({ page }) => {
 });
 
 test("6 voice reports the missing speech model honestly", async ({ browser }) => {
-  const ctx = await browser.newContext({ permissions: ["microphone"], viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, reducedMotion: "reduce" });
+  const ctx = await browser.newContext({ ignoreHTTPSErrors: true, permissions: ["microphone"], viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, reducedMotion: "reduce" });
   const page = await ctx.newPage();
   await signIn(page, "demo-priya@vaakya.invalid", process.env.DEMO_PASSWORD!);
   await page.goto("/voice");
@@ -111,14 +115,14 @@ test("7 a new user registers in Keycloak and onboards", async ({ page }) => {
   const email = `e2e-${Date.now()}@vaakya.invalid`;
   await page.goto("/register");
   await page.locator("a[href=\"/api/auth/login?register=1\"]").click();
-  await page.waitForURL(/localhost:8080/);
+  await page.waitForURL(/\/realms\/vaakya\//);
   await page.locator("#email").fill(email);
   await page.locator("#password").fill("Test-pass-2026!");
   await page.locator("#password-confirm").fill("Test-pass-2026!");
   if (await page.locator("#firstName").count()) await page.locator("#firstName").fill("Asha");
   if (await page.locator("#lastName").count()) await page.locator("#lastName").fill("Test");
   await page.locator("input[type=submit], button[type=submit]").first().click();
-  await page.waitForURL(/localhost:3000\/onboarding/, { timeout: 30_000 });
+  await page.waitForURL(APP("onboarding"), { timeout: 30_000 });
   await page.getByLabel(/Use my answers to give me guidance/).check();
   await page.getByRole("button", { name: "Agree and continue" }).click();
   await page.waitForURL("**/onboarding/persona");

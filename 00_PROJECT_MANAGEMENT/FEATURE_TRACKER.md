@@ -24,11 +24,11 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 66 |
+| PLANNED | 64 |
 | IN PROGRESS | 4 |
 | PARTIALLY IMPLEMENTED | 51 |
-| IMPLEMENTED | 3 |
-| TESTED | 75 |
+| IMPLEMENTED | 4 |
+| TESTED | 76 |
 | VERIFIED | 0 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
@@ -325,11 +325,11 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-SCAL-03 | Inference queue | ER; UB-FOSS | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-AVAIL-01 | LLM failure handling | ER; PS-R2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. LLM retries + fallback + deterministic paths | PARTIAL IMPLEMENTATION |
 | NFR-AVAIL-02 | Environments and rollback | ER; UB-Q1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-AVAIL-03 | Data durability | ER; D-007 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Graph rebuildable from PostgreSQL; backups in deployment step | PARTIAL IMPLEMENTATION |
+| NFR-AVAIL-03 | Data durability | ER; D-007 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/infra/{compose.prod.yaml,caddy,backup.sh,restore.sh}; 06_DOCUMENTATION/OPERATIONS.md. Encrypted backup + restore rehearsal matched row counts | REAL IMPLEMENTATION |
 | NFR-SEC-01 | Authentication everywhere | ER; ES-STACK; D-027 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Auth dependency on every /v1 route; token tests; no live Keycloak yet | REAL IMPLEMENTATION |
 | NFR-SEC-02 | Per-user authorisation | ER; PS-R3 | P0 | Yes | Partial | Yes | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Repository scoping + 404 tested and mutation-checked; RLS and graph gateway not yet | PARTIAL IMPLEMENTATION |
-| NFR-SEC-03 | Encryption | DK-s14; DK-s25 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Documents encrypted per object; TLS and disk encryption are deployment items | PARTIAL IMPLEMENTATION |
-| NFR-SEC-04 | Secrets management | ER; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-SEC-03 | Encryption | DK-s14; DK-s25 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/infra/{compose.prod.yaml,caddy,backup.sh,restore.sh}; 06_DOCUMENTATION/OPERATIONS.md. TLS via Caddy tested on localhost CA; documents and backups AES-256-GCM; disk encryption is a host task | PARTIAL IMPLEMENTATION |
+| NFR-SEC-04 | Secrets management | ER; ES-STACK | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/infra/{compose.prod.yaml,caddy,backup.sh,restore.sh}; 06_DOCUMENTATION/OPERATIONS.md. Random secrets in a gitignored directory; nothing secret in the repository or images | REAL IMPLEMENTATION |
 | NFR-SEC-05 | Upload safety | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Magic bytes, 10 MB cap, EXIF strip, risky PDF rejection, consent; tested | REAL IMPLEMENTATION |
 | NFR-SEC-06 | Prompt-injection resistance | ER; PS-R2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Sentinel analyses untrusted text deterministically; evidence must be a quote; LLM not in the decision path | PARTIAL IMPLEMENTATION |
 | NFR-SEC-07 | Safe logging | ER; PS-R3 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Allow-listed structlog keys, HMAC user ids, PII regex backstop | REAL IMPLEMENTATION |
@@ -355,11 +355,11 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-COMP-01 | Devices and browsers | ER; PS-A1 | P0 | Yes | Partial | Partial | No | IN PROGRESS | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Chromium at 1440, 834, 390, 360 px; no overflow; other browsers not tested | PARTIAL IMPLEMENTATION |
 | NFR-COMP-02 | Limited bandwidth | PS-A1; PS-Q5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-OBS-01 | Tracing | ER; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-OBS-02 | Monitoring | ER; UB-FOSS; D-007 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-OBS-02 | Monitoring | ER; UB-FOSS; D-007 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/infra/{compose.prod.yaml,caddy,backup.sh,restore.sh}; 06_DOCUMENTATION/OPERATIONS.md. API metrics tested; Prometheus/Grafana config validated, not run (rate limit) | PARTIAL IMPLEMENTATION |
 | NFR-MAINT-01 | Pinned versions | ER; UB-Q1; D-020 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. uv.lock and package-lock.json; API image built from frozen lock | REAL IMPLEMENTATION |
 | NFR-MAINT-02 | Documentation currency | UB-RULES | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-MAINT-03 | Automated quality gates | ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-MAINT-04 | Deployment automation | ER | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md. Compose stack + init-secrets; scripted deploy not written | PARTIAL IMPLEMENTATION |
+| NFR-MAINT-04 | Deployment automation | ER | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/infra/{compose.prod.yaml,caddy,backup.sh,restore.sh}; 06_DOCUMENTATION/OPERATIONS.md. Compose dev + prod overlay, init-secrets, operations guide; no CI pipeline | PARTIAL IMPLEMENTATION |
 | NFR-MAINT-05 | Maintained documentation set | UB-Q9 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-COST-01 | Model resource control | DK-s12; DK-s14 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-COST-02 | Usage limits | UB-Q7; ER | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Chat/voice/sentinel/upload limits defined | PARTIAL IMPLEMENTATION |
