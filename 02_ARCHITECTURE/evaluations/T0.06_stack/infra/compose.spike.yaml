@@ -1,0 +1,21 @@
+# T0.06 spike: start the planned data and identity services together on Linux and record idle memory.
+# Development-only credentials. Not the application compose file (T1.04 creates that).
+name: vaakya-t006
+services:
+  postgres:
+    image: postgres:18
+    environment: { POSTGRES_PASSWORD: spike-only, POSTGRES_DB: vaakya }
+    healthcheck: { test: ["CMD", "pg_isready", "-U", "postgres"], interval: 3s, retries: 30 }
+  neo4j:
+    image: neo4j:5.26-community
+    environment: { NEO4J_AUTH: neo4j/spike-only-pass, NEO4J_server_memory_heap_max__size: 512m, NEO4J_server_memory_pagecache_size: 256m }
+    healthcheck: { test: ["CMD-SHELL", "cypher-shell -u neo4j -p spike-only-pass 'RETURN 1' || exit 1"], interval: 5s, retries: 40 }
+  qdrant:
+    image: qdrant/qdrant:v1.20.0
+  seaweedfs:
+    image: chrislusf/seaweedfs:4.50
+    command: server -s3 -dir=/data
+  keycloak:
+    image: keycloak/keycloak:26.8.1
+    command: start-dev
+    environment: { KC_BOOTSTRAP_ADMIN_USERNAME: admin, KC_BOOTSTRAP_ADMIN_PASSWORD: spike-only }

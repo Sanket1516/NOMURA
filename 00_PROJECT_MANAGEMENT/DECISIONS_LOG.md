@@ -257,6 +257,23 @@ One gate applies later: before real people enter their own financial data, take 
 - **Decision:** Translate input to English, reason in English, then translate the answer with IndicTrans2 (MIT) and a financial glossary. Use a model's native output where evaluation shows it is better.
 - **Why:** Small open models are likely to be weaker in Marathi and Kannada than in English. IndicTrans2 covers all three Indian languages under an open licence, though it is scripts and checkpoints, so pin a commit.
 
+### D-029: Plan approval taken from the owner's instruction to continue
+- **Status:** ACTIVE. **Owner to confirm.**
+- **Record:** On 2026-11-05 the owner started a session with the instruction "Continue the next incomplete task ... implement real functionality ... write and run tests". The planning documents said not to begin Phase 0 before explicit approval. The session read this instruction as approval to begin Phase 0. It is not recorded as an explicit plan approval.
+- **Scope taken:** Phase 0 only. No PH1 or application code was written. T0.06 was the only Phase 0 task that could run without the owner's hardware.
+- **If wrong:** the owner says so, and the T0.06 spike in `02_ARCHITECTURE/evaluations/T0.06_stack/` can be deleted. It changes no requirement.
+
+### D-030: T0.06 version set confirmed
+- **Status:** ACTIVE. Confirms D-020.
+- **Decision:** Use the versions pinned in `02_ARCHITECTURE/evaluations/T0.06_stack/api/uv.lock` and `web/package-lock.json` as the starting point for T1.01 to T1.03. TypeScript 7.0.2 is confirmed to build and type-check with Next.js 16.4.5. Python 3.13, with 3.12 also passing. Keycloak 26.8.1. PostgreSQL 18.
+- **Evidence:** `05_TESTING/evaluations/T0.06_RESULTS.md`.
+- **Limit:** Tested on Linux, not on the Windows development machine. Inference packages are not included.
+
+### D-031: Copyleft components accepted for unmodified use
+- **Status:** ACTIVE. Owner to confirm.
+- **Decision:** psycopg (LGPL-3.0) is accepted in the API process. Neo4j Community (GPLv3), Grafana OSS and Loki (AGPLv3) are accepted as separate, unmodified servers. Details and conditions are in `06_DOCUMENTATION/LICENCE_REGISTER.md`.
+- **Why:** All are OSI-approved, so they meet D-026. Their obligations apply only to modification and distribution or network exposure, which VAAKYA does not plan.
+
 ---
 
 ## 3. Source conflict register
