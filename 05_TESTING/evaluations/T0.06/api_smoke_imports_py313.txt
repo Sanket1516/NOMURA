@@ -1,0 +1,9 @@
+Python 3.13.18
+imports: 24/24 ok
+PASS check_fastapi
+PASS check_langgraph
+PASS check_qdrant_inmemory
+PASS check_sqlalchemy
+PASS check_jwt
+PASS check_presidio_anonymizer
+PASS check_apscheduler

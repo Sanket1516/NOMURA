@@ -1,0 +1,28 @@
+# Baseline (Executive Summary) version validation, 2026-11-05
+
+## Resolve 1: fastapi 0.111.1, langgraph 0.2.x, qdrant-client 1.10.1, llama-index 0.11.7, TTS 0.22.0 on Python 3.12
+  × No solution found when resolving dependencies:
+  ╰─▶ Because llama-index-core>=0.11.7,<=0.11.23 depends on networkx>=3.0 and
+      gruut==2.2.3 depends on networkx>=2.5.0,<3.0.0, we can conclude that
+      gruut==2.2.3 and llama-index-core>=0.11.7,<=0.11.23 are incompatible.
+      And because tts>=0.22.0 depends on gruut[de]==2.2.3 and
+      llama-index==0.11.7 depends on llama-index-core>=0.11.7,<0.12.0, we can
+      conclude that llama-index==0.11.7 and tts>=0.22.0 are incompatible.
+      And because you require llama-index==0.11.7 and tts==0.22.0, we can
+      conclude that your requirements are unsatisfiable.
+
+## Resolve 2: same without TTS, plus paddleocr 2.7.3, Python 3.12
+Resolves: 612 lockfile lines. Not install-tested.
+fastapi==0.111.1
+langchain-core==0.3.86
+langgraph==0.2.76
+llama-index-core==0.11.23
+numpy==1.26.4
+paddleocr==2.7.3
+qdrant-client==1.10.1
+
+## Registry facts
+- next@14.2.30: deprecated on npm: 'This version has a security vulnerability' (security-update-2025-12-11)
+- TTS 0.22.0 (Coqui, last release 2023-12-12): requires_python '>=3.9.0, <3.12' -> incompatible with Python 3.12.4
+- langgraph 0.2.x: last 0.2.76 (2025-02); current 1.2.20
+- IndicTrans2: no versioned releases exist; '1.1' cannot be pinned (pin a commit)
