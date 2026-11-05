@@ -10,6 +10,16 @@ def test_consent_is_append_only_and_latest_wins(alice):
     assert [c["granted"] for c in r if c["purpose"] == "voice_processing"] == [False]
 
 
+def test_consent_records_the_language_it_was_shown_in(alice):
+    """KI-18: the language is stored with the grant, never guessed; a missing language stays null."""
+    one = lambda lang: {"grants": [{"purpose": "voice_processing", "version": "2026-11", "granted": True, **({"lang": lang} if lang else {})}]}  # noqa: E731
+    r = alice.put("/v1/me/consents", json=one("mr")).json()
+    assert [c["lang"] for c in r if c["purpose"] == "voice_processing"] == ["mr"]
+    r = alice.put("/v1/me/consents", json=one(None)).json()
+    assert [c["lang"] for c in r if c["purpose"] == "voice_processing"] == [None]
+    assert alice.put("/v1/me/consents", json=one("fr")).status_code == 422
+
+
 def test_assessment_is_dynamic_and_validated(alice):
     alice.put("/v1/me/profile", json={**PROFILE, "income_type": "seasonal"})
     q = alice.get("/v1/assessment/next").json()

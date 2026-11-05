@@ -26,7 +26,7 @@ export function ConsentForm({ lang = "en" }: { lang?: Lang }) {
     e.preventDefault();
     if (!checked.ai_processing) { setProblem({ type: "validation", title: t("onb.c.err.title"), status: 422, detail: t("onb.c.err.body") }); return; }
     setBusy(true);
-    const res = await api("/v1/me/consents", { method: "PUT", json: { grants: ITEMS.map((i) => ({ purpose: i.purpose, version: CONSENT_VERSION, granted: checked[i.purpose] })) } });
+    const res = await api("/v1/me/consents", { method: "PUT", json: { grants: ITEMS.map((i) => ({ purpose: i.purpose, version: CONSENT_VERSION, granted: checked[i.purpose], lang })) } });
     setBusy(false);
     if (!res.ok && !isPreviewProblem(res.problem)) { setProblem(res.problem); return; }
     router.push("/onboarding/persona");

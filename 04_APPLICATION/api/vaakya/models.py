@@ -75,6 +75,7 @@ class Consent(Base):
     purpose: Mapped[str] = mapped_column(String(30), nullable=False)
     version: Mapped[str] = mapped_column(String(20), nullable=False)
     granted: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    lang: Mapped[str | None] = mapped_column(String(2), nullable=True)   # interface language shown with the text; NULL = not recorded (KI-18)
     at: Mapped[datetime] = created()
 
 
