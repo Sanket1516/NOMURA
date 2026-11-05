@@ -407,3 +407,7 @@ Checked 2026-11-05 on the development machine.
 | uv | Installed | Use for Python dependency locking |
 | Neo4j | Not installed locally | Use the Docker image |
 | Tesseract | Installed | Candidate OCR fallback for Kannada |
+
+### D-036: Keep the open-source plan against a prompt naming Firebase, Gemini and PaddleOCR
+
+A pasted integration prompt (2026-11-05) named Firebase Authentication, Firestore, Gemini, LlamaIndex and PaddleOCR. The owner said to stay on the planned track and forget that stack. Substitutions stay as planned: Keycloak for Firebase Auth, PostgreSQL for Firestore, Ollama-served open models (not yet run, T0.03) for Gemini, the own retrieval layer on Qdrant for LlamaIndex, Tesseract for PaddleOCR (comparison is T0.13). Owner instruction, D-026 unchanged.

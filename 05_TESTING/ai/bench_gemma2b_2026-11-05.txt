@@ -1,0 +1,66 @@
+====================================================================== gemma:2b
+2026-11-05 22:10:07 [info     ] llm_call                       duration_ms=25190 model=gemma:2b tier=private tokens_in=24 tokens_out=22
+cold start+first call: 25.2s
+2026-11-05 22:10:08 [info     ] llm_call                       duration_ms=439 model=gemma:2b tier=private tokens_in=91 tokens_out=21
+  route BAD want=sentinel  got=strategy  | Someone I met online wants me to put money in his group and 
+2026-11-05 22:10:08 [info     ] llm_call                       duration_ms=374 model=gemma:2b tier=private tokens_in=93 tokens_out=21
+  route OK  want=sentinel  got=sentinel  | The man on the phone says my account will close unless I sha
+2026-11-05 22:10:09 [info     ] llm_call                       duration_ms=546 model=gemma:2b tier=private tokens_in=86 tokens_out=24
+  route BAD want=connector got=sentinel  | Which benefits can a widow living in a village get from the 
+2026-11-05 22:10:09 [info     ] llm_call                       duration_ms=598 model=gemma:2b tier=private tokens_in=88 tokens_out=25
+  route OK  want=connector got=connector | I am a farmer in Karnataka, what help can I ask the governme
+2026-11-05 22:10:10 [info     ] llm_call                       duration_ms=364 model=gemma:2b tier=private tokens_in=89 tokens_out=21
+  route OK  want=strategy  got=strategy  | I earn a little every day as a driver. How should I put mone
+2026-11-05 22:10:10 [info     ] llm_call                       duration_ms=613 model=gemma:2b tier=private tokens_in=96 tokens_out=25
+  route OK  want=strategy  got=strategy  | My salary is 30000, spending is 26000. Where do I cut
+2026-11-05 22:10:11 [info     ] llm_call                       duration_ms=630 model=gemma:2b tier=private tokens_in=77 tokens_out=25
+  route BAD want=educator  got=strategy  | What does compounding mean
+2026-11-05 22:10:11 [info     ] llm_call                       duration_ms=410 model=gemma:2b tier=private tokens_in=80 tokens_out=21
+  route BAD want=educator  got=strategy  | Tell me how a fixed deposit works
+2026-11-05 22:10:12 [info     ] llm_call                       duration_ms=547 model=gemma:2b tier=private tokens_in=85 tokens_out=24
+  route OK  want=strategy  got=strategy  | Is it better to repay the loan early or invest the money
+2026-11-05 22:10:12 [info     ] llm_call                       duration_ms=428 model=gemma:2b tier=private tokens_in=90 tokens_out=21
+  route OK  want=sentinel  got=sentinel  | A shop gave me a card and says I must pay a fee to get a ref
+2026-11-05 22:10:13 [info     ] llm_call                       duration_ms=625 model=gemma:2b tier=private tokens_in=81 tokens_out=25
+  route OK  want=connector got=connector | Can my disabled son get some monthly help
+2026-11-05 22:10:13 [info     ] llm_call                       duration_ms=389 model=gemma:2b tier=private tokens_in=78 tokens_out=21
+  route BAD want=other     got=strategy  | What is the weather today
+ROUTING 7/12  median latency 546 ms
+2026-11-05 22:10:39 [info     ] llm_call                       duration_ms=25975 model=gemma:2b tier=reasoning tokens_in=251 tokens_out=122
+--- ANSWER [Emergency Fund] level=plain words, up to 6 sentences 25975 ms, 122 tok
+Sure, here's a simplified explanation of the text:
+
+1. An emergency fund is a money reserve that helps you cover unexpected expenses.
+2. It's important to save enough money to cover three to six months of your household expenses.
+3. Start with a small amount and gradually add to it over time.
+4. Keep your emergency fund in a safe place that you can access quickly.
+5. Use it to cover unexpected expenses, such as medical bills or car repairs.
+6. Building an emergency fund can help you avoid taking out loans or getting into debt.
+2026-11-05 22:10:40 [info     ] llm_call                       duration_ms=697 model=gemma:2b tier=reasoning tokens_in=251 tokens_out=53
+--- ANSWER [Emergency Fund] level=very simple words, 3 short sentences 697 ms, 53 tok
+Sure, here's the explanation:
+
+1. An emergency fund is a money bag for unexpected things.
+2. It helps you avoid taking out a loan when you need money.
+3. Start with a small amount and add to it regularly.
+2026-11-05 22:10:40 [info     ] llm_call                       duration_ms=345 model=gemma:2b tier=reasoning tokens_in=199 tokens_out=25
+--- ANSWER [Smart Budgeting] level=plain words, up to 6 sentences 345 ms, 25 tok
+The passage does not explicitly mention why keeping money aside for emergencies, so I cannot answer this question from the provided context.
+2026-11-05 22:10:41 [info     ] llm_call                       duration_ms=296 model=gemma:2b tier=reasoning tokens_in=199 tokens_out=22
+--- ANSWER [Smart Budgeting] level=very simple words, 3 short sentences 296 ms, 22 tok
+According to the passage, keeping money aside for emergencies helps you prepare for unexpected situations and avoid financial hardship.
+2026-11-05 22:10:41 [info     ] llm_call                       duration_ms=465 model=gemma:2b tier=reasoning tokens_in=279 tokens_out=30
+--- ANSWER [Digital Safety] level=plain words, up to 6 sentences 465 ms, 30 tok
+A message is a scam if it asks for your OTP, PIN, or other sensitive information and tells you to act immediately to avoid losing money.
+2026-11-05 22:10:42 [info     ] llm_call                       duration_ms=554 model=gemma:2b tier=reasoning tokens_in=279 tokens_out=42
+--- ANSWER [Digital Safety] level=very simple words, 3 short sentences 554 ms, 42 tok
+A message that asks for your OTP, PIN, or other sensitive information is likely a scam. Never share such information with anyone. If you are unsure, contact the bank or the official app for help.
+2026-11-05 22:10:42 [info     ] llm_call                       duration_ms=322 model=gemma:2b tier=reasoning tokens_in=202 tokens_out=22
+--- LANG Hindi 322 ms
+According to the passage, keeping money aside for emergencies helps you prepare for unexpected expenses and avoid financial stress.
+2026-11-05 22:10:42 [info     ] llm_call                       duration_ms=359 model=gemma:2b tier=reasoning tokens_in=202 tokens_out=26
+--- LANG Marathi 359 ms
+The passage does not provide a reason to keep money aside for emergencies, so I cannot answer this question from the provided context.
+2026-11-05 22:10:43 [info     ] llm_call                       duration_ms=343 model=gemma:2b tier=reasoning tokens_in=202 tokens_out=24
+--- LANG Kannada 343 ms
+According to the passage, keeping money aside for emergencies helps people avoid unplanned spending and ensures they can cover unexpected expenses.

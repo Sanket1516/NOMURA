@@ -1,6 +1,6 @@
 # Task Tracker
 
-**Last updated:** 2026-11-05
+**Last updated:** 2026-11-05 (RLS verified on the full stack; audit done, see KNOWN_ISSUES; page translations in progress, see REMAINING_WORK)
 
 Execution tasks for the phases in `IMPLEMENTATION_ROADMAP.md`. Task statuses: TODO, IN PROGRESS, DONE, BLOCKED, DROPPED.
 

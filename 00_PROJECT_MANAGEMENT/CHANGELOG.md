@@ -2,6 +2,36 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05 (late): hand-off written; nonce CSP and local Ollama model in progress
+
+- `08_HANDOVER/HANDOFF_STATUS.md` and a new `NEXT_AI_PROMPT.md` say what is done, in flight and remaining.
+- Nonce-based CSP coded (`web/proxy.ts`, `app/layout.tsx`); 3 targeted tests pass; full suite and image rebuild pending.
+- Ollama benchmark through the project's adapter: `qwen2:7b` routing 12/12, grounded answers; `gemma:2b` 7/12. Not yet switched on. Scripts and outputs in `05_TESTING/ai/`. Gemini not added (no key; conflicts with D-026 and the privacy claim).
+- Prometheus and Grafana containers started (targets unchecked). Compose: `extra_hosts` for the host Ollama.
+
+## 2026-11-05: Quality, security and privacy audit; Scam Shield translations
+
+- Audit reports in `05_TESTING/audit/`: TEST_REPORT, SECURITY_AUDIT, PERFORMANCE_REPORT, FINAL_PROJECT_AUDIT. Open issues in `00_PROJECT_MANAGEMENT/KNOWN_ISSUES.md`.
+- Security fixes: Content-Security-Policy on the web app; Origin check on proxy writes (CSRF second layer); API docs and OpenAPI schema off when `VAAKYA_ENV=production` (test added).
+- Scam Shield page and form translated to hi, mr, kn as drafts; sign-out label translated; 3 translated-page E2E tests with axe.
+- New tests: CSP header, 768 px tablet overflow, foreign-origin write refused, production docs disabled.
+- Results: API 156 passed + 4 skipped (normal and RLS), inference 10, web unit 22, preview E2E 18, live E2E 8 (re-run after the CSP and Origin changes). `npm audit` and `pip-audit` clean.
+- Goals and Schemes pages (headings, forms, verification warning, explorer controls) translated as drafts; 6 more translated-page E2E tests. Preview E2E now 24; live E2E re-run, 8 passed.
+- Item 21 completed as drafts: every screen's interface text in hi, mr, kn (landing, sign-in, registration, onboarding including consent, dashboard, planning, goals, schemes, score, learn and quiz, shield, assistant, voice, documents, life graph, review, notifications, profile, accessibility, errors, offline), shared components (risk badge, goal card, score ring, charts, citations, origin badge) and the app shell. A draft notice shows on every translated screen.
+- Honesty fixes found while translating: the Learn page claimed lessons were reviewed for accuracy (they are unreviewed drafts); the Simple words mode described features it does not have. Both corrected in English and the translations.
+- Voice screen follows the interface language, not the persona's spoken language.
+- Tests: unit 23 (script checks, no script mixing), preview E2E 27 (every screen in each language with axe), live E2E 8 re-run on a rebuilt image.
+- Performance was not benchmarked; see PERFORMANCE_REPORT.
+
+## 2026-11-05: Row Level Security verified on the full stack; page translations (REMAINING_WORK 20, 21)
+
+- Fresh Docker build and run on a Windows machine with the production overlay. API connects as restricted `vaakya_api` (not superuser, no BYPASSRLS); 20 tables have RLS enabled and forced. Seed ran as the owner role.
+- All 8 live journeys pass over https://localhost behind Caddy with the restricted role.
+- Fix: shell scripts and config files had CRLF line endings on Windows checkouts, so Postgres init failed ("required file not found"). Added `.gitattributes` forcing LF for `*.sh`, `*.in`, `Caddyfile`, `*.yaml`, `*.yml`; normalised existing files.
+- Fix: data files (`schemes.json`, `learning.json`, `scam_patterns.json`) were read with the platform default encoding, which garbled the rupee sign on Windows. All now read as UTF-8.
+- Page translations: `lib/i18n/pages.ts` (hi, mr, kn drafts) for page headings and descriptions on 11 screens and the dashboard card titles; `PageHeader` takes a `tk` key and shows a draft notice in non-English. 3 new unit tests.
+- Suites: API 155 passed + 4 skipped (normal and `VAAKYA_TEST_RLS=1`), inference 10, web unit 22, preview E2E 12, live E2E 8.
+
 ## 2026-11-05: Row Level Security (REMAINING_WORK 20, in progress); session stopped by the owner
 
 - Migration 0003: RLS enabled and forced on 20 user-owned tables with `owner_only` policies keyed on a per-transaction `vaakya.user_id`.

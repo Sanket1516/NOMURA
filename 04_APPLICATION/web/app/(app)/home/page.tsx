@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, ArrowDownLeft, ArrowUpRight, PiggyBank, Landmark as LoanIcon } from "lucide-react";
-import { loadDashboard } from "@/lib/server/data";
+import { loadDashboard, uiLang } from "@/lib/server/data";
+import { tr } from "@/lib/i18n/pages";
 import { formatDate } from "@/lib/format";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -20,16 +21,17 @@ const ENTRY_ICON = { income: ArrowDownLeft, expense: ArrowUpRight, saving: Piggy
 
 export default async function HomePage() {
   const d = await loadDashboard();
+  const lang = await uiLang();
   const s = d.score;
   return (
     <>
-      <DashboardHero d={d} />
+      <DashboardHero d={d} lang={lang} />
 
       <div className="stagger grid gap-5 lg:grid-cols-12">
         <Card className="lg:col-span-5" aria-labelledby="score-h">
-          <CardHeader id="score-h" eyebrow="Financial Confidence Score" title="How confident you are with money"
+          <CardHeader id="score-h" eyebrow={tr(lang, "home.score.eyebrow")} title={tr(lang, "home.score.title")}
             action={<Link href="/score" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">Details<span className="sr-only"> of your score</span></Link>} />
-          <ScoreRing score={s} />
+          <ScoreRing score={s} lang={lang} />
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3">
             {s.dimensions.map((dim) => (
               <li key={dim.key}>
@@ -41,7 +43,7 @@ export default async function HomePage() {
         </Card>
 
         <Card className="lg:col-span-7" aria-labelledby="sav-h">
-          <CardHeader id="sav-h" eyebrow="Savings" title="This month"
+          <CardHeader id="sav-h" eyebrow={tr(lang, "home.savings.eyebrow")} title={tr(lang, "home.savings.title")}
             action={<Link href="/planning" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">Plan<span className="sr-only"> your savings</span></Link>} />
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {[
@@ -56,17 +58,17 @@ export default async function HomePage() {
               </div>
             ))}
           </dl>
-          <div className="mt-5"><SavingsBars data={d.savings.trend} plannedPaise={d.savings.planned_this_month.paise} /></div>
+          <div className="mt-5"><SavingsBars data={d.savings.trend} plannedPaise={d.savings.planned_this_month.paise} lang={lang} /></div>
         </Card>
 
         <Card className="lg:col-span-7" aria-labelledby="goals-h">
-          <CardHeader id="goals-h" eyebrow="Goals" title="What you are saving for"
+          <CardHeader id="goals-h" eyebrow={tr(lang, "home.goals.eyebrow")} title={tr(lang, "home.goals.title")}
             action={<Link href="/goals" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">All goals</Link>} />
-          <div className="grid gap-3">{d.goals.map((g) => <GoalCard key={g.id} goal={g} compact />)}</div>
+          <div className="grid gap-3">{d.goals.map((g) => <GoalCard key={g.id} goal={g} compact lang={lang} />)}</div>
         </Card>
 
         <Card className="lg:col-span-5" aria-labelledby="rec-h">
-          <CardHeader id="rec-h" eyebrow="For you" title="Recommendations" />
+          <CardHeader id="rec-h" eyebrow={tr(lang, "home.rec.eyebrow")} title={tr(lang, "home.rec.title")} />
           <ul className="space-y-3">
             {d.recommendations.map((r) => (
               <li key={r.id} className="rounded-xl border border-line p-3">
@@ -79,13 +81,13 @@ export default async function HomePage() {
         </Card>
 
         <Card className="lg:col-span-4" aria-labelledby="scam-h">
-          <CardHeader id="scam-h" eyebrow="Scam Shield" title="Scam alerts"
+          <CardHeader id="scam-h" eyebrow={tr(lang, "home.scam.eyebrow")} title={tr(lang, "home.scam.title")}
             action={<Link href="/shield" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">Check a message</Link>} />
           {d.scam_alerts.length ? (
             <ul className="space-y-3">
               {d.scam_alerts.map((a) => (
                 <li key={a.id} className="rounded-xl bg-surface-2 p-3">
-                  <div className="flex items-center justify-between gap-2"><RiskBadge level={a.level} /><time className="text-xs text-ink-3" dateTime={a.at}>{formatDate(a.at)}</time></div>
+                  <div className="flex items-center justify-between gap-2"><RiskBadge level={a.level} lang={lang} /><time className="text-xs text-ink-3" dateTime={a.at}>{formatDate(a.at)}</time></div>
                   <p className="mt-2 text-sm">{a.summary}</p>
                 </li>
               ))}
@@ -94,7 +96,7 @@ export default async function HomePage() {
         </Card>
 
         <Card className="lg:col-span-4" aria-labelledby="learn-h">
-          <CardHeader id="learn-h" eyebrow="Learning" title="Your lessons"
+          <CardHeader id="learn-h" eyebrow={tr(lang, "home.learn.eyebrow")} title={tr(lang, "home.learn.title")}
             action={<Link href="/learn" className="text-sm font-semibold text-primary underline-offset-4 hover:underline">Learn</Link>} />
           <ul className="space-y-3">
             {d.learning.slice(0, 4).map((m) => (
@@ -107,7 +109,7 @@ export default async function HomePage() {
         </Card>
 
         <Card className="lg:col-span-4" aria-labelledby="act-h">
-          <CardHeader id="act-h" eyebrow="Agents" title="Agent activity" />
+          <CardHeader id="act-h" eyebrow={tr(lang, "home.agents.eyebrow")} title={tr(lang, "home.agents.title")} />
           <ol className="relative space-y-4 border-l border-line pl-4">
             {d.activity.map((a) => (
               <li key={a.id}>
@@ -121,7 +123,7 @@ export default async function HomePage() {
         </Card>
 
         <Card className="lg:col-span-12" aria-labelledby="ent-h">
-          <CardHeader id="ent-h" eyebrow="Money in and out" title="Recent financial entries"
+          <CardHeader id="ent-h" eyebrow={tr(lang, "home.entries.eyebrow")} title={tr(lang, "home.entries.title")}
             action={<Badge tone={d.origin === "demo" ? "demo" : "neutral"}>{d.origin === "demo" ? "Sample entries" : "From your records"}</Badge>} />
           <div className="relative overflow-x-auto">
             <table className="w-full text-left">
@@ -145,7 +147,7 @@ export default async function HomePage() {
           <p className="mt-3 text-sm text-ink-3">VAAKYA does not connect to your bank. Entries come from what you type or confirm from uploaded documents.</p>
         </Card>
       </div>
-      <p className="mt-6 text-center text-sm"><Link href="/assistant" className="inline-flex items-center gap-1 font-semibold text-primary">Ask VAAKYA anything <ArrowRight aria-hidden className="size-4" /></Link></p>
+      <p className="mt-6 text-center text-sm"><Link href="/assistant" className="inline-flex items-center gap-1 font-semibold text-primary">{tr(lang, "home.ask")} <ArrowRight aria-hidden className="size-4" /></Link></p>
     </>
   );
 }

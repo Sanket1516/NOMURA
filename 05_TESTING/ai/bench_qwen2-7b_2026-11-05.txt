@@ -1,0 +1,42 @@
+====================================================================== qwen2:7b
+cold start+first call: 16.0s
+  route OK  want=sentinel  got=sentinel  | Someone I met online wants me to put money in his group and 
+  route OK  want=sentinel  got=sentinel  | The man on the phone says my account will close unless I sha
+  route OK  want=connector got=connector | Which benefits can a widow living in a village get from the 
+  route OK  want=connector got=connector | I am a farmer in Karnataka, what help can I ask the governme
+  route OK  want=strategy  got=strategy  | I earn a little every day as a driver. How should I put mone
+  route OK  want=strategy  got=strategy  | My salary is 30000, spending is 26000. Where do I cut
+  route OK  want=educator  got=educator  | What does compounding mean
+  route OK  want=educator  got=educator  | Tell me how a fixed deposit works
+  route OK  want=strategy  got=strategy  | Is it better to repay the loan early or invest the money
+  route OK  want=sentinel  got=sentinel  | A shop gave me a card and says I must pay a fee to get a ref
+  route OK  want=connector got=connector | Can my disabled son get some monthly help
+  route OK  want=other     got=other     | What is the weather today
+ROUTING 12/12  median latency 750 ms
+--- ANSWER [Emergency Fund] level=plain words, up to 6 sentences 17125 ms, 149 tok
+1. An emergency fund is money you save for unexpected things like medical bills or lost income. It helps prevent needing loans during tough times.
+2. Aim for three months' worth of expenses if your income is stable, or six months if it's seasonal or inconsistent.
+3. Start small; even having one month's expenses saved is beneficial.
+4. Keep your emergency fund in a safe place that you can access quickly, like a savings account or a flexible recurring deposit.
+5. Avoid using the fund for investments or lending to others, as these are riskier options.
+6. Regularly add a fixed amount to your emergency fund, like on payday, or adjust based on your income variability. Always refill the fund after using it.
+--- ANSWER [Emergency Fund] level=very simple words, 3 short sentences 2450 ms, 68 tok
+An emergency fund is money saved for unexpected things like medical bills or lost income. You should aim to save three to six months' worth of expenses. Keep this money in a safe, easy-to-access account, not in stocks or loans. Regularly add a set amount to this fund, and refill it after you spend from it.
+--- ANSWER [Smart Budgeting] level=plain words, up to 6 sentences 3656 ms, 103 tok
+[1] Keeping money aside for emergencies is crucial because it helps manage unexpected expenses without financial stress. When you have a savings buffer, you can cover unforeseen costs like medical emergencies, job loss, or urgent home repairs without needing to borrow or dip into your regular spending funds. This practice ensures financial stability and reduces the risk of falling into debt during tough times. By setting aside a portion of your income for emergencies, you build a financial safety net that supports your ability to handle life's unpredictable events smoothly.
+--- ANSWER [Smart Budgeting] level=very simple words, 3 short sentences 1848 ms, 51 tok
+1. Keeping money aside for emergencies helps you manage unexpected expenses without stress.
+2. It ensures financial stability and reduces the need to borrow during tough times.
+3. This practice builds a safety net, allowing you to handle unforeseen situations more calmly.
+--- ANSWER [Digital Safety] level=plain words, up to 6 sentences 4160 ms, 115 tok
+A scam message often appears urgent, demanding immediate action. It might claim your account will be blocked or that you've won a prize, requiring you to act without verifying the information. Scammers might ask for your OTP, PIN, or to scan a code for receiving money. If you're asked to enter your PIN to receive money on UPI, it's a red flag. Always check official apps or contact the number on your card for confirmation. If you lose money, report it immediately to the national cyber crime helpline 1930 and your bank.
+--- ANSWER [Digital Safety] level=very simple words, 3 short sentences 1382 ms, 37 tok
+A scam message warns of immediate action needed. It might say your account is at risk or you've won a prize. Check through official apps or contact your bank directly for confirmation.
+Traceback (most recent call last):
+  File "C:\Users\sanke\AppData\Local\Temp\claude\ec784eb06e15c176\a5cdf3d1-f568-4e90-8983-a3c64cbfae73\scratchpad\bench_llm.py", line 60, in <module>
+    print(f"--- LANG {lang} {r.latency_ms} ms\n{r.text.strip()}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\sanke\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 27-30: character maps to <undefined>

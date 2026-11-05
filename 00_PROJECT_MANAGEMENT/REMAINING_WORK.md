@@ -33,13 +33,17 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 17 | Monthly review generation and report screen (FR-COA-01/02) | DONE (API + screen; live E2E) |
 | 18 | Document upload screen + extraction review (FR-DOC-01..05) using real OCR | DONE (live journey 8; double-count bug found and fixed) |
 | 19 | Production profile: Caddy TLS, Prometheus/Loki/Grafana, encrypted backups | DONE except running Prometheus/Grafana (rate limit); 8 live journeys pass over HTTPS; `06_DOCUMENTATION/OPERATIONS.md` |
-| 20 | PostgreSQL Row Level Security as second line of defence | IN PROGRESS: migration 0003 + restricted `vaakya_api` role written; 155 API tests pass with RLS enforced; **next: re-run the Compose stack from scratch (`VAAKYA_DOMAIN=localhost docker compose -f compose.yaml -f compose.prod.yaml down -v && ... up`), seed, and the 8 live journeys over https://localhost** |
-| 21 | Page-content translations (hi, mr, kn) beyond navigation | TODO |
+| 20 | PostgreSQL Row Level Security as second line of defence | DONE: migration 0003, restricted `vaakya_api` role; API suite passes normal and with RLS; full Compose stack rebuilt from scratch, seeded, 8 live journeys pass over https://localhost (2026-11-05) |
+| 21 | Page-content translations (hi, mr, kn) beyond navigation | DONE as drafts (2026-11-05): all interface text on every screen, including landing, sign-in, onboarding, errors, forms, charts and shared components, in `lib/i18n/pages.ts` (about 630 strings). Still English because it comes from the API: scheme names and criteria, lesson and quiz content, agent answers, score explanations. Needs native-speaker review (all of it) and, for the consent wording, legal review. A user's chosen language is a cookie; the profile's preferred language is a separate setting |
 
 ## Found along the way (to do)
 
+See also `KNOWN_ISSUES.md` (17 items from the 2026-11-05 audit).
+
 | Item | Note |
 |---|---|
+| Nonce-based CSP, rate-limit tests behind Caddy, CI with image scan, load test | From the audit; KI-07, KI-10, KI-12, KI-16 |
+| Windows line endings and default text encoding | FIXED 2026-11-05: `.gitattributes` forces LF for container files; data files read as UTF-8. Check any new shell script or `read_text()` for the same |
 | Disk space in the build container | Docker build cache filled the disk to 94% and broke SeaweedFS; run `docker builder prune` periodically |
 | Independent labelled scam set (T6.05) | Sentinel rules were tuned on the developer set |
 

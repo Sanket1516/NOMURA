@@ -6,6 +6,7 @@ import { Field, Input, Select } from "@/components/ui/field";
 import { useAnnounce } from "@/components/a11y/live-region";
 import { api, isPreviewProblem } from "@/lib/client/api";
 import type { IncomeType, Lang, PersonaId, Problem } from "@/lib/types";
+import { tr, trf, type PageKey } from "@/lib/i18n/pages";
 
 interface Form {
   display_name: string; birth_year: string; occupation: string; state: string; district: string; rural: boolean;
@@ -26,7 +27,8 @@ const EMPTY: Form = { display_name: "", birth_year: "", occupation: "", state: "
 
 const toPaise = (v: string) => Math.round(Number(v.replace(/[,\s₹]/g, "")) * 100);
 
-export function ProfileWizard({ persona }: { persona: PersonaId | null }) {
+export function ProfileWizard({ persona, ui = "en" }: { persona: PersonaId | null; ui?: Lang }) {
+  const t = (k: PageKey) => tr(ui, k);
   const announce = useAnnounce();
   const [part, setPart] = useState<1 | 2>(1);
   const [f, setF] = useState<Form>({ ...EMPTY, ...(persona ? TEMPLATES[persona] : {}) });
@@ -43,17 +45,17 @@ export function ProfileWizard({ persona }: { persona: PersonaId | null }) {
     const e: typeof errors = {};
     const year = Number(f.birth_year);
     if (p === 1) {
-      if (!f.display_name.trim()) e.display_name = "Enter the name VAAKYA should use";
-      if (!year || year < 1930 || year > new Date().getFullYear() - 16) e.birth_year = "Enter a birth year, for example 1994";
-      if (!f.state.trim()) e.state = "Enter your state";
+      if (!f.display_name.trim()) e.display_name = t("w.err.name");
+      if (!year || year < 1930 || year > new Date().getFullYear() - 16) e.birth_year = t("w.err.year");
+      if (!f.state.trim()) e.state = t("w.err.state");
     } else {
       const lo = Number(f.income_min), hi = f.income_type === "salaried" ? lo : Number(f.income_max);
-      if (!(lo > 0)) e.income_min = "Enter an amount in rupees";
-      if (f.income_type !== "salaried" && !(hi >= lo)) e.income_max = "Must be at least the lowest month";
-      if (!(Number(f.expenses) >= 0) || f.expenses === "") e.expenses = "Enter an amount in rupees";
+      if (!(lo > 0)) e.income_min = t("w.err.amount");
+      if (f.income_type !== "salaried" && !(hi >= lo)) e.income_max = t("w.err.max");
+      if (!(Number(f.expenses) >= 0) || f.expenses === "") e.expenses = t("w.err.amount");
     }
     setErrors(e);
-    if (Object.keys(e).length) announce(`${Object.keys(e).length} fields need attention`, "assertive");
+    if (Object.keys(e).length) announce(trf(ui, "w.err.count", { n: Object.keys(e).length }), "assertive");
     return !Object.keys(e).length;
   }
 
@@ -93,61 +95,61 @@ export function ProfileWizard({ persona }: { persona: PersonaId | null }) {
   const err = (k: keyof Form) => errors[k];
   return (
     <div>
-      {preview ? <Alert tone="info" role="status" title="Preview mode: answers are not saved" className="mb-4">Sign in with an account to save your profile and get your real score.</Alert> : null}
+      {preview ? <Alert tone="info" role="status" title={t("w.preview.title")} className="mb-4">{t("w.preview.body")}</Alert> : null}
       {problem ? <Alert tone="danger" role="alert" title={problem.title} className="mb-4">{problem.detail}</Alert> : null}
       {part === 1 ? (
         <form onSubmit={(e) => { e.preventDefault(); void saveProfile(); }} noValidate className="space-y-5">
-          <h1 className="font-display text-4xl">About you</h1>
-          <p className="text-ink-2">Only what VAAKYA needs. Exact address, ID numbers and bank details are never asked.</p>
+          <h1 className="font-display text-4xl">{t("w.about")}</h1>
+          <p className="text-ink-2">{t("w.about.intro")}</p>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="What should we call you?" error={err("display_name")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} autoComplete="given-name" value={f.display_name} onChange={(e) => set("display_name", e.target.value)} />}</Field>
-            <Field label="Year of birth" hint="Used for age-based schemes" error={err("birth_year")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} inputMode="numeric" value={f.birth_year} onChange={(e) => set("birth_year", e.target.value)} />}</Field>
-            <Field label="Work">{(a) => <Input id={a.id} value={f.occupation} onChange={(e) => set("occupation", e.target.value)} />}</Field>
-            <Field label="How does your income arrive?">{(a) => (
+            <Field label={t("w.name")} error={err("display_name")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} autoComplete="given-name" value={f.display_name} onChange={(e) => set("display_name", e.target.value)} />}</Field>
+            <Field label={t("w.year")} hint={t("w.year.hint")} error={err("birth_year")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} inputMode="numeric" value={f.birth_year} onChange={(e) => set("birth_year", e.target.value)} />}</Field>
+            <Field label={t("w.work")}>{(a) => <Input id={a.id} value={f.occupation} onChange={(e) => set("occupation", e.target.value)} />}</Field>
+            <Field label={t("w.incomehow")}>{(a) => (
               <Select id={a.id} value={f.income_type} onChange={(e) => set("income_type", e.target.value as IncomeType)}>
-                <option value="salaried">Same amount every month</option><option value="variable">Changes every month</option><option value="seasonal">Mostly at harvest or season</option>
+                <option value="salaried">{t("prof.inc.salaried")}</option><option value="variable">{t("prof.inc.variable")}</option><option value="seasonal">{t("w.inc.seasonal")}</option>
               </Select>)}</Field>
-            <Field label="State" error={err("state")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} value={f.state} onChange={(e) => set("state", e.target.value)} />}</Field>
-            <Field label="District" hint="Optional">{(a) => <Input id={a.id} aria-describedby={a.describedBy} value={f.district} onChange={(e) => set("district", e.target.value)} />}</Field>
-            <Field label="Preferred language">{(a) => (
+            <Field label={t("w.state")} error={err("state")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} value={f.state} onChange={(e) => set("state", e.target.value)} />}</Field>
+            <Field label={t("w.district")} hint={t("w.optional")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} value={f.district} onChange={(e) => set("district", e.target.value)} />}</Field>
+            <Field label={t("w.preflang")}>{(a) => (
               <Select id={a.id} value={f.preferred_lang} onChange={(e) => set("preferred_lang", e.target.value as Lang)}>
                 <option value="en">English</option><option value="hi">हिन्दी</option><option value="mr">मराठी</option><option value="kn">ಕನ್ನಡ</option>
               </Select>)}</Field>
-            <Field label="People who depend on your income">{(a) => <Input id={a.id} inputMode="numeric" value={f.dependents} onChange={(e) => set("dependents", e.target.value)} />}</Field>
-            <Field label="Disability" hint="Optional. Used only to find relevant schemes and adjust the app.">{(a) => (
+            <Field label={t("w.dependents")}>{(a) => <Input id={a.id} inputMode="numeric" value={f.dependents} onChange={(e) => set("dependents", e.target.value)} />}</Field>
+            <Field label={t("prof.disability")} hint={t("w.disability.hint")}>{(a) => (
               <Select id={a.id} aria-describedby={a.describedBy} value={f.disability} onChange={(e) => set("disability", e.target.value)}>
-                <option value="">Prefer not to say / none</option><option value="visual">Visual</option><option value="hearing">Hearing</option><option value="locomotor">Locomotor</option><option value="other">Other</option>
+                <option value="">{t("w.dis.none")}</option><option value="visual">{t("w.dis.visual")}</option><option value="hearing">{t("w.dis.hearing")}</option><option value="locomotor">{t("w.dis.locomotor")}</option><option value="other">{t("w.dis.other")}</option>
               </Select>)}</Field>
-            <Field label="Explanations">{(a) => (
+            <Field label={t("w.explain")}>{(a) => (
               <Select id={a.id} value={f.literacy_level} onChange={(e) => set("literacy_level", e.target.value as Form["literacy_level"])}>
-                <option value="standard">Standard</option><option value="low">Very simple words, more voice</option>
+                <option value="standard">{t("prof.standard")}</option><option value="low">{t("w.explain.low")}</option>
               </Select>)}</Field>
           </div>
-          <label className="flex items-center gap-3"><input type="checkbox" className="size-5" checked={f.rural} onChange={(e) => set("rural", e.target.checked)} />I live in a village or rural area</label>
-          <Button type="submit" size="lg" disabled={busy}>{busy ? "Saving…" : "Continue"}</Button>
+          <label className="flex items-center gap-3"><input type="checkbox" className="size-5" checked={f.rural} onChange={(e) => set("rural", e.target.checked)} />{t("w.rural")}</label>
+          <Button type="submit" size="lg" disabled={busy}>{busy ? t("onb.saving") : t("onb.continue")}</Button>
         </form>
       ) : (
         <form onSubmit={(e) => { e.preventDefault(); void finish(); }} noValidate className="space-y-5">
-          <h1 ref={heading} tabIndex={-1} className="font-display text-4xl">Your money</h1>
-          <p className="text-ink-2">Round numbers are fine. Step 4 of 4.</p>
+          <h1 ref={heading} tabIndex={-1} className="font-display text-4xl">{t("w.money")}</h1>
+          <p className="text-ink-2">{t("w.money.intro")}</p>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label={f.income_type === "salaried" ? "Monthly income (₹)" : "Income in a lean month (₹)"} error={err("income_min")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} inputMode="numeric" value={f.income_min} onChange={(e) => set("income_min", e.target.value)} />}</Field>
-            {f.income_type !== "salaried" ? <Field label="Income in a good month (₹)" error={err("income_max")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} inputMode="numeric" value={f.income_max} onChange={(e) => set("income_max", e.target.value)} />}</Field> : null}
-            <Field label="Monthly spending (₹)" error={err("expenses")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} inputMode="numeric" value={f.expenses} onChange={(e) => set("expenses", e.target.value)} />}</Field>
-            <Field label="Loan EMIs per month (₹)" hint="0 if none">{(a) => <Input id={a.id} aria-describedby={a.describedBy} inputMode="numeric" value={f.emi} onChange={(e) => set("emi", e.target.value)} />}</Field>
-            <Field label="Savings you can reach quickly (₹)">{(a) => <Input id={a.id} inputMode="numeric" value={f.savings} onChange={(e) => set("savings", e.target.value)} />}</Field>
-            <Field label="If an investment fell 10% in a month, you would…">{(a) => (
+            <Field label={f.income_type === "salaried" ? t("w.inc.monthly") : t("w.inc.lean")} error={err("income_min")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} inputMode="numeric" value={f.income_min} onChange={(e) => set("income_min", e.target.value)} />}</Field>
+            {f.income_type !== "salaried" ? <Field label={t("w.inc.good")} error={err("income_max")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} inputMode="numeric" value={f.income_max} onChange={(e) => set("income_max", e.target.value)} />}</Field> : null}
+            <Field label={t("w.spend")} error={err("expenses")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} aria-invalid={a.invalid} inputMode="numeric" value={f.expenses} onChange={(e) => set("expenses", e.target.value)} />}</Field>
+            <Field label={t("w.emi")} hint={t("w.emi.hint")}>{(a) => <Input id={a.id} aria-describedby={a.describedBy} inputMode="numeric" value={f.emi} onChange={(e) => set("emi", e.target.value)} />}</Field>
+            <Field label={t("w.savings")}>{(a) => <Input id={a.id} inputMode="numeric" value={f.savings} onChange={(e) => set("savings", e.target.value)} />}</Field>
+            <Field label={t("w.risk")}>{(a) => (
               <Select id={a.id} value={f.risk} onChange={(e) => set("risk", e.target.value as Form["risk"])}>
-                <option value="low">Worry and want my money back</option><option value="medium">Wait and see</option><option value="high">Stay calm, it is long-term</option>
+                <option value="low">{t("w.risk.low")}</option><option value="medium">{t("w.risk.medium")}</option><option value="high">{t("w.risk.high")}</option>
               </Select>)}</Field>
-            <Field label="Most important goal">{(a) => (
+            <Field label={t("w.goal")}>{(a) => (
               <Select id={a.id} value={f.goal} onChange={(e) => set("goal", e.target.value)}>
-                <option value="emergency_fund">Emergency fund</option><option value="education">Children&apos;s education</option><option value="home">Home</option><option value="equipment">Equipment or vehicle</option><option value="retirement">Retirement</option><option value="other">Next season or other</option>
+                <option value="emergency_fund">{t("goal.t.emergency")}</option><option value="education">{t("w.goal.education")}</option><option value="home">{t("goal.t.home")}</option><option value="equipment">{t("goal.t.equipment")}</option><option value="retirement">{t("goal.t.retirement")}</option><option value="other">{t("w.goal.other")}</option>
               </Select>)}</Field>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Button type="button" variant="secondary" size="lg" onClick={() => setPart(1)}>Back</Button>
-            <Button type="submit" size="lg" disabled={busy}>{busy ? "Calculating…" : "See my score"}</Button>
+            <Button type="button" variant="secondary" size="lg" onClick={() => setPart(1)}>{t("w.back")}</Button>
+            <Button type="submit" size="lg" disabled={busy}>{busy ? t("w.calc") : t("w.seescore")}</Button>
           </div>
         </form>
       )}

@@ -3,12 +3,15 @@ import { useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAnnounce } from "@/components/a11y/live-region";
+import { tr } from "@/lib/i18n/pages";
 
 /**
  * Voice Summary (FR-VOI-06). Uses only on-device browser voices (localService), so no audio leaves the device.
  * If none exists, the summary goes to the screen-reader live region instead.
  */
-export function VoiceSummary({ text, label = "Listen to a summary", server = false, lang = "en" }: { text: string; label?: string; server?: boolean; lang?: string }) {
+export function VoiceSummary({ text, label, server = false, lang = "en" }: { text: string; label?: string; server?: boolean; lang?: string }) {
+  const ui = (["en", "hi", "mr", "kn"] as const).find((l) => l === lang) ?? "en";
+  const shown = label ?? tr(ui, "sh.listen");
   const announce = useAnnounce();
   const [speaking, setSpeaking] = useState(false);
   async function speakServer(): Promise<boolean> {
@@ -39,7 +42,7 @@ export function VoiceSummary({ text, label = "Listen to a summary", server = fal
   }
   return (
     <Button type="button" variant="secondary" size="sm" onClick={() => void speak()} aria-pressed={speaking}>
-      {speaking ? <VolumeX aria-hidden className="size-4" /> : <Volume2 aria-hidden className="size-4" />}{speaking ? "Stop" : label}
+      {speaking ? <VolumeX aria-hidden className="size-4" /> : <Volume2 aria-hidden className="size-4" />}{speaking ? tr(ui, "sh.stop") : shown}
     </Button>
   );
 }

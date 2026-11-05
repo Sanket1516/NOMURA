@@ -7,6 +7,7 @@ import { PREFS_BOOT_SCRIPT, PreferencesProvider } from "@/components/a11y/prefer
 import { RouteFocus } from "@/components/a11y/route-focus";
 import { SkipLink } from "@/components/a11y/skip-link";
 import { ServiceWorker } from "@/components/layout/service-worker";
+import { headers } from "next/headers";
 import { uiLang } from "@/lib/server/data";
 
 const body = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -29,10 +30,11 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const lang = await uiLang();
+  const nonce = (await headers()).get("x-nonce") ?? undefined;  // set by proxy.ts for the Content-Security-Policy
   return (
     <html lang={lang} className={`${body.variable} ${display.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: PREFS_BOOT_SCRIPT }} />
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: PREFS_BOOT_SCRIPT }} />
       </head>
       <body>
         <PreferencesProvider>

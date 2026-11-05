@@ -10,6 +10,7 @@ import { api, isPreviewProblem } from "@/lib/client/api";
 import { LANG_NAMES } from "@/lib/i18n/nav";
 import { cn } from "@/lib/cn";
 import type { AiMeta, Lang, Problem } from "@/lib/types";
+import { tr, trf, type PageKey } from "@/lib/i18n/pages";
 
 const TRY: Record<Lang, string[]> = {
   en: ["How much should I save each month?", "Is this message a scam?", "Which schemes can I apply for?"],
@@ -20,7 +21,7 @@ const TRY: Record<Lang, string[]> = {
 
 interface Turn { transcript: string; answer: string; ai: AiMeta; audio?: string }
 
-export function VoiceCompanion({ lang: initial, name }: { lang: Lang; name: string }) {
+export function VoiceCompanion({ lang: initial, name, ui = "en" }: { lang: Lang; name: string; ui?: Lang }) {
   const announce = useAnnounce();
   const rec = useRecorder();
   const [lang, setLang] = useState<Lang>(initial);
@@ -44,50 +45,51 @@ export function VoiceCompanion({ lang: initial, name }: { lang: Lang; name: stri
   }
 
   const recording = rec.state === "recording";
+  const t = (k: PageKey) => tr(ui, k);
   return (
     <div className="mx-auto max-w-2xl text-center">
-      <h1 className="font-display text-[2.2rem]">Voice Companion</h1>
-      <p className="mt-1 text-ink-2">Namaste {name}. Press the button, speak, then press it again.</p>
+      <h1 className="font-display text-[2.2rem]">{t("voice.title")}</h1>
+      <p className="mt-1 text-ink-2">{trf(ui, "voice.hello", { name })}</p>
       <label className="mx-auto mt-5 flex w-fit items-center gap-2 rounded-full px-3 ring-1 ring-line">
-        <span className="text-sm font-semibold">Language</span>
+        <span className="text-sm font-semibold">{t("voice.lang")}</span>
         <select value={lang} onChange={(e) => setLang(e.target.value as Lang)} className="min-h-11 bg-transparent font-semibold">
           {(Object.keys(LANG_NAMES) as Lang[]).map((l) => <option key={l} value={l}>{LANG_NAMES[l]}</option>)}
         </select>
       </label>
       <div className="my-10 flex justify-center">
         <button type="button" onClick={() => void toggle()} disabled={busy} aria-pressed={recording}
-          aria-label={recording ? "Stop and send" : "Start speaking"}
+          aria-label={recording ? t("voice.stop") : t("voice.start")}
           className={cn("grid size-36 place-items-center rounded-full text-white shadow-card transition-transform active:scale-95 disabled:opacity-60",
             recording ? "animate-listening bg-danger" : "bg-primary")}>
           {busy ? <Loader2 aria-hidden className="size-12 animate-spin" /> : recording ? <Square aria-hidden className="size-12" /> : <Mic aria-hidden className="size-14" />}
         </button>
       </div>
-      <p className="font-semibold" role="status">{busy ? "Understanding what you said…" : recording ? "Listening…" : "Ready"}</p>
-      {rec.state === "denied" ? <Alert tone="danger" role="alert" title="Microphone permission denied" className="mt-4 text-left">Allow the microphone in your browser settings, or use Ask VAAKYA by typing.</Alert> : null}
+      <p className="font-semibold" role="status">{busy ? t("voice.understanding") : recording ? t("voice.listening") : t("voice.ready")}</p>
+      {rec.state === "denied" ? <Alert tone="danger" role="alert" title={t("voice.denied.title")} className="mt-4 text-left">{t("voice.denied.body")}</Alert> : null}
       {problem ? (
-        <Alert tone="warning" role="alert" className="mt-4 text-left" title={isPreviewProblem(problem) ? "Voice is not connected in preview" : problem.title}>
-          {isPreviewProblem(problem) ? "Speech is processed on VAAKYA's own server, which is not connected in preview. Sign in to use voice." : problem.detail}
+        <Alert tone="warning" role="alert" className="mt-4 text-left" title={isPreviewProblem(problem) ? t("voice.preview.title") : problem.title}>
+          {isPreviewProblem(problem) ? t("voice.preview.body") : problem.detail}
         </Alert>
       ) : null}
       <section aria-labelledby="try-h" className="mt-8 text-left">
-        <h2 id="try-h" className="font-semibold">Try asking</h2>
-        <ul className="mt-2 flex flex-wrap gap-2">{TRY[lang].map((t) => <li key={t} className="rounded-full bg-surface-2 px-4 py-2 text-sm">{t}</li>)}</ul>
+        <h2 id="try-h" className="font-semibold">{t("voice.try")}</h2>
+        <ul className="mt-2 flex flex-wrap gap-2">{TRY[lang].map((q) => <li key={q} className="rounded-full bg-surface-2 px-4 py-2 text-sm">{q}</li>)}</ul>
       </section>
       {turns.length ? (
         <section aria-labelledby="recent-h" className="mt-8 space-y-3 text-left">
-          <h2 id="recent-h" className="font-semibold">This conversation</h2>
-          {turns.map((t, i) => (
+          <h2 id="recent-h" className="font-semibold">{t("voice.convo")}</h2>
+          {turns.map((x, i) => (
             <article key={i} className="rounded-2xl border border-line bg-surface p-4">
-              <p className="text-sm text-ink-3">You said: “{t.transcript}”</p>
-              <div className="mt-2">{t.ai.agents.map((a) => <AgentBadge key={a} agent={a} />)}</div>
-              <p className="mt-2">{t.answer}</p>
-              {t.audio ? <audio controls src={t.audio} className="mt-2 w-full" /> : null}
-              <Citations items={t.ai.citations} /><AiNotice text={t.ai.notice} />
+              <p className="text-sm text-ink-3">{t("chat.yousaid")} “{x.transcript}”</p>
+              <div className="mt-2">{x.ai.agents.map((a) => <AgentBadge key={a} agent={a} />)}</div>
+              <p className="mt-2">{x.answer}</p>
+              {x.audio ? <audio controls src={x.audio} className="mt-2 w-full" /> : null}
+              <Citations items={x.ai.citations} lang={ui} /><AiNotice text={x.ai.notice} lang={ui} />
             </article>
           ))}
         </section>
       ) : null}
-      <p className="mt-8 text-xs text-ink-3">Audio is sent only to VAAKYA&apos;s server, turned into text and deleted. It is never sent to a browser or cloud speech service.</p>
+      <p className="mt-8 text-xs text-ink-3">{t("voice.footer")}</p>
     </div>
   );
 }

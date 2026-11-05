@@ -4,17 +4,19 @@ import { useState } from "react";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { api, isPreviewProblem } from "@/lib/client/api";
-import type { Problem } from "@/lib/types";
+import type { Lang, Problem } from "@/lib/types";
+import { tr, type PageKey } from "@/lib/i18n/pages";
 
 const ITEMS = [
-  { purpose: "ai_processing", required: true, title: "Use my answers to give me guidance", body: "Needed for your score, plans and answers. Identifiers are removed before the reasoning model sees your question." },
-  { purpose: "document_storage", required: false, title: "Store documents I upload", body: "Encrypted and kept until you delete them. Only needed if you upload salary slips or statements." },
-  { purpose: "voice_processing", required: false, title: "Process my voice", body: "Audio is turned into text on VAAKYA's server and then deleted. Not stored." },
+  { purpose: "ai_processing", required: true, key: "ai" },
+  { purpose: "document_storage", required: false, key: "doc" },
+  { purpose: "voice_processing", required: false, key: "voice" },
 ] as const;
 
 export const CONSENT_VERSION = "2026-11";
 
-export function ConsentForm() {
+export function ConsentForm({ lang = "en" }: { lang?: Lang }) {
+  const t = (k: PageKey) => tr(lang, k);
   const router = useRouter();
   const [checked, setChecked] = useState<Record<string, boolean>>({ ai_processing: false, document_storage: false, voice_processing: false });
   const [problem, setProblem] = useState<Problem | null>(null);
@@ -22,7 +24,7 @@ export function ConsentForm() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!checked.ai_processing) { setProblem({ type: "validation", title: "One permission is needed to continue", status: 422, detail: "VAAKYA cannot give guidance without processing your answers." }); return; }
+    if (!checked.ai_processing) { setProblem({ type: "validation", title: t("onb.c.err.title"), status: 422, detail: t("onb.c.err.body") }); return; }
     setBusy(true);
     const res = await api("/v1/me/consents", { method: "PUT", json: { grants: ITEMS.map((i) => ({ purpose: i.purpose, version: CONSENT_VERSION, granted: checked[i.purpose] })) } });
     setBusy(false);
@@ -38,12 +40,12 @@ export function ConsentForm() {
           <input type="checkbox" className="mt-1 size-5 accent-[var(--primary)]" checked={checked[i.purpose]} onChange={(e) => setChecked({ ...checked, [i.purpose]: e.target.checked })}
             aria-describedby={`${i.purpose}-d`} />
           <span>
-            <span className="font-semibold">{i.title}</span> {i.required ? <span className="text-sm text-danger">(required)</span> : <span className="text-sm text-ink-3">(optional)</span>}
-            <span id={`${i.purpose}-d`} className="mt-1 block text-sm text-ink-2">{i.body}</span>
+            <span className="font-semibold">{t(`onb.c.${i.key}.title` as PageKey)}</span> {i.required ? <span className="text-sm text-danger">{t("onb.required")}</span> : <span className="text-sm text-ink-3">{t("onb.optional")}</span>}
+            <span id={`${i.purpose}-d`} className="mt-1 block text-sm text-ink-2">{t(`onb.c.${i.key}.body` as PageKey)}</span>
           </span>
         </label>
       ))}
-      <Button type="submit" size="lg" disabled={busy} className="w-full sm:w-auto">{busy ? "Saving…" : "Agree and continue"}</Button>
+      <Button type="submit" size="lg" disabled={busy} className="w-full sm:w-auto">{busy ? t("onb.saving") : t("onb.agree")}</Button>
     </form>
   );
 }

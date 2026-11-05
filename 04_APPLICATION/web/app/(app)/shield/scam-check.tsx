@@ -9,9 +9,11 @@ import { RiskBadge } from "@/components/finance/risk";
 import { AiNotice, Citations } from "@/components/ai/citations";
 import { useAnnounce } from "@/components/a11y/live-region";
 import { api, isPreviewProblem } from "@/lib/client/api";
-import type { Problem, SentinelVerdict } from "@/lib/types";
+import type { Lang, Problem, SentinelVerdict } from "@/lib/types";
+import { tr } from "@/lib/i18n/pages";
 
-export function ScamCheck() {
+export function ScamCheck({ lang = "en" }: { lang?: Lang }) {
+  const t = (k: Parameters<typeof tr>[1]) => tr(lang, k);
   const announce = useAnnounce();
   const [text, setText] = useState("");
   const [kind, setKind] = useState("sms");
@@ -33,71 +35,72 @@ export function ScamCheck() {
   function pick(f: File | undefined) {
     setFileError(null); setFile(null);
     if (!f) return;
-    if (!["image/png", "image/jpeg"].includes(f.type)) { setFileError("Choose a PNG or JPG image."); return; }
-    if (f.size > 10 * 1024 * 1024) { setFileError("The image must be 10 MB or smaller."); return; }
+    if (!["image/png", "image/jpeg"].includes(f.type)) { setFileError(t("scam.err.type")); return; }
+    if (f.size > 10 * 1024 * 1024) { setFileError(t("scam.err.size")); return; }
     setFile(f);
   }
 
   return (
     <div>
-      <Tabs label="Input type" tabs={[
-        { id: "text", label: "Paste text or link", panel: (
+      <Tabs label={t("scam.tabs")} tabs={[
+        { id: "text", label: t("scam.tab.text"), panel: (
           <form onSubmit={(e) => { e.preventDefault(); if (text.trim()) void run({ json: { text, kind } }); }} className="space-y-4">
-            <Field label="Message, offer or link" hint="Paste the full text. Links are analysed as text and never opened.">{(a) => (
+            <Field label={t("scam.field.text")} hint={t("scam.field.hint")}>{(a) => (
               <Textarea id={a.id} aria-describedby={a.describedBy} rows={6} maxLength={5000} value={text} onChange={(e) => setText(e.target.value)}
                 placeholder="Example: Dear customer, your KYC expires today. Update now at http://…" />)}</Field>
-            <Field label="Where did it come from?">{(a) => (
+            <Field label={t("scam.field.source")}>{(a) => (
               <Select id={a.id} value={kind} onChange={(e) => setKind(e.target.value)}>
-                <option value="sms">SMS</option><option value="whatsapp">WhatsApp</option><option value="ad">Advertisement</option>
-                <option value="loan_offer">Loan offer or app</option><option value="investment_tip">Investment tip</option><option value="url">A link</option>
+                <option value="sms">{t("scam.src.sms")}</option><option value="whatsapp">{t("scam.src.whatsapp")}</option><option value="ad">{t("scam.src.ad")}</option>
+                <option value="loan_offer">{t("scam.src.loan")}</option><option value="investment_tip">{t("scam.src.tip")}</option><option value="url">{t("scam.src.url")}</option>
               </Select>)}</Field>
-            <Button type="submit" disabled={busy || !text.trim()}>{busy ? <Loader2 aria-hidden className="size-4 animate-spin" /> : null}Check message</Button>
+            <Button type="submit" disabled={busy || !text.trim()}>{busy ? <Loader2 aria-hidden className="size-4 animate-spin" /> : null}{t("scam.btn.text")}</Button>
           </form>) },
-        { id: "image", label: "Upload screenshot", panel: (
+        { id: "image", label: t("scam.tab.image"), panel: (
           <form onSubmit={(e) => { e.preventDefault(); if (file) { const f = new FormData(); f.set("image", file); void run({ form: f }); } }} className="space-y-4">
             <label className="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-line p-8 text-center has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-focus">
               <ImageUp aria-hidden className="size-8 text-ink-3" />
-              <span className="font-semibold">{file ? file.name : "Choose a screenshot or take a photo"}</span>
-              <span className="text-sm text-ink-3">PNG or JPG, up to 10 MB. Location data is removed before storage.</span>
+              <span className="font-semibold">{file ? file.name : t("scam.choose")}</span>
+              <span className="text-sm text-ink-3">{t("scam.choose.hint")}</span>
               <input type="file" accept="image/png,image/jpeg" capture="environment" className="sr-only" onChange={(e) => pick(e.target.files?.[0])} />
             </label>
             {fileError ? <p role="alert" className="text-sm font-semibold text-danger">{fileError}</p> : null}
-            <Button type="submit" disabled={busy || !file}>{busy ? <Loader2 aria-hidden className="size-4 animate-spin" /> : null}Check screenshot</Button>
+            <Button type="submit" disabled={busy || !file}>{busy ? <Loader2 aria-hidden className="size-4 animate-spin" /> : null}{t("scam.btn.image")}</Button>
           </form>) },
       ]} />
 
       <div aria-live="polite" className="mt-5">
-        {busy ? <p className="flex items-center gap-2 text-ink-2" role="status"><Loader2 aria-hidden className="size-4 animate-spin" />Sentinel is checking for warning signs…</p> : null}
+        {busy ? <p className="flex items-center gap-2 text-ink-2" role="status"><Loader2 aria-hidden className="size-4 animate-spin" />{t("scam.busy")}</p> : null}
         {problem ? (
           <Alert tone={isPreviewProblem(problem) ? "warning" : "danger"} role="alert" title={isPreviewProblem(problem) ? "Sentinel is not connected in preview" : problem.title}>
             {isPreviewProblem(problem) ? "VAAKYA does not show made-up verdicts. Sign in to check real messages." : problem.detail}
           </Alert>
         ) : null}
-        {verdict ? <Verdict v={verdict} /> : null}
+        {verdict ? <Verdict v={verdict} lang={lang} /> : null}
       </div>
     </div>
   );
 }
 
-function Verdict({ v }: { v: SentinelVerdict }) {
+function Verdict({ v, lang }: { v: SentinelVerdict; lang: Lang }) {
+  const t = (k: Parameters<typeof tr>[1]) => tr(lang, k);
   return (
     <section aria-labelledby="verdict-h" className="rounded-2xl border border-line bg-paper p-5">
-      <h3 id="verdict-h" className="flex flex-wrap items-center gap-3 font-display text-2xl"><RiskBadge level={v.risk_level} /><span className="text-base text-ink-3">{v.indicator_label}: {v.risk_indicator}/100</span></h3>
+      <h3 id="verdict-h" className="flex flex-wrap items-center gap-3 font-display text-2xl"><RiskBadge level={v.risk_level} lang={lang} /><span className="text-base text-ink-3">{v.indicator_label}: {v.risk_indicator}/100</span></h3>
       {v.reasons.length ? (
         <>
-          <h4 className="mt-4 font-semibold">Why</h4>
+          <h4 className="mt-4 font-semibold">{t("scam.why")}</h4>
           <ul className="mt-2 space-y-2">{v.reasons.map((r) => (
             <li key={r.signal + r.evidence} className="rounded-xl bg-surface-2 p-3 text-sm">
               <p className="font-semibold">{r.explanation}</p>
-              <p className="mt-1 text-ink-3">Found: “{r.evidence}”</p>
+              <p className="mt-1 text-ink-3">{t("scam.found")}: “{r.evidence}”</p>
             </li>))}
           </ul>
         </>
-      ) : <p className="mt-3 text-ink-2">No known warning signs were found. That does not prove it is safe: if it asks for money, an OTP or a PIN, stop.</p>}
-      <h4 className="mt-4 font-semibold">What to do</h4>
+      ) : <p className="mt-3 text-ink-2">{t("scam.none")}</p>}
+      <h4 className="mt-4 font-semibold">{t("scam.todo")}</h4>
       <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">{v.actions.map((a) => <li key={a}>{a}</li>)}</ul>
-      <Citations items={v.ai.citations} />
-      <AiNotice text={v.ai.notice} />
+      <Citations items={v.ai.citations} lang={lang} />
+      <AiNotice text={v.ai.notice} lang={lang} />
     </section>
   );
 }

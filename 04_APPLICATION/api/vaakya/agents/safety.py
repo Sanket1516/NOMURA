@@ -21,7 +21,7 @@ _NUM = re.compile(r"(?<![<\w])(?:₹\s?)?\d[\d,]*(?:\.\d+)?%?")
 
 @lru_cache
 def scheme_names() -> set[str]:
-    data = json.loads((Path(__file__).resolve().parent.parent / "data" / "schemes.json").read_text())
+    data = json.loads((Path(__file__).resolve().parent.parent / "data" / "schemes.json").read_text(encoding="utf-8"))
     return {s["name"].lower() for s in data["schemes"]} | {s["id"] for s in data["schemes"]}
 
 
