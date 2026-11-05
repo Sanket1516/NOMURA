@@ -51,5 +51,5 @@ The earlier figure was 155 passed; the one added test (production disables API d
 - No penetration test, fuzzing of every endpoint, or container image scan (Trivy or similar).
 - Prometheus, Grafana and Loki are configured but were not run.
 - The translated pages (hi, mr, kn) have never been read by a native speaker; tests only check script and structure.
-- Sentinel accuracy (12/12 scams, 0/7 false alarms) comes from a set the rules were tuned on; no independent labelled set exists.
+- Sentinel accuracy (12/12 scams, 0/7 false alarms) comes from a set the rules were tuned on; no independent labelled set exists. A second, untuned set written afterwards (not independent) scored recall 10/28 and 0/24 false alarms, so the 12/12 figure overstates detection (`05_TESTING/data/SCAM_SET_2_RESULTS.md`).
 - Scheme facts and lesson content are unverified drafts.

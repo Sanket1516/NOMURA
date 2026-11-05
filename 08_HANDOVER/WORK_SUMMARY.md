@@ -47,7 +47,7 @@ Evidence: `05_TESTING/*/STEP*_RESULTS.md`, `05_TESTING/integration/STEP6_INTEGRA
 | Text-to-speech quality | eSpeak NG works but sounds robotic | Indic Parler-TTS (T0.07) |
 | Scheme facts | 10 schemes, **unverified drafts** | Human verification against official sources (T0.12) |
 | Lessons and scam patterns | Drafts | Content review (FR-EDU-07) |
-| Sentinel accuracy | 12/12 scams, 0/7 false alarms on a set the rules were tuned on | Independent labelled set (T6.05) |
+| Sentinel accuracy | 12/12 scams, 0/7 false alarms on a set the rules were tuned on; **10/28 scams, 0/24 false alarms on a second, untuned (not independent) set** | Improve the rules, then test on a new held-out set labelled by someone else (T6.05); see `05_TESTING/data/SCAM_SET_2_RESULTS.md` |
 | Monitoring stack | Prometheus/Grafana configured, not run | Docker Hub rate limit in this environment |
 | Row Level Security in Compose | Verified 2026-11-05: 8 live journeys pass with the restricted role | None |
 | Legal | No real user data yet | DPDP and SEBI advice (T0.14) |
