@@ -2,6 +2,14 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05 (cloud session): code-only items, written without the live stack
+
+- Full preview E2E with the nonce CSP: 28 passed; web unit 26 passed (run in the cloud container).
+- `/metrics` optional bearer token (KI-13): `VAAKYA_METRICS_TOKEN`; Prometheus reads `secrets/metrics_token.txt`; `init-secrets.sh` adds it to an existing secrets folder. Guard checked directly (401, 401, 200); the DB-backed test was not run here.
+- `.github/workflows/ci.yml` (KI-16, KI-12): never run on GitHub yet. `ruff` now skips applied migrations.
+- Interface language set from the profile on first sign-in (KI-19): `lib/lang-from-profile.ts`, 3 unit tests; not tried through Keycloak.
+- `08_HANDOVER/OWNER_LOCAL_TASKS.md`: everything that must run on the owner's machine.
+
 ## 2026-11-05 (late): hand-off written; nonce CSP and local Ollama model in progress
 
 - `08_HANDOVER/HANDOFF_STATUS.md` and a new `NEXT_AI_PROMPT.md` say what is done, in flight and remaining.

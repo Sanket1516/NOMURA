@@ -1,6 +1,7 @@
 """App factory: middleware, error handlers, routers (BACKEND_ARCHITECTURE §4)."""
 from __future__ import annotations
 
+import hmac
 import time
 import uuid
 
@@ -69,8 +70,15 @@ def create_app(features: Features | None = None) -> FastAPI:
         return {"status": "ok", "version": __version__}
 
     @app.get("/metrics", include_in_schema=False)
-    def prometheus() -> Response:
-        """Internal network only: the public entry (Caddy → web) never routes here, and the web proxy forwards /v1 only."""
+    def prometheus(request: Request) -> Response:
+        """Internal network only: the public entry (Caddy → web) never routes here, and the web proxy forwards /v1 only.
+        If VAAKYA_METRICS_TOKEN is set, a matching bearer token is also required (defence in depth, KI-13)."""
+        token = get_settings().metrics_token
+        if token:
+            given = request.headers.get("authorization", "").removeprefix("Bearer ").strip()
+            if not hmac.compare_digest(given.encode(), token.encode()):
+                return JSONResponse({"error": {"code": "unauthorized", "message": "Metrics need a token."}}, status_code=401,
+                                    headers={"WWW-Authenticate": "Bearer"})
         body, ctype = metrics.render()
         return Response(body, media_type=ctype)
 

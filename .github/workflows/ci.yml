@@ -1,0 +1,93 @@
+# CI for VAAKYA (KI-16, KI-12). Written without being run on GitHub: the first run may need small fixes.
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions: { contents: read }
+concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
+
+jobs:
+  api:
+    runs-on: ubuntu-24.04
+    strategy: { matrix: { rls: ["0", "1"] } }   # normal, then Row Level Security enforced
+    services:
+      postgres:
+        image: postgres:18
+        env: { POSTGRES_PASSWORD: test, POSTGRES_DB: vaakya }
+        ports: ["55432:5432"]
+        options: --health-cmd "pg_isready -U postgres" --health-interval 5s --health-retries 10
+      neo4j:
+        image: neo4j:5.26-community
+        env: { NEO4J_AUTH: neo4j/test-pass-123 }
+        ports: ["57687:7687"]
+      qdrant:
+        image: qdrant/qdrant:v1.20.0
+        ports: ["56333:6333"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: SeaweedFS (S3)
+        run: docker run -d --name sw -p 58333:8333 chrislusf/seaweedfs:4.50 server -s3 -dir=/data
+      - name: Lint
+        working-directory: 04_APPLICATION/api
+        run: uv run ruff check .
+      - name: Tests
+        working-directory: 04_APPLICATION/api
+        env: { VAAKYA_TEST_RLS: "${{ matrix.rls }}" }
+        run: |
+          sleep 20   # let Neo4j and SeaweedFS finish starting
+          uv run pytest -o addopts="" -rs
+
+  inference:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - name: Engines
+        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr espeak-ng
+      - name: Tests
+        working-directory: 04_APPLICATION/inference
+        run: pip install -r requirements.txt pytest httpx && pytest -q
+
+  web:
+    runs-on: ubuntu-24.04
+    defaults: { run: { working-directory: 04_APPLICATION/web } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: 04_APPLICATION/web/package-lock.json }
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test e2e/preview.spec.ts
+
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: astral-sh/setup-uv@v6
+      - name: npm audit
+        working-directory: 04_APPLICATION/web
+        run: npm audit --omit=dev --audit-level=high
+      - name: pip-audit
+        working-directory: 04_APPLICATION/api
+        run: uv export --no-hashes --no-dev -o /tmp/req.txt >/dev/null && uvx pip-audit -r /tmp/req.txt --no-deps --disable-pip
+
+  image-scan:   # KI-12: report HIGH and CRITICAL OS/library CVEs in the images we build
+    runs-on: ubuntu-24.04
+    strategy: { matrix: { image: [api, web, inference] } }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: docker build -t vaakya-${{ matrix.image }} 04_APPLICATION/${{ matrix.image }}
+      - uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: vaakya-${{ matrix.image }}
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"

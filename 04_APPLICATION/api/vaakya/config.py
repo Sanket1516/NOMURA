@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = Field(default_factory=list, description="Empty: same-origin only (BFF)")
     log_hmac_key: str = Field("dev-only-change-me", description="Key for hashing user ids in logs")
     rate_limit_enabled: bool = True
+    metrics_token: str | None = Field(None, description="If set, /metrics requires Authorization: Bearer <token> (KI-13)")
     # Services added in later steps. Unset means the feature reports 503 honestly.
     inference_url: str | None = None
     inference_token: str | None = None
