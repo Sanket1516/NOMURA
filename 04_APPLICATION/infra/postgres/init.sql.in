@@ -1,0 +1,3 @@
+-- Separate databases and roles for the application and Keycloak (least privilege).
+CREATE ROLE keycloak LOGIN PASSWORD :'kc_password';
+CREATE DATABASE keycloak OWNER keycloak;

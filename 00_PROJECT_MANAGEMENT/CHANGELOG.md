@@ -2,6 +2,18 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Step 6 of 6 (in progress), integration; session stopped by the owner
+
+### Added
+
+- Inference service (real Tesseract OCR and eSpeak NG TTS), API client, voice speak/audio endpoints, real-OCR screenshot checks.
+- Keycloak realm (`infra/keycloak/vaakya-realm.json`, verified import into Keycloak 26.8.1), `infra/compose.yaml` (validated), `init-secrets.sh`, web Dockerfile and `next.config.ts`.
+- Handover, next-AI prompt and remaining-work list refreshed for the next model.
+
+### Not done
+
+- Full Compose run, live web wiring, UI polish, real-login E2E (see HANDOVER next steps).
+
 ## 2026-11-05: Step 5 of 6, four agents
 
 ### Added

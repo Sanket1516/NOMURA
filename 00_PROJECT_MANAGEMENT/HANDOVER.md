@@ -1,120 +1,85 @@
 # Handover
 
-**Last updated:** 2026-11-05
-**For:** Any person or AI model continuing this project.
-**State:** Phase 0 in progress (D-029, owner to confirm). T0.06 and the architecture set (T0.15) are done. **No application code. PH1 must wait for the Phase 0 gate.**
+**Last updated:** 2026-11-05 (session stopped at the owner's request in the middle of Step 6)
+**For:** any person or AI model continuing VAAKYA.
+**Read next:** `REMAINING_WORK.md` (live checklist), `CURRENT_STATUS.md`, `08_HANDOVER/NEXT_AI_PROMPT.md`.
 
-## Stop here first
+## What VAAKYA is
 
-**The owner waived the Phase 0 gate for software work (D-032).** Model choice, scheme verification and legal scoping still gate their features.
+VAAKYA - AI Financial Guardian: a multi-agent financial companion for four personas (Priya, Rajesh, Kisan, Divya) with four agents (Educator, Strategy Builder, Sentinel, Connector), a Financial Life Graph and a Financial Confidence Score. Owner: Sanket Mali. The Nomura KakushIN 2026 hackathon is over; this is an independent product.
 
-If you are starting a new session:
+## Hard rules
 
-1. Read this file, `CURRENT_STATUS.md`, `DECISIONS_LOG.md` (D-026 to D-031), and `08_HANDOVER/NEXT_AI_PROMPT.md`.
-2. Read `02_ARCHITECTURE/SYSTEM_ARCHITECTURE.md` and the document it points to for your task.
-3. Check whether the owner has confirmed D-029. Do not claim plan approval beyond what is recorded.
+1. **Free and open source only (D-026).** No Firebase, AWS, Gemini or paid APIs. The owner's prompts sometimes name that hackathon stack; the owner confirmed twice to keep the open-source plan ("just go with the plan you have created"). Record the substitution and move on.
+2. Money figures, eligibility and the score are code. LLMs only explain (D-013).
+3. Never fake AI output. If a subsystem is missing, the API returns 503 with the reason and the UI says "not connected".
+4. Say "processed on VAAKYA's own server", never "on-device".
+5. Never mark a feature VERIFIED without the Definition of Done. Update `FEATURE_TRACKER.md` with `00_PROJECT_MANAGEMENT/tools_update_tracker.py` (it refuses VERIFIED and recounts the summary).
+6. Keep `REMAINING_WORK.md` up to date continuously (owner's request).
+7. Commit to `main` as `sanket1516 <sanketmali0909@gmail.com>`, with the Co-Authored-By line, when the owner asks for commits (he did for this build).
+8. Do not create a `Nomura/` folder (collides with `NOMURA/` on Windows, D-001).
 
-## Build progress (D-032)
+## Build sequence (D-032) and status
 
-Step 1 frontend: DONE (`04_APPLICATION/web`, results `05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md`). Step 2 backend: DONE (`04_APPLICATION/api`, results `05_TESTING/backend/STEP2_BACKEND_RESULTS.md`). Steps 2 to 6: see `TASK_TRACKER.md` "Build sequence".
+| Step | Status | Evidence |
+|---|---|---|
+| 1 Frontend | DONE (runs on sample data in preview mode; not yet wired to the live API) | `05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md` |
+| 2 Backend | DONE | `05_TESTING/backend/STEP2_BACKEND_RESULTS.md` |
+| 3 Data layer | DONE | `05_TESTING/data/STEP3_DATA_RESULTS.md` |
+| 4 AI infrastructure | DONE (no model has run; downloads blocked) | `05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md` |
+| 5 Four agents | DONE (deterministic paths; `llm_used: false`) | `05_TESTING/agents/STEP5_AGENTS_RESULTS.md` |
+| 6 Integration | IN PROGRESS: inference service done; Keycloak realm and Compose written; live wiring, UI polish, E2E not done | this file |
 
-## Latest session (2026-11-05)
+## Where the code is
 
-- **T0.06 done** in a Linux cloud container: lockfiles, API image, smoke tests, service probe, licence checks. Evidence: `05_TESTING/evaluations/T0.06_RESULTS.md`.
-- **Licence register** started: `06_DOCUMENTATION/LICENCE_REGISTER.md`.
-- **Architecture v1.0** in `02_ARCHITECTURE/`, with a generated coverage review over all 208 features.
-- The owner first asked for an architecture on the Executive Summary stack (Firebase, AWS, Gemini, 2024 pins), then said "just go with the plan you have created". **D-026 stands.** Do not reintroduce proprietary services.
-- Commits go to `main` with author `sanket1516 <sanketmali0909@gmail.com>`, as the owner asked.
-
-## What this project is
-
-VAAKYA - AI Financial Guardian is a multi-agent financial companion. It began at the Nomura KakushIN 2026 hackathon, which is complete. Sanket Mali now owns it as an independent, production-ready application.
-
-It serves four personas (Priya, Rajesh, Kisan, Divya) through four agents (Educator, Strategy Builder, Sentinel, Connector), a Financial Life Graph and a Financial Confidence Score.
-
-## The hard rule
-
-**Everything must be free and open source (D-026).** Runtime components need OSI-approved licences. Model weights must use open licences such as Apache-2.0 or MIT. Check licences before adding anything, and add an entry to the licence register.
-
-The Executive Summary and decks name Firebase, AWS and Gemini. Do not use them. `DECISIONS_LOG.md` overrides those documents on vendors.
-
-## Where things are
-
-| Path | Contents |
+| Path | What |
 |---|---|
-| `NOMURA/` | **Source material. Read-only.** |
-| `NOMURA/INVINCIBLES/` | Problem statement PDF and Executive Summary |
-| `00_PROJECT_MANAGEMENT/` | Plan, roadmap, trackers, decisions, status |
-| `01_REQUIREMENTS/` | Requirements, personas, acceptance criteria |
-| `02_ARCHITECTURE/` | Architecture set v1.0, coverage review, `evaluations/T0.06_stack/` spike |
-| `05_TESTING/evaluations/` | Phase 0 evidence |
-| `06_DOCUMENTATION/LICENCE_REGISTER.md` | Licence register |
-| `08_HANDOVER/NEXT_AI_PROMPT.md` | Prompt for the next AI session |
-| `04_APPLICATION/`, `07_HACKATHON_DELIVERABLES/` | Purpose notes only |
+| `04_APPLICATION/web` | Next.js 16 PWA. `lib/server/*` OIDC BFF + API proxy; `lib/demo.ts` sample data; `app/(app)/*` 12 signed-in screens; `e2e/` Playwright |
+| `04_APPLICATION/api` | FastAPI. `vaakya/domain` (calculators, score, sentinel_signals, eligibility), `services/*`, `agents/*`, `ai/*` (llm, redaction, knowledge, inference client), `stores/*` (graph, vault), `seed.py`, `worker.py`, `bootstrap.py` |
+| `04_APPLICATION/inference` | OCR (Tesseract) and TTS (eSpeak NG) service; STT needs a mounted faster-whisper model |
+| `04_APPLICATION/infra` | `compose.yaml`, `init-secrets.sh`, `keycloak/vaakya-realm.json`, `postgres/init.*` |
+| `02_ARCHITECTURE` | Architecture set v1.0 + generated coverage review |
+| `06_DOCUMENTATION` | `LICENCE_REGISTER.md`, `DATABASE_SCHEMA.md` (generated), `CONFIDENCE_SCORE.md` |
 
-This repository root is the project root (D-001). Do not create a `Nomura/` folder, because it would collide with `NOMURA/` on Windows.
+## How to run the tests (as done in this session)
 
-## Single source of truth
+```bash
+# Services (ports used by the tests)
+docker run -d --name vaakya-pg-test -e POSTGRES_PASSWORD=test -e POSTGRES_DB=vaakya -p 55432:5432 postgres:18
+docker run -d --name vaakya-neo4j-test -e NEO4J_AUTH=neo4j/test-pass-123 -p 57687:7687 neo4j:5.26-community
+docker run -d --name vaakya-sw-test -p 58333:8333 chrislusf/seaweedfs:4.50 server -s3 -dir=/data
+docker run -d --name vaakya-qdrant-test -p 56333:6333 qdrant/qdrant:v1.20.0
+# Inference on an Ubuntu host: apt install tesseract-ocr tesseract-ocr-{hin,mar,kan} espeak-ng
+cd 04_APPLICATION/inference && INFERENCE_TOKEN=test-token uvicorn app:app --port 8100
+cd 04_APPLICATION/api && uv run pytest          # 142 tests; service-dependent tests skip if a service is down
+cd 04_APPLICATION/web && npm test && PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers npx playwright test   # 19 unit + 12 E2E
+```
 
-| Question | Read |
-|---|---|
-| What must be built? | `01_REQUIREMENTS/FUNCTIONAL_REQUIREMENTS.md` |
-| How is it judged done? | `01_REQUIREMENTS/ACCEPTANCE_CRITERIA.md` |
-| What is its status? | `FEATURE_TRACKER.md` |
-| What is the order of work? | `IMPLEMENTATION_ROADMAP.md` |
-| What was decided? | `DECISIONS_LOG.md` |
-| What is the overall design? | `MASTER_PLAN.md`, detailed in `02_ARCHITECTURE/` |
-| Which component implements a feature? | `02_ARCHITECTURE/ARCHITECTURE_COVERAGE.md` |
-| Which licences are approved? | `06_DOCUMENTATION/LICENCE_REGISTER.md` |
-| What was in the source files? | `MASTER_PLAN.md` Appendix A |
+Last full results: API 138 passed + 4 inference-integration passed; inference service 10 passed; web 19 unit + 12 E2E passed.
 
-## How the sources work
+## Next steps, in order (Step 6 remainder)
 
-- **The PDF and both decks are images.** Text extraction yields almost nothing, so view the pages. Render PDFs with `pypdfium2`, because `pdftoppm` is not installed.
-- **UI "screenshots" are design mockups.** No app exists. Their sample figures contain errors listed in `DECISIONS_LOG.md`. Do not copy them.
-- **Requirements tagged `ER`** are engineering recommendations, not source commitments.
+1. **Run the whole stack:** `cd 04_APPLICATION/infra && ./init-secrets.sh && docker compose up --build`. Fix what breaks. Then `docker compose exec api python -m vaakya.seed all` (catalogue + four demo users whose ids match the realm). The demo password is printed by `init-secrets.sh`. Not yet done: web and inference images were never built (Docker Hub returned 429 for `ubuntu:24.04` in this environment).
+2. **Wire the web app to the live API** (live mode is coded but untested):
+   - `app/(app)/layout.tsx`: when `/v1/dashboard` returns 409 with `next: /onboarding`, redirect to `/onboarding` instead of showing an error.
+   - `app/(app)/schemes/page.tsx`: in live mode load `/v1/schemes` (the dashboard only has `{id, status}`).
+   - Onboarding sends `persona` in the profile body; the API accepts it. Verify the full consent → profile → answers → complete flow.
+   - Score page `VoiceSummary`: in live mode call `POST /v1/voice/speak` (real eSpeak audio) and play `/api/proxy/v1/voice/audio/{id}`; keep the on-device fallback.
+   - Add `/learn/[moduleId]` (lesson sections + quiz → `POST /v1/learning/modules/{id}/quiz-attempts`) and `/life-graph` (`GET /v1/twin`: accessible outline first, then an SVG radial graph). Add both to navigation.
+   - Planning page: show `GET /v1/budget` and the plan from `GET /v1/goals/{id}/plan` (formula, assumptions, limitations).
+3. **UI polish (owner asked for "as beautiful and dynamic as possible"):** animated count-up numbers and score ring from 0 on mount, staggered card entry, card hover lift, animated progress bars, a richer dashboard header; all disabled under reduced motion. Keep axe at 0 serious/critical and the 360 px no-overflow test passing.
+4. **End-to-end through real sign-in:** Playwright logs in at Keycloak as `demo-priya@vaakya.invalid`, checks live dashboard, asks the assistant (Educator answer with citations), runs a scam check (paste text and screenshot with real OCR), opens a scheme's eligibility, and registers a new user through the Keycloak registration page then onboards. Capture new screenshots into `07_HACKATHON_DELIVERABLES/PRODUCT_SCREENSHOTS/FRONTEND/live/`.
+5. **Final documentation:** update FEATURE_TRACKER, TASK_TRACKER, CHANGELOG, CURRENT_STATUS, this file, `REMAINING_WORK.md`, regenerate `08_HANDOVER/NEXT_AI_PROMPT.md`, re-run `python3 02_ARCHITECTURE/tools/coverage.py` and `PYTHONPATH=. uv run python tools/schema_doc.py` (in `api/`).
 
-## Working rules
+Also open (smaller): proactive nudges job (goal drift, newly eligible schemes), PostgreSQL Row Level Security, independent Sentinel evaluation set (T6.05), monthly report screen, risk-profile card, page-content translations (only nav labels exist, as drafts).
 
-1. One source of truth.
-2. No silent changes to approved requirements.
-3. Do not invent technical capabilities.
-4. Record all architectural decisions.
-5. Identify risks and external dependencies.
-6. Keep documentation understandable to another AI model.
-7. Never mark mock functionality as complete.
-8. Update `FEATURE_TRACKER.md`, `CURRENT_STATUS.md` and `CHANGELOG.md` in the same change as the work.
-9. Calculations, eligibility and scores are code. LLMs explain them (D-013).
-10. If something promised cannot be delivered, say so and record it.
-11. No real user financial data until the legal gate passes (NFR-PRIV-03).
+## Known facts about this environment (cloud container)
 
-## Recommended next steps
+- Hugging Face and the Ollama model registry are blocked, so no LLM, Whisper, IndicTrans2 or e5 model can be downloaded. Everything model-based is behind adapters and labelled.
+- Docker Hub works but rate-limits (429 seen). `ghcr.io`, `quay.io` and Debian's mirror are blocked; Ubuntu's mirror works over plain HTTP from `--network host` builds and from the host.
+- Start Docker with `dockerd &` if `docker ps` fails.
+- Docker builds behind the proxy need `--network host --build-arg HTTPS_PROXY=$HTTPS_PROXY --secret id=ca,src=/root/.ccr/ca-bundle.crt`.
 
-Phase 0, in this order:
+## Owner decisions still open
 
-1. T0.03: open LLM evaluation on the RTX 3050. Start Ollama first.
-2. T0.07, T0.08, T0.09: speech and translation evaluations.
-3. T0.13: Kannada and Devanagari OCR.
-4. T0.11: shared-resource test on the GPU. T0.06 is done; reuse `02_ARCHITECTURE/evaluations/T0.06_stack/infra/compose.spike.yaml`.
-5. T0.12, T0.14: scheme fact sheet and legal scoping.
-
-**If T0.03 shows open models are not good enough on this hardware, stop and tell the owner.** The options are better hardware or relaxing the open-source rule, and only the owner can choose.
-
-## Regenerated documents
-
-Requirement, tracker and task documents were generated from a temporary dataset to keep IDs matching. They are now the master copies, so edit them directly.
-
-## Known environment facts
-
-Windows 11, Python 3.11.9 only, Node 22.14, Docker 29.4 (about 7.6 GB allocated), RTX 3050 (6 GB), 15.7 GB RAM, Ollama 0.34.2 installed but the service was not running, Tesseract installed. `ollama list` hangs when the service is down, so use a timeout. Full list in `DECISIONS_LOG.md` section 6.
-
-## Git
-
-- Default branch `main`. The owner asked for commits on `main` with author `sanket1516 <sanketmali0909@gmail.com>`.
-- Commit only when asked.
-- `NOMURA/` (about 134 MB, includes personal portrait photos) is already committed. Removing it from history would need a rewrite; ask the owner first.
-
-## Environment notes from the cloud session
-
-- Docker works after starting `dockerd`. Docker Hub pulls work. `ghcr.io` and `quay.io` blobs were blocked by that session's network policy, so the Dockerfile installs uv from PyPI and Keycloak comes from Docker Hub.
-- The GitHub API for third-party repositories was not available, so licences were verified from images and package metadata instead.
+D-029 (Phase 0 start), D-031 (copyleft components), D-035 (sixth score dimension), the model choice (T0.03), scheme fact verification (T0.12), lesson review (FR-EDU-07), legal scoping (T0.14), hardware for a public service.

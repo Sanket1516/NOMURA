@@ -1,0 +1,113 @@
+# VAAKYA full stack (DEPLOYMENT_ARCHITECTURE §1-2). Local and staging use this file; production adds Caddy and TLS.
+# Secrets live in ./secrets/*.txt (created by ./init-secrets.sh), never in this file or the repository.
+name: vaakya
+
+x-api-env: &api_env
+  VAAKYA_ENV: ${VAAKYA_ENV:-development}
+  VAAKYA_OIDC_ISSUER: ${VAAKYA_PUBLIC_KEYCLOAK:-http://localhost:8080}/realms/vaakya
+  VAAKYA_OIDC_JWKS_URL: http://keycloak:8080/realms/vaakya/protocol/openid-connect/certs
+  VAAKYA_NEO4J_URI: bolt://neo4j:7687
+  VAAKYA_QDRANT_URL: http://qdrant:6333
+  VAAKYA_S3_ENDPOINT: http://seaweedfs:8333
+  VAAKYA_S3_ACCESS_KEY: vaakya
+  VAAKYA_S3_SECRET_KEY: vaakya
+  VAAKYA_INFERENCE_URL: http://inference:8100
+  VAAKYA_OLLAMA_URL: ${VAAKYA_OLLAMA_URL:-}
+  VAAKYA_LLM_PRIVATE_MODEL: ${VAAKYA_LLM_PRIVATE_MODEL:-}
+  VAAKYA_LLM_REASONING_MODEL: ${VAAKYA_LLM_REASONING_MODEL:-}
+
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: vaakya
+      POSTGRES_DB: vaakya
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password, keycloak_db_password]
+    volumes: [pgdata:/var/lib/postgresql, ./postgres/init.sh:/docker-entrypoint-initdb.d/10-init.sh:ro, ./postgres/init.sql.in:/docker-entrypoint-initdb.d/init.sql.in:ro]
+    healthcheck: { test: ["CMD", "pg_isready", "-U", "vaakya"], interval: 3s, retries: 30 }
+    networks: [data]
+
+  keycloak:
+    image: keycloak/keycloak:26.8.1
+    command: start-dev --import-realm
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_HOSTNAME: ${VAAKYA_PUBLIC_KEYCLOAK:-http://localhost:8080}
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+      KC_HEALTH_ENABLED: "true"
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      VAAKYA_APP_URL: ${VAAKYA_APP_URL:-http://localhost:3000}
+    env_file: [./secrets/keycloak.env]
+    volumes: [./keycloak/vaakya-realm.json:/opt/keycloak/data/import/vaakya-realm.json:ro]
+    ports: ["8080:8080"]
+    depends_on: { postgres: { condition: service_healthy } }
+    networks: [data, app]
+
+  neo4j:
+    image: neo4j:5.26-community
+    environment: { NEO4J_server_memory_heap_max__size: 512m, NEO4J_server_memory_pagecache_size: 256m }
+    env_file: [./secrets/neo4j.env]
+    volumes: [neo4jdata:/data]
+    networks: [data]
+
+  qdrant:
+    image: qdrant/qdrant:v1.20.0
+    volumes: [qdrantdata:/qdrant/storage]
+    networks: [data]
+
+  seaweedfs:
+    image: chrislusf/seaweedfs:4.50
+    command: server -s3 -dir=/data
+    volumes: [swdata:/data]
+    networks: [data]
+
+  inference:
+    build: ../inference
+    environment: { WHISPER_MODEL_DIR: "${WHISPER_MODEL_DIR:-}" }
+    env_file: [./secrets/inference.env]
+    read_only: true
+    tmpfs: [/tmp]
+    networks: [ai]
+
+  api:
+    build: ../api
+    environment: *api_env
+    env_file: [./secrets/api.env]
+    depends_on: { postgres: { condition: service_healthy } }
+    networks: [data, ai, app]
+
+  worker:
+    build: ../api
+    command: python -m vaakya.worker
+    environment: *api_env
+    env_file: [./secrets/api.env]
+    depends_on: { api: { condition: service_started } }
+    networks: [data, ai]
+
+  web:
+    build: ../web
+    environment:
+      APP_URL: ${VAAKYA_APP_URL:-http://localhost:3000}
+      API_URL: http://api:8000
+      OIDC_ISSUER: http://keycloak:8080/realms/vaakya
+      OIDC_PUBLIC_ISSUER: ${VAAKYA_PUBLIC_KEYCLOAK:-http://localhost:8080}/realms/vaakya
+      OIDC_CLIENT_ID: vaakya-web
+      PREVIEW_MODE: ${PREVIEW_MODE:-on}
+    env_file: [./secrets/web.env]
+    ports: ["3000:3000"]
+    depends_on: [api, keycloak]
+    networks: [app]
+
+secrets:
+  postgres_password: { file: ./secrets/postgres_password.txt }
+  keycloak_db_password: { file: ./secrets/keycloak_db_password.txt }
+
+networks:
+  data: { internal: true }
+  ai: { internal: true }
+  app: {}
+
+volumes: { pgdata: {}, neo4jdata: {}, qdrantdata: {}, swdata: {} }

@@ -22,7 +22,7 @@ The owner asked for six build steps in order. Each step is committed to `main` w
 | 3 | Data layer: PostgreSQL, Neo4j Life Graph, SeaweedFS vault, seed data | T2.01, T2.02, T2.07 | DONE | `05_TESTING/data/STEP3_DATA_RESULTS.md` |
 | 4 | AI infrastructure: LLM adapter, LangGraph, RAG with Qdrant, Dual-LLM tiers | T1.07, T2.04, T3.01-T3.04 | DONE (no model run; T0.03) | `05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md` |
 | 5 | Four agents + Confidence Engine | T3.05, T5.x, T6.x, T7.x, T8.01 | DONE (rule-based; no LLM ran) | `05_TESTING/agents/STEP5_AGENTS_RESULTS.md` |
-| 6 | Integration and end-to-end journeys | T10.01 parts | TODO | |
+| 6 | Integration and end-to-end journeys | T10.01 parts | IN PROGRESS (inference service done; realm + compose written; wiring, polish, E2E open) | `00_PROJECT_MANAGEMENT/HANDOVER.md` |
 
 ## PH0: Decisions and spikes
 

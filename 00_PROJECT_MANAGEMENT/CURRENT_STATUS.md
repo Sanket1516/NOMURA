@@ -1,7 +1,7 @@
 # Current Status
 
 **Last updated:** 2026-11-05
-**Current stage:** **Build sequence (D-032): Steps 1-2 of 6 done (frontend, backend).** Steps 3 to 6 (data, AI, agents, integration) follow in order.
+**Current stage:** **Build Steps 1-5 of 6 DONE; Step 6 (integration) IN PROGRESS.** Session stopped at the owner's request; see `HANDOVER.md` next steps and `REMAINING_WORK.md`.
 **Owner:** Sanket Mali
 **Next gate:** Phase 0 gate (IMPLEMENTATION_ROADMAP PH0 acceptance criteria)
 
@@ -17,9 +17,9 @@
 | Architecture | **v1.0 in `02_ARCHITECTURE/`**: 10 documents, 29 diagrams (all render), coverage review |
 | Architecture coverage | 170 defined, 27 partial, 11 no strategy (all 11 are P2/P3 or need an external data source) |
 | Phase 0 | T0.06 DONE, T0.15 DONE. 10 tasks TODO, 3 dropped |
-| Application code | Frontend (`04_APPLICATION/web`) and backend API (`04_APPLICATION/api`). Not yet wired together (Step 6) |
-| Tests | Frontend 19 unit + 12 E2E; backend 17 unit + 29 integration. All pass |
-| Deployment | **None** |
+| Application code | Web (`04_APPLICATION/web`), API with four agents (`04_APPLICATION/api`), inference service (`04_APPLICATION/inference`), infra (`04_APPLICATION/infra`). Web not yet wired to the live API |
+| Tests | Web 19 unit + 12 E2E; API 142 (unit + integration on real PostgreSQL, Neo4j, SeaweedFS, Qdrant, Tesseract, eSpeak NG); inference 10. All pass |
+| Deployment | Compose file written and validated; not yet run end to end |
 | Git | `main`: commit b3abcb7 plus this session's final commit |
 
 ## Feature status
