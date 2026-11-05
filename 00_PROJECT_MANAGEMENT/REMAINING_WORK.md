@@ -20,10 +20,10 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 9 | The four agents: Educator, Strategy Builder, Sentinel, Connector | 5 | DONE | `05_TESTING/agents/STEP5_AGENTS_RESULTS.md`; rule-based until a model runs |
 | 10 | Scam signal engine and link heuristics; scheme eligibility engine | 5 | DONE | 23 + 14 tests |
 | 11 | Inference service: Tesseract OCR, eSpeak NG speech | 6 | DONE | Real OCR and TTS tested (14 tests); Docker image build waits on a Docker Hub rate limit; STT needs a model (T0.08) |
-| 12 | Keycloak realm, Docker Compose for the whole stack | 6 | IN PROGRESS | |
-| 13 | Wire every screen to the live API; end-to-end journeys through real sign-in | 6 | TODO | |
-| 14 | UI polish: animated numbers and charts, staggered motion, richer visuals | 6 | TODO | Owner asked for the UI to be "as beautiful and dynamic as possible" |
-| 15 | Final trackers, handover, next-AI prompt | 6 | TODO | |
+| 12 | Keycloak realm, Docker Compose for the whole stack | 6 | IN PROGRESS | Realm file imports cleanly into Keycloak 26.8.1 (verified). `infra/compose.yaml` passes `docker compose config`. NOT yet run with `docker compose up`; web and inference images not yet built (Docker Hub rate limit) |
+| 13 | Wire every screen to the live API; end-to-end journeys through real sign-in | 6 | TODO | See HANDOVER "Next steps" for the exact list |
+| 14 | UI polish: animated numbers and charts, staggered motion, richer visuals | 6 | TODO | Owner asked for the UI to be "as beautiful and dynamic as possible". Plan in HANDOVER |
+| 15 | Final trackers, handover, next-AI prompt | 6 | PARTIAL | Handover and next-AI prompt refreshed at the owner's request to stop (2026-11-05); final pass after items 12-14 |
 
 ## Found along the way (to do)
 

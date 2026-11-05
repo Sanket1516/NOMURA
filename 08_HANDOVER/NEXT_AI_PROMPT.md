@@ -1,64 +1,38 @@
 # Next AI Prompt
 
-**Generated:** 2026-11-05, at the end of the session that completed T0.06 and the architecture set (T0.15).
-Paste the block below into the next session.
+**Generated:** 2026-11-05, when the owner asked to stop mid-Step 6 and hand over. Paste the block below into the next session.
 
 ---
 
-You are continuing **VAAKYA – AI Financial Guardian**, an independent, production-ready, **free and open-source only** application (D-026), owned by Sanket Mali. The Nomura KakushIN 2026 hackathon is over. Do not start a new project.
+You are continuing **VAAKYA – AI Financial Guardian**, a free-and-open-source (D-026) multi-agent financial companion owned by Sanket Mali. Do not start a new project and do not ask the owner to re-explain history.
 
-## Read first, in this order
+## Read first
 
-1. `00_PROJECT_MANAGEMENT/HANDOVER.md`
-2. `00_PROJECT_MANAGEMENT/CURRENT_STATUS.md`
-3. `00_PROJECT_MANAGEMENT/DECISIONS_LOG.md`, especially D-003, D-010, D-013, D-020, D-025 to D-031
-4. `00_PROJECT_MANAGEMENT/TASK_TRACKER.md` (PH0 section)
-5. `02_ARCHITECTURE/SYSTEM_ARCHITECTURE.md`, then the architecture document for your task
-6. `02_ARCHITECTURE/ARCHITECTURE_COVERAGE.md` for the feature you touch
-7. `06_DOCUMENTATION/LICENCE_REGISTER.md` before adding any dependency or model
+1. `00_PROJECT_MANAGEMENT/HANDOVER.md` – rules, code map, test commands, **next steps in order**
+2. `00_PROJECT_MANAGEMENT/REMAINING_WORK.md` – the live checklist (keep it updated as you work)
+3. `00_PROJECT_MANAGEMENT/CURRENT_STATUS.md`
+4. The step results in `05_TESTING/*/STEP*_RESULTS.md`
 
-Verify claims against the files. Do not trust completion claims, including this prompt.
+Verify claims by running the tests before you build on them.
 
-## State you inherit
+## State
 
-- **Phase 0 in progress.** D-029 records that Phase 0 began on the owner's instruction to continue. Check whether the owner has confirmed it.
-- **Done:** T0.06 (versions, API image, smoke tests, licence register; evidence `05_TESTING/evaluations/T0.06_RESULTS.md`) and T0.15 (architecture set v1.0, 29 Mermaid diagrams that render).
-- **No application code exists.** `04_APPLICATION/` is empty. All 208 features are NOT IMPLEMENTED. NFR-MAINT-01 and NFR-LIC-01 are IN PROGRESS from spike evidence only.
-- **Stack is fixed by D-020, D-026, D-030:** Next.js 16.4.5, React 19.3.1, TypeScript 7.0.2, Tailwind 4.3.4, Python 3.13, FastAPI 0.162.0, LangGraph 1.2.20, LlamaIndex 0.14.25, Qdrant 1.20.0, PostgreSQL 18, Neo4j 5.26 Community, SeaweedFS 4.50, Keycloak 26.8.1, Ollama, Caddy, Prometheus, Loki, Grafana. **Do not reintroduce Firebase, AWS, Gemini or the 2024 pins.** The owner confirmed this on 2026-11-05.
+- Steps 1-5 of the owner's six-step build are done and committed to `main`: Next.js 16 frontend (preview mode on sample data), FastAPI backend on PostgreSQL, Neo4j Life Graph, encrypted SeaweedFS vault, Qdrant knowledge base, LangGraph orchestrator, four deterministic agents, inference service with real Tesseract OCR and eSpeak NG speech.
+- Step 6 (integration) is in progress: Keycloak realm and `infra/compose.yaml` are written and the realm import was verified; nothing has run as a full Compose stack; the web app is not yet wired to the live API; UI polish and real-login E2E are not done.
+- No LLM, speech-recognition, translation or embedding model has ever run (downloads were blocked). Those are owner tasks T0.03, T0.08, T0.09, T0.10 on his RTX 3050.
 
-## Your next task
+## Your task
 
-Pick the first one that your environment allows:
-
-1. **If you run on the owner's machine with the RTX 3050:** T0.03, the open-licence LLM evaluation through Ollama. Choose a Private Tier and a Reasoning Tier model with Apache-2.0 or MIT weights. Measure reasoning, accuracy, English, Hindi, Marathi and Kannada quality, latency and GPU memory. Record results in `05_TESTING/evaluations/T0.03_RESULTS.md` and licences in the register. **If the models are not good enough, stop and tell the owner** (MASTER_PLAN, roadmap PH0 "If this phase fails").
-   Then T0.04, T0.07, T0.08, T0.09, T0.13 and T0.11, using `02_ARCHITECTURE/evaluations/T0.06_stack/infra/compose.spike.yaml` as the base for T0.11.
-2. **If you run in a cloud container without a GPU:** you cannot do T0.03 to T0.13 honestly. Useful work that does not break the phase gate:
-   - Draft T0.12, the scheme fact sheet, from official sources, marked **UNVERIFIED** until a human checks it.
-   - Build the evaluation datasets named in MASTER_PLAN s18: routing prompts, RAG questions, scam and genuine messages, adversarial safety set, identifier leakage set, eligibility boundary tables. Put them in `05_TESTING/datasets/`.
-   - Verify the UNVERIFIED rows in the licence register where you can read the artefact itself.
-   Do **not** start PH1 application code unless the owner explicitly waives the Phase 0 gate, and record that in `DECISIONS_LOG.md`.
+Do HANDOVER "Next steps" 1 to 5 in order: run the stack with Compose and seed it; wire every screen to the live API (redirect to onboarding on 409, schemes via `/v1/schemes`, voice summary via `/v1/voice/speak`, new `/learn/[moduleId]` and `/life-graph` pages, budget and plan on the planning page); make the UI as beautiful and dynamic as possible (count-up numbers, animated ring and bars, staggered entry, hover lift; respect reduced motion; keep axe and the 360 px test green); write Playwright journeys through real Keycloak sign-in and registration; capture live screenshots; then update all trackers and regenerate this prompt.
 
 ## Rules
 
-- Never mark a feature IMPLEMENTED, TESTED or VERIFIED without running code and evidence in `05_TESTING/`. Mocks are recorded as MOCK.
-- Calculations, eligibility and the Confidence Score are code. LLMs explain them (D-013).
-- Say "processed on VAAKYA's own server", never "on-device".
-- No real user financial data before T0.14 (NFR-PRIV-03).
-- Every new dependency or model needs a licence register entry first.
-- If you change the architecture, update the relevant `02_ARCHITECTURE/` file and re-run `python3 02_ARCHITECTURE/tools/coverage.py`.
-- At the end, update FEATURE_TRACKER, TASK_TRACKER, CHANGELOG, CURRENT_STATUS, HANDOVER and regenerate this file.
-- Commit on `main` with author `sanket1516 <sanketmali0909@gmail.com>`, only when the owner asks.
+- Open-source stack only; keep substitutions recorded in `DECISIONS_LOG.md`.
+- Never fake AI output; missing subsystems return 503 and the UI says so.
+- Figures, eligibility and scores are code; LLMs only explain.
+- Never mark VERIFIED. Use `00_PROJECT_MANAGEMENT/tools_update_tracker.py` for tracker changes.
+- Commit to `main` as `sanket1516 <sanketmali0909@gmail.com>` when asked.
 
-## Open owner decisions
+## Final report
 
-| Decision | Ask |
-|---|---|
-| D-029 | Confirm Phase 0 approval |
-| D-031 | Accept psycopg (LGPL), Neo4j (GPLv3), Grafana and Loki (AGPLv3) for unmodified use |
-| Architecture | Review `02_ARCHITECTURE/`. 11 features have no strategy (all P2/P3 or need external data). See the coverage review |
-| FR-STR-14 | Choose a verified source for MSP and market prices, or keep it in the backlog |
-| Hardware | A bigger GPU, if T0.03 or T0.11 fails |
-
-## Final report format
-
-State clearly: what was completed, what was tested, what remains, what is mocked, what is broken, and what the next AI should do.
+State what was completed, tested, remaining, mocked and broken, and what the next AI should do.

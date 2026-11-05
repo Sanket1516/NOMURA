@@ -24,11 +24,11 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 79 |
+| PLANNED | 75 |
 | IN PROGRESS | 4 |
-| PARTIALLY IMPLEMENTED | 64 |
+| PARTIALLY IMPLEMENTED | 66 |
 | IMPLEMENTED | 3 |
-| TESTED | 49 |
+| TESTED | 51 |
 | VERIFIED | 0 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
@@ -55,7 +55,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-DOC-01 | Document upload | DK-s12; DK-s11; ES-A5 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Upload API real and tested; storage Step 3 | PARTIAL IMPLEMENTATION |
 | FR-DOC-02 | Secure document vault | ES-STACK; DK-s14; DK-s12; UB-FOSS; D-024 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. SeaweedFS + AES-256-GCM envelope, path-bound; tested against real SeaweedFS | REAL IMPLEMENTATION |
-| FR-DOC-03 | OCR extraction | ES-STACK; DK-s12 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-DOC-03 | OCR extraction | ES-STACK; DK-s12 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/inference; 04_APPLICATION/api/vaakya/ai/inference.py. Tesseract eng/hin/mar/kan real; document extraction job not built | PARTIAL IMPLEMENTATION |
 | FR-DOC-04 | Structured AI extraction | DK-s12 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-DOC-05 | Extraction validation | DK-s12; UI-02 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-DOC-06 | Raw-document isolation | DK-s12; DK-s14; ES-INV | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -178,7 +178,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-SEN-01 | Suspicious content capture | UI-06; ES-A5; DK-s29 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Paste text or upload PNG/JPG <=10 MB with client validation; API not built | PARTIAL IMPLEMENTATION |
 | FR-SEN-02 | Message and offer analysis | ES-INV; ES-A3; UB-IN6; PS-E2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Text, SMS, ads, loan offers, links analysed; tested | REAL IMPLEMENTATION |
-| FR-SEN-03 | OCR for screenshots | ES-A5; ES-STACK | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. OCR client wired; inference service in Step 6 | PARTIAL IMPLEMENTATION |
+| FR-SEN-03 | OCR for screenshots | ES-A5; ES-STACK | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/inference; 04_APPLICATION/api/vaakya/ai/inference.py. Real OCR screenshot → Sentinel verdict, end-to-end test | REAL IMPLEMENTATION |
 | FR-SEN-04 | Risk score and verdict | ES-A3; UI-06; DK-s10 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Indicator + LOW/MEDIUM/HIGH/CRITICAL, labelled not a probability | REAL IMPLEMENTATION |
 | FR-SEN-05 | Explainable reasons | UI-06; PS-R1 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Reasons with quoted evidence; tested evidence is a substring | REAL IMPLEMENTATION |
 | FR-SEN-06 | Recommended protective actions | UI-06; DK-s15; DK-s29 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/agents; 05_TESTING/agents/STEP5_AGENTS_RESULTS.md. Actions per signal + reporting routes | REAL IMPLEMENTATION |
@@ -255,15 +255,15 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-VOI-01 | Speech to text | ES-STACK; UB-FOSS; UB-Q5; D-009; DK-s10; PN-DIV-1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-VOI-02 | Text to speech | UB-FOSS; UB-Q5; D-009; DK-s10; PN-DIV-1; C-012 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-VOI-01 | Speech to text | ES-STACK; UB-FOSS; UB-Q5; D-009; DK-s10; PN-DIV-1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/inference; 04_APPLICATION/api/vaakya/ai/inference.py. faster-whisper path coded; returns 503 until model installed (T0.08) | PARTIAL IMPLEMENTATION |
+| FR-VOI-02 | Text to speech | UB-FOSS; UB-Q5; D-009; DK-s10; PN-DIV-1; C-012 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/inference; 04_APPLICATION/api/vaakya/ai/inference.py. eSpeak NG in en/hi/mr/kn, robotic quality; Indic Parler-TTS pending T0.07 | PARTIAL IMPLEMENTATION |
 | FR-VOI-03 | End-to-end voice pipeline | DK-s10; ES-INV; UB-IN5 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-VOI-04 | Voice Companion screen | UI-14 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Voice Companion screen: language, mic, prompts, recent; speech services not built | PARTIAL IMPLEMENTATION |
 | FR-VOI-05 | Voice navigation | UI-01; UI-14 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-VOI-06 | Voice Explain and Voice Summary | UI-03; UI-04; UI-06 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Voice Summary via on-device browser voices only, live-region fallback; server TTS not built | PARTIAL IMPLEMENTATION |
 | FR-VOI-07 | Regional-language voice | PN-PRI-1; PN-KIS-7; PS-A2; UB-Q5 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-VOI-08 | IVR access | ES-APPB; DK-s10-OLD | P3 | No | No | No | No | NOT STARTED | None | NOT IMPLEMENTED |
-| FR-VOI-09 | Speech engine abstraction | UB-FOSS; ER; D-009 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-VOI-09 | Speech engine abstraction | UB-FOSS; ER; D-009 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/inference; 04_APPLICATION/api/vaakya/ai/inference.py. One service and client; engines per language by configuration | REAL IMPLEMENTATION |
 
 ## A11: Accessibility features
 
