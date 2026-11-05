@@ -24,11 +24,11 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 120 |
+| PLANNED | 99 |
 | IN PROGRESS | 4 |
-| PARTIALLY IMPLEMENTED | 47 |
+| PARTIALLY IMPLEMENTED | 59 |
 | IMPLEMENTED | 3 |
-| TESTED | 25 |
+| TESTED | 34 |
 | VERIFIED | 0 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
@@ -102,32 +102,32 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-ORC-01 | LangGraph orchestrator | ES-2.1; ES-STACK; UB-IN1; PS-T1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-ORC-02 | Shared state | DK-s10; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-ORC-03 | Multi-agent handoff | DK-s15; PS-T1 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-ORC-04 | Graceful failure | ER; PS-R2 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-ORC-01 | LangGraph orchestrator | ES-2.1; ES-STACK; UB-IN1; PS-T1 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. LangGraph 1.2 graph routes to four agents; tested with test agents (real agents Step 5) | REAL IMPLEMENTATION |
+| FR-ORC-02 | Shared state | DK-s10; ES-STACK | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Shared typed state; agents communicate only via state | REAL IMPLEMENTATION |
+| FR-ORC-03 | Multi-agent handoff | DK-s15; PS-T1 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Handoff up to 2 hops, loop-safe; tested | REAL IMPLEMENTATION |
+| FR-ORC-04 | Graceful failure | ER; PS-R2 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Safety failure → safe fallback; graph/LLM outages degrade, never fabricate | REAL IMPLEMENTATION |
 | FR-ORC-05 | Multimodal input | ES-A5; PS-A2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-ORC-06 | Agent attribution | UI-03; UI-06; UI-07; UI-08; D-018 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Agent badges on every AI output and activity item; orchestrator not built | PARTIAL IMPLEMENTATION |
-| FR-ORC-07 | LLM provider abstraction | UB-Q2; UB-FOSS; ER; D-002 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-ORC-07 | LLM provider abstraction | UB-Q2; UB-FOSS; ER; D-002 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Ollama adapter with per-task tiers, retries, fallback; contract-tested; no model run (T0.03) | PARTIAL IMPLEMENTATION |
 
 ## DL: Dual-LLM privacy tier
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-DL-01 | Dual-LLM routing | ES-INV; UB-IN4; UB-Q3; UB-FOSS; D-003; D-025 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-DL-02 | Private-tier runtime | ES-INV; UB-Q3; UB-FOSS; D-003; D-025 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-DL-03 | Sensitive-data minimisation | DK-s12; PS-R3; ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-DL-04 | Data-flow audit log | ER; PS-R1 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-DL-05 | No external data egress | UB-FOSS; UB-Q3; D-026; PN-DIV-7 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-DL-01 | Dual-LLM routing | ES-INV; UB-IN4; UB-Q3; UB-FOSS; D-003; D-025 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Two tiers + RedactedText type gate; no model run yet | PARTIAL IMPLEMENTATION |
+| FR-DL-02 | Private-tier runtime | ES-INV; UB-Q3; UB-FOSS; D-003; D-025 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Both tiers configured for Ollama on the host; models pending T0.03 | PARTIAL IMPLEMENTATION |
+| FR-DL-03 | Sensitive-data minimisation | DK-s12; PS-R3; ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Rule-based redaction of 10 identifier types with checksums; tested | REAL IMPLEMENTATION |
+| FR-DL-04 | Data-flow audit log | ER; PS-R1 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. dataflow_audit records categories when the Reasoning Tier is used | PARTIAL IMPLEMENTATION |
+| FR-DL-05 | No external data egress | UB-FOSS; UB-Q3; D-026; PN-DIV-7 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. No external AI calls in code; network-level egress test in Step 6 | PARTIAL IMPLEMENTATION |
 
 ## KB: Knowledge base and retrieval
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-KB-01 | Knowledge corpus | DK-s14; DK-s10; ES-A1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-KB-02 | Ingestion pipeline | ES-STACK; DK-s10 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-KB-03 | Vector store | DK-s14; ES-STACK; C-010 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-KB-04 | Metadata filtering | ER; DK-s14 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-KB-01 | Knowledge corpus | DK-s14; DK-s10; ES-A1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. 46-chunk corpus from lessons, schemes, scam patterns; drafts pending review; RBI/SEBI documents not ingested | PARTIAL IMPLEMENTATION |
+| FR-KB-02 | Ingestion pipeline | ES-STACK; DK-s10 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Chunking, ingestion, lexical sparse retrieval; e5 embeddings pending T0.10 | PARTIAL IMPLEMENTATION |
+| FR-KB-03 | Vector store | DK-s14; ES-STACK; C-010 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Qdrant financial_knowledge, sparse IDF + 1024-dim e5 slot; tested on real Qdrant | REAL IMPLEMENTATION |
+| FR-KB-04 | Metadata filtering | ER; DK-s14 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Category, language, scheme_id filters; tested | REAL IMPLEMENTATION |
 
 ## ASK: Ask VAAKYA (conversational interface)
 
@@ -299,9 +299,9 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-SAF-01 | AI transparency | PS-R1 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. /about-ai page and AI notice on every AI output | REAL IMPLEMENTATION |
 | FR-SAF-02 | Educational positioning | DK-s8; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SAF-03 | Output guardrails | PS-R2; PS-Q4 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SAF-04 | Source citations | PS-U2; PS-Q4; UI-01 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SAF-05 | Human escalation | PS-R4; DK-s10-OLD | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-SAF-03 | Output guardrails | PS-R2; PS-Q4 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Blocked claims, invented numbers, unknown schemes checked; tested | REAL IMPLEMENTATION |
+| FR-SAF-04 | Source citations | PS-U2; PS-Q4; UI-01 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Grounded agents must cite or abstain; tested | REAL IMPLEMENTATION |
+| FR-SAF-05 | Human escalation | PS-R4; DK-s10-OLD | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. High-stakes questions get helpline and grievance routes; no human advisers | PARTIAL IMPLEMENTATION |
 | FR-SAF-06 | Data controls | PS-R3; DK-s8 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Export and erase real for PostgreSQL; vault/graph erase via interfaces (Step 3); Keycloak account deletion manual | PARTIAL IMPLEMENTATION |
 
 ## BIZ: Ecosystem and future business (vision only)
@@ -323,7 +323,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-SCAL-01 | Stateless API tier | DK-s10; PS-I3 | P0 | Yes | Partial | No | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Stateless except in-memory rate limiter | PARTIAL IMPLEMENTATION |
 | NFR-SCAL-02 | Scale path documented | DK-s7; PS-I3 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-SCAL-03 | Inference queue | ER; UB-FOSS | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-AVAIL-01 | LLM failure handling | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-AVAIL-01 | LLM failure handling | ER; PS-R2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. LLM retries + fallback + deterministic paths | PARTIAL IMPLEMENTATION |
 | NFR-AVAIL-02 | Environments and rollback | ER; UB-Q1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-AVAIL-03 | Data durability | ER; D-007 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Graph rebuildable from PostgreSQL; backups in deployment step | PARTIAL IMPLEMENTATION |
 | NFR-SEC-01 | Authentication everywhere | ER; ES-STACK; D-027 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Auth dependency on every /v1 route; token tests; no live Keycloak yet | REAL IMPLEMENTATION |
@@ -331,7 +331,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-SEC-03 | Encryption | DK-s14; DK-s25 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/data/STEP3_DATA_RESULTS.md. Documents encrypted per object; TLS and disk encryption are deployment items | PARTIAL IMPLEMENTATION |
 | NFR-SEC-04 | Secrets management | ER; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-SEC-05 | Upload safety | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Magic bytes, 10 MB cap, EXIF strip, risky PDF rejection, consent; tested | REAL IMPLEMENTATION |
-| NFR-SEC-06 | Prompt-injection resistance | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-SEC-06 | Prompt-injection resistance | ER; PS-R2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Agents see redacted text; fixed subgraphs; Sentinel evidence checks in Step 5 | PARTIAL IMPLEMENTATION |
 | NFR-SEC-07 | Safe logging | ER; PS-R3 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Allow-listed structlog keys, HMAC user ids, PII regex backstop | REAL IMPLEMENTATION |
 | NFR-SEC-08 | Patched dependencies | ER; D-020 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-SEC-09 | Abuse limits | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Per-user buckets, 429 + Retry-After; single-replica in-memory | REAL IMPLEMENTATION |
@@ -347,9 +347,9 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-I18N-02 | Indian number formats | ER; UI-03 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. en-IN lakh/crore formatting + spoken form for screen readers; unit tests | REAL IMPLEMENTATION |
 | NFR-ACC-01 | Scheme fact accuracy | DK-s8; ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-ACC-02 | Financial arithmetic correctness | ER; C-015 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Calculators tested; cross-screen reconciliation pending Step 6 | PARTIAL IMPLEMENTATION |
-| NFR-ACC-03 | Grounded answers | ER; ES-A5 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-ACC-03 | Grounded answers | ER; ES-A5 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Abstention 5/5 out-of-scope, 15/15 in-scope on small developer set | PARTIAL IMPLEMENTATION |
 | NFR-ACC-04 | Scam detection quality | ER; DK-s8 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-ACC-05 | Routing accuracy | ER | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-ACC-05 | Routing accuracy | ER | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api/vaakya/{ai,agents}; 05_TESTING/ai/STEP4_AI_INFRA_RESULTS.md. Rule router tested on 8 cases; 40-prompt set pending | PARTIAL IMPLEMENTATION |
 | NFR-ACC-06 | Safety evaluation | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-ACC-07 | OCR quality | DK-s8 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-COMP-01 | Devices and browsers | ER; PS-A1 | P0 | Yes | Partial | Partial | No | IN PROGRESS | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Chromium at 1440, 834, 390, 360 px; no overflow; other browsers not tested | PARTIAL IMPLEMENTATION |
