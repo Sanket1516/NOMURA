@@ -278,7 +278,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-LNG-01 | Interface localisation | UB-Q5; UI-01; PN-PRI-1; PN-KIS-7; PS-A1; C-009 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Language picker + nav labels in 4 languages (draft, need native review); page content English only | PARTIAL IMPLEMENTATION |
+| FR-LNG-01 | Interface localisation | UB-Q5; UI-01; PN-PRI-1; PN-KIS-7; PS-A1; C-009 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web (lib/i18n/pages.ts, nav.ts); 4 unit tests; preview E2E renders every screen in hi, mr, kn with axe. All interface text on every screen in draft hi/mr/kn, with a draft notice. API-provided text (scheme names and criteria, lesson content, agent answers, score text) stays English. No native-speaker review | PARTIAL IMPLEMENTATION |
 | FR-LNG-02 | Language-aware AI responses | UB-Q5; ES-STACK; DK-s27; PS-E5; PS-Q1; D-028 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-LNG-03 | Culturally relevant content | PS-E5; PN-KIS-7; DK-s26 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-LNG-04 | Low-literacy mode | PS-A1; PS-A2; ES-INV; PS-Q2 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |

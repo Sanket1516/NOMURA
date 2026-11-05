@@ -2,6 +2,7 @@
 
 **Last updated:** 2026-11-05 (session stopped by the owner; read `08_HANDOVER/WORK_SUMMARY.md` first)
 **For:** any person or AI model continuing VAAKYA.
+**Start with `08_HANDOVER/HANDOFF_STATUS.md`** (done / in flight / remaining / paste-ready prompt).
 **Read next:** `REMAINING_WORK.md` (live checklist), `CURRENT_STATUS.md`, `08_HANDOVER/NEXT_AI_PROMPT.md`.
 
 ## What VAAKYA is
@@ -55,7 +56,7 @@ cd 04_APPLICATION/api && uv run pytest          # 142 tests; service-dependent t
 cd 04_APPLICATION/web && npm test && PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers npx playwright test   # 19 unit + 12 E2E
 ```
 
-Last full results: API 138 passed + 4 inference-integration passed; inference service 10 passed; web 19 unit + 12 E2E passed.
+Last full results: API 138 passed + 4 inference-integration passed; inference service 10 passed; web 23 unit + 27 E2E passed.
 
 ## Run the whole stack
 
@@ -71,10 +72,19 @@ If Docker Hub refuses `ubuntu:24.04`, build a base with `debootstrap --variant=m
 
 ## Next steps
 
-**First:** verify Row Level Security on the full stack (WORK_SUMMARY §5 step 1). The API now connects as `vaakya_api` (restricted) and uses `VAAKYA_ADMIN_DATABASE_URL` for migrations, seed and worker.
+**First:** the open items in `KNOWN_ISSUES.md`. Item 21 (page translations) is done as drafts; adding a screen means adding keys to `web/lib/i18n/pages.ts` for all four languages (the unit tests check scripts and mixing). Audit reports: `05_TESTING/audit/`. Row Level Security is verified on the full stack. The API connects as `vaakya_api` (restricted) and uses `VAAKYA_ADMIN_DATABASE_URL` for migrations, seed and worker.
 
 
 Work through `REMAINING_WORK.md` items 16-21 in order: proactive nudges, monthly review, document upload and extraction review, production profile (Caddy TLS, monitoring, backups), PostgreSQL RLS, page translations. Keep the test suites green and update trackers with `tools_update_tracker.py`.
+
+## Windows notes
+
+- Container files need LF endings; `.gitattributes` enforces it. If Postgres says "required file not found" for `10-init.sh`, strip CRs and `down -v`.
+- Always read data files as UTF-8 (`read_text(encoding="utf-8")`).
+- In Git Bash, prefix `docker run` with `MSYS_NO_PATHCONV=1` when passing container paths like `/data`.
+- Export `VAAKYA_DOMAIN=localhost` for every `docker compose` call with the prod overlay, including `ps`.
+- Live E2E over the self-signed certificate: set `NODE_TLS_REJECT_UNAUTHORIZED=0`.
+- Inference tests: run inside a throwaway container from the `vaakya-inference` image with the folder mounted (needs Tesseract and eSpeak).
 
 ## Known facts about this environment (cloud container)
 

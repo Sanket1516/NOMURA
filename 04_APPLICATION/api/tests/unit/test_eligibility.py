@@ -7,7 +7,7 @@ import pytest
 
 from vaakya.domain.eligibility import evaluate, facts_from_profile
 
-SCHEMES = {s["id"]: s for s in json.loads((Path(__file__).parents[2] / "vaakya/data/schemes.json").read_text())["schemes"]}
+SCHEMES = {s["id"]: s for s in json.loads((Path(__file__).parents[2] / "vaakya/data/schemes.json").read_text(encoding="utf-8"))["schemes"]}
 KISAN = {"owns_farmland": True, "is_cultivator": True, "income_tax_payer": False, "institutional_landholder": False,
          "constitutional_post_holder": False, "govt_employee_excluded": False, "pensioner_10k_plus": False, "practising_professional": False,
          "has_bank_account": True, "age": 45}

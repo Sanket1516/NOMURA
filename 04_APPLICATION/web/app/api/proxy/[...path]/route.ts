@@ -9,6 +9,11 @@ import { accessToken, getViewer } from "@/lib/server/session";
 async function handle(req: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {
   const { path } = await ctx.params;
   if (path[0] !== "v1") return NextResponse.json({ title: "Not found", status: 404 }, { status: 404 });
+  // Second line of defence against cross-site request forgery next to SameSite=Lax: a browser always sends Origin on cross-origin writes.
+  const origin = req.headers.get("origin");
+  if (!["GET", "HEAD"].includes(req.method) && origin && origin !== new URL(config.appUrl).origin) {
+    return problem(403, "Cross-site request refused");
+  }
   const viewer = await getViewer();
   if (!viewer) return problem(401, "Not signed in");
   if (viewer.mode === "preview") {

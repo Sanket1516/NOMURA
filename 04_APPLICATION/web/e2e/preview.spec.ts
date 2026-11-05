@@ -159,3 +159,88 @@ test("no page scrolls horizontally on a 360 px phone", async ({ browser }) => {
   }
   await ctx.close();
 });
+
+for (const [lang, heading, script] of [["hi", "स्कैम शील्ड", /[\u0900-\u097F]/], ["mr", "फसवणूक कवच", /[\u0900-\u097F]/], ["kn", "ವಂಚನೆ ಕವಚ", /[\u0C80-\u0CFF]/]] as const) {
+  test(`scam shield page is translated to ${lang} (draft) and still accessible`, async ({ page, context }) => {
+    await previewAs(page);
+    await context.addCookies([{ name: "vaakya_lang", value: lang, url: page.url() }]);
+    await page.goto("/shield");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading);
+    await expect(page.getByRole("tab").first()).toHaveText(script);
+    await expect(page.getByText(/draft|मसौदा|मसुदा|ಕರಡು/).first()).toBeVisible();
+    await axe(page);
+  });
+}
+
+test("security headers include a restrictive Content-Security-Policy", async ({ request }) => {
+  const res = await request.get("/login");
+  const csp = res.headers()["content-security-policy"] ?? "";
+  expect(csp).toContain("default-src 'self'");
+  expect(csp).toContain("frame-ancestors 'none'");
+  expect(csp).toContain("object-src 'none'");
+  expect(csp).not.toMatch(/script-src[^;]*https?:/);
+  const script = /script-src([^;]*)/.exec(csp)?.[1] ?? "";
+  expect(script).toMatch(/'nonce-[A-Za-z0-9+/=]+'/);
+  expect(script).not.toContain("'unsafe-inline'");
+  const again = (await request.get("/login")).headers()["content-security-policy"];
+  expect(again).not.toBe(csp); // a fresh nonce for every request
+});
+
+test("no page breaks the Content-Security-Policy (no violations in the console)", async ({ page }) => {
+  const violations: string[] = [];
+  page.on("console", (m) => { if (/content security policy|refused to (execute|load|apply)/i.test(m.text())) violations.push(m.text()); });
+  page.on("pageerror", (e) => violations.push(String(e)));
+  await previewAs(page);
+  for (const [, path] of PAGES) { await page.goto(path); await page.waitForLoadState("networkidle"); }
+  for (const path of ["/", "/login", "/register", "/onboarding/profile?persona=priya"]) { await page.goto(path); await page.waitForLoadState("networkidle"); }
+  expect(violations).toEqual([]);
+});
+
+test("no page scrolls horizontally on a 768 px tablet", async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await previewAs(page);
+  for (const [, path] of PAGES) {
+    await page.goto(path);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow, path).toBeLessThanOrEqual(0);
+  }
+});
+
+test("the API proxy refuses writes that come from another origin", async ({ request }) => {
+  const res = await request.post("/api/proxy/v1/chat", { headers: { origin: "https://evil.example" }, data: {} });
+  expect(res.status()).toBe(403);
+});
+
+for (const [lang, path, heading, label] of [
+  ["hi", "/goals", "आपके लक्ष्य", "लक्ष्य सहेजें और योजना बनाएँ"], ["mr", "/goals", "तुमची उद्दिष्टे", "उद्दिष्ट जतन करा आणि योजना बनवा"], ["kn", "/goals", "ನಿಮ್ಮ ಗುರಿಗಳು", "ಗುರಿ ಉಳಿಸಿ ಮತ್ತು ಯೋಜನೆ ರೂಪಿಸಿ"],
+  ["hi", "/schemes", "सरकारी योजनाएँ", "मेरी पात्रता जाँचें"], ["mr", "/schemes", "शासकीय योजना", "माझी पात्रता तपासा"], ["kn", "/schemes", "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು", "ನನ್ನ ಅರ್ಹತೆ ಪರಿಶೀಲಿಸಿ"],
+] as const) {
+  test(`${path} is translated to ${lang} (draft) and still accessible`, async ({ page, context }) => {
+    await previewAs(page);
+    await context.addCookies([{ name: "vaakya_lang", value: lang, url: page.url() }]);
+    await page.goto(path);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(heading);
+    await expect(page.getByRole("button", { name: label }).first()).toBeVisible();
+    await axe(page);
+  });
+}
+
+// Every signed-in screen in each draft language: the main heading is in the right script and axe finds no serious problems.
+const SCRIPT_OF = { hi: /[\u0900-\u097F]/, mr: /[\u0900-\u097F]/, kn: /[\u0C80-\u0CFF]/ } as const;
+const SKIP_H1 = new Set(["review", "voice"]); // month heading and voice follow other settings
+for (const lang of ["hi", "mr", "kn"] as const) {
+  test(`all screens render in ${lang} with a translated heading and pass axe`, async ({ page, context }) => {
+    test.setTimeout(180_000);
+    await previewAs(page);
+    await context.addCookies([{ name: "vaakya_lang", value: lang, url: page.url() }]);
+    for (const [name, path] of PAGES) {
+      await page.goto(path);
+      if (!SKIP_H1.has(name)) await expect(page.getByRole("heading", { level: 1 }).first(), `${lang} ${path}`).toHaveText(SCRIPT_OF[lang]);
+      await axe(page);
+    }
+    for (const path of ["/", "/login", "/register", "/about-ai", "/onboarding", "/onboarding/persona", "/onboarding/profile?persona=priya"]) {
+      await page.goto(path);
+      await expect(page.getByRole("heading", { level: 1 }).first(), `${lang} ${path}`).toHaveText(SCRIPT_OF[lang]);
+    }
+  });
+}

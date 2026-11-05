@@ -26,11 +26,11 @@ Landing, login, registration, onboarding (consent → persona → profile → mo
 
 | Suite | Result |
 |---|---|
-| API unit + integration (real PostgreSQL, Neo4j, SeaweedFS, Qdrant) | 155 passed, 4 skipped (host-OCR tests); also 155 with RLS enforced |
+| API unit + integration (real PostgreSQL, Neo4j, SeaweedFS, Qdrant) | 156 passed, 4 skipped (host-OCR tests); same with RLS enforced (re-run 2026-11-05) |
 | Inference service (real Tesseract and eSpeak NG) | 10 passed |
-| Web unit | 19 passed |
-| Web preview E2E (axe WCAG 2.2 AA: 0 serious/critical; 360 px no overflow; keyboard) | 12 passed |
-| Live E2E through real Keycloak on the full Docker stack | 8 journeys passed, over http and over https behind Caddy (before the RLS change) |
+| Web unit | 23 passed |
+| Web preview E2E (axe WCAG 2.2 AA: 0 serious/critical; 360 and 768 px no overflow; keyboard; CSP; CSRF; translated Scam Shield) | 27 passed |
+| Live E2E through real Keycloak on the full Docker stack | 8 journeys passed over https behind Caddy, with the restricted RLS role (2026-11-05) |
 | Backup → restore rehearsal | Row counts identical; backup files contain no plaintext |
 
 Evidence: `05_TESTING/*/STEP*_RESULTS.md`, `05_TESTING/integration/STEP6_INTEGRATION_RESULTS.md`, screenshots in `07_HACKATHON_DELIVERABLES/PRODUCT_SCREENSHOTS/FRONTEND/` (68 + live set).
@@ -41,6 +41,7 @@ Evidence: `05_TESTING/*/STEP*_RESULTS.md`, `05_TESTING/integration/STEP6_INTEGRA
 |---|---|---|
 | Language models (Private and Reasoning tiers) | **None has run.** Agents answer with deterministic rules, labelled `llm_used: false` | Model downloads blocked here; choose and run models on the RTX 3050 (T0.03) |
 | Speech-to-text | Returns an honest "not installed" message | Needs faster-whisper weights (T0.08) |
+| Page-content translation | All interface text in hi/mr/kn is unreviewed drafts (about 630 strings); API text such as scheme criteria, lessons and answers stays English | Native review; translation model (T0.09) |
 | Translation of AI answers | Answers are English (`translated: false`); nav labels translated as drafts | IndicTrans2 weights (T0.09); native review |
 | Semantic retrieval | Keyword (sparse) retrieval in Qdrant; 15/15 on a small labelled set | e5 embeddings (T0.10) |
 | Text-to-speech quality | eSpeak NG works but sounds robotic | Indic Parler-TTS (T0.07) |
@@ -48,13 +49,14 @@ Evidence: `05_TESTING/*/STEP*_RESULTS.md`, `05_TESTING/integration/STEP6_INTEGRA
 | Lessons and scam patterns | Drafts | Content review (FR-EDU-07) |
 | Sentinel accuracy | 12/12 scams, 0/7 false alarms on a set the rules were tuned on | Independent labelled set (T6.05) |
 | Monitoring stack | Prometheus/Grafana configured, not run | Docker Hub rate limit in this environment |
-| Row Level Security in Compose | Code and tests done; stack re-run with the new DB role **not yet verified** | Next step 1 below |
+| Row Level Security in Compose | Verified 2026-11-05: 8 live journeys pass with the restricted role | None |
 | Legal | No real user data yet | DPDP and SEBI advice (T0.14) |
+
+Audit (2026-11-05): `05_TESTING/audit/TEST_REPORT.md`, `SECURITY_AUDIT.md`, `PERFORMANCE_REPORT.md`, `FINAL_PROJECT_AUDIT.md`; issues in `00_PROJECT_MANAGEMENT/KNOWN_ISSUES.md`. Performance has not been benchmarked.
 
 ## 5. Remaining work (in order)
 
-1. **Verify RLS on the full stack:** `cd 04_APPLICATION/infra && VAAKYA_DOMAIN=localhost docker compose -f compose.yaml -f compose.prod.yaml up -d --no-build`, seed (`docker compose ... exec api python -m vaakya.seed all`), run the 8 live journeys over https://localhost. Existing local `secrets/` were updated for the `vaakya_api` role; fresh installs get it from `init-secrets.sh`.
-2. Page-content translations for hi, mr, kn (REMAINING_WORK 21), with native review.
+1. Native-speaker review of everything in `04_APPLICATION/web/lib/i18n/` (and legal review of the consent wording). Then the KNOWN_ISSUES items.
 3. Owner tasks on the GPU machine: models (T0.03), speech (T0.07, T0.08), translation (T0.09), embeddings (T0.10), OCR comparison (T0.13).
 4. Human tasks: scheme verification (T0.12), content review, legal scoping (T0.14), screen-reader testing with real users.
 5. Before a public launch: CI pipeline, threat model and security testing (T10.08), hardware for an always-on host.

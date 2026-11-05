@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import { Steps, ONBOARDING_STEPS } from "@/components/layout/steps";
+import { uiLang } from "@/lib/server/data";
+import { tr } from "@/lib/i18n/pages";
 import { ConsentForm } from "./consent-form";
 
 export const metadata: Metadata = { title: "Consent" };
 
-export default function ConsentPage() {
+export default async function ConsentPage() {
+  const lang = await uiLang();
   return (
     <>
-      <Steps current={1} labels={ONBOARDING_STEPS} />
-      <h1 className="font-display text-4xl">Your data, your choice</h1>
-      <p className="mt-2 text-ink-2">Each permission is separate. You can view or withdraw any of them later in Profile. VAAKYA processes your data on its own server and does not sell or share it.</p>
-      <ConsentForm />
+      <Steps current={1} labels={ONBOARDING_STEPS} lang={lang} />
+      <h1 className="font-display text-4xl">{tr(lang, "onb.consent.title")}</h1>
+      <p className="mt-2 text-ink-2">{tr(lang, "onb.consent.intro")}</p>
+      <ConsentForm lang={lang} />
     </>
   );
 }

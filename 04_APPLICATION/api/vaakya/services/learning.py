@@ -17,7 +17,7 @@ from .common import emit
 
 @lru_cache
 def catalogue() -> dict:
-    return json.loads((Path(__file__).parent.parent / "data" / "learning.json").read_text())
+    return json.loads((Path(__file__).parent.parent / "data" / "learning.json").read_text(encoding="utf-8"))
 
 
 def _module(module_id: str) -> dict:

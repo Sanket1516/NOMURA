@@ -66,19 +66,19 @@ class Chunk:
 
 def corpus() -> list[Chunk]:
     chunks: list[Chunk] = []
-    learning = json.loads((DATA / "learning.json").read_text())
+    learning = json.loads((DATA / "learning.json").read_text(encoding="utf-8"))
     for m in learning["modules"]:
         for i, sec in enumerate(m["sections"]):
             chunks.append(Chunk(f"lesson:{m['id']}:{i}", f"{m['title']}: {sec['heading']}. {sec['body']}", f"{m['title']} — {sec['heading']}",
                                 "lesson", "en", f"lesson/{m['id']}", "VAAKYA lesson (draft, under review)", f"/learn#{m['id']}", learning["status"]))
-    schemes = json.loads((DATA / "schemes.json").read_text())
+    schemes = json.loads((DATA / "schemes.json").read_text(encoding="utf-8"))
     for sc in schemes["schemes"]:
         crit = "; ".join(c["label"] for c in sc["criteria"])
         steps = " ".join(s["text"] for s in sc["steps"])
         chunks.append(Chunk(f"scheme:{sc['id']}", f"{sc['name']}: {sc['summary']} Benefit: {sc['benefit']['text']} Who can apply: {crit}. "
                             f"How to apply: {steps} Documents: {', '.join(sc['documents'])}.", sc["name"], "scheme_info", "en",
                             f"scheme/{sc['id']}", sc["authority"], sc["source_url"], schemes["verification"], scheme_id=sc["id"]))
-    scams = json.loads((DATA / "scam_patterns.json").read_text())
+    scams = json.loads((DATA / "scam_patterns.json").read_text(encoding="utf-8"))
     for p in scams["patterns"]:
         chunks.append(Chunk(f"scam:{p['id']}", f"{p['title']}: {p['body']}", p["title"], "scam_pattern", "en", f"scam/{p['id']}",
                             "VAAKYA scam awareness (draft, under review)", "/shield", scams["status"]))

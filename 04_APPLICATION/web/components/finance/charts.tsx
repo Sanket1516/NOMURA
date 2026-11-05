@@ -1,17 +1,19 @@
 import { ChartText } from "@/components/a11y/chart-text";
 import { formatINR, formatMonth } from "@/lib/format";
+import type { Lang } from "@/lib/types";
+import { tr, trf, type PageKey } from "@/lib/i18n/pages";
 
 /** Bars of monthly saving against a planned line. Clean, no gridline clutter. */
-export function SavingsBars({ data, plannedPaise }: { data: { month: string; saved_paise: number }[]; plannedPaise: number }) {
+export function SavingsBars({ data, plannedPaise, lang = "en" }: { data: { month: string; saved_paise: number }[]; plannedPaise: number; lang?: Lang }) {
   const W = 560, H = 190, pad = 28;
   const max = Math.max(plannedPaise, ...data.map((d) => d.saved_paise), 1);
   const bw = (W - pad * 2) / data.length;
   const y = (v: number) => H - pad - (v / max) * (H - pad * 2);
   const met = data.filter((d) => d.saved_paise >= plannedPaise && plannedPaise > 0).length;
   return (
-    <ChartText
-      summary={`Saved in the last ${data.length} months. ${plannedPaise ? `Met the ${formatINR(plannedPaise / 100)} plan in ${met} of ${data.length} months.` : ""}`}
-      tableLabel="Monthly savings" columns={["Month", "Saved"]}
+    <ChartText lang={lang}
+      summary={`${trf(lang, "sav.summary", { n: data.length })} ${plannedPaise ? trf(lang, "sav.met", { plan: formatINR(plannedPaise / 100), met, n: data.length }) : ""}`}
+      tableLabel={tr(lang, "sav.table")} columns={[tr(lang, "col.month"), tr(lang, "col.saved")]}
       rows={data.map((d) => [formatMonth(d.month), formatINR(d.saved_paise / 100)])}>
       <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full">
         {data.map((d, i) => {
@@ -38,7 +40,7 @@ export function SavingsBars({ data, plannedPaise }: { data: { month: string; sav
 }
 
 /** Line of score history with an end label. */
-export function ScoreLine({ data }: { data: { month: string; overall: number }[] }) {
+export function ScoreLine({ data, lang = "en" }: { data: { month: string; overall: number }[]; lang?: Lang }) {
   const W = 560, H = 170, pad = 26;
   const xs = (i: number) => pad + (i * (W - pad * 2)) / Math.max(data.length - 1, 1);
   const ys = (v: number) => H - pad - (v / 100) * (H - pad * 2);
@@ -46,9 +48,9 @@ export function ScoreLine({ data }: { data: { month: string; overall: number }[]
   const area = `${path} L${xs(data.length - 1)},${H - pad} L${xs(0)},${H - pad} Z`;
   const first = data[0], last = data[data.length - 1];
   return (
-    <ChartText
-      summary={`Score went from ${first.overall} in ${formatMonth(first.month)} to ${last.overall} in ${formatMonth(last.month)}.`}
-      tableLabel="Confidence score history" columns={["Month", "Score"]} rows={data.map((d) => [formatMonth(d.month), d.overall])}>
+    <ChartText lang={lang}
+      summary={trf(lang, "hist.summary", { a: first.overall, ma: formatMonth(first.month), b: last.overall, mb: formatMonth(last.month) })}
+      tableLabel={tr(lang, "hist.table")} columns={[tr(lang, "col.month"), tr(lang, "ring.col.score")]} rows={data.map((d) => [formatMonth(d.month), d.overall])}>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full">
         <defs>
           <linearGradient id="scoreFill" x1="0" x2="0" y1="0" y2="1">

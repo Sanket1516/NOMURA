@@ -79,3 +79,20 @@ def test_metrics_endpoint_counts_requests_without_user_data(client, alice):
     body = client.get("/metrics").text
     assert 'vaakya_http_requests_total{method="GET",route="/v1/me",status="200"}' in body
     assert "alice" not in body
+
+
+def test_interactive_docs_exist_in_development_but_not_in_production(app, client, monkeypatch):
+    from vaakya.config import get_settings
+    from vaakya.main import create_app
+    assert client.get("/openapi.json").status_code == 200
+    monkeypatch.setenv("VAAKYA_ENV", "production")
+    monkeypatch.setenv("VAAKYA_LOG_HMAC_KEY", "test-only-production-key")
+    get_settings.cache_clear()
+    try:
+        from fastapi.testclient import TestClient
+        prod = TestClient(create_app(), raise_server_exceptions=False)
+        assert prod.get("/openapi.json").status_code == 404
+        assert prod.get("/docs").status_code == 404
+    finally:
+        monkeypatch.undo()
+        get_settings.cache_clear()

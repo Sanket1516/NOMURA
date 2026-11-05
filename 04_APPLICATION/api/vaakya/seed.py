@@ -30,7 +30,7 @@ DEMO_SUBS = {  # must match infra/keycloak realm user ids
 
 
 def load_schemes(db: Session) -> int:
-    data = json.loads((Path(__file__).parent / "data" / "schemes.json").read_text())
+    data = json.loads((Path(__file__).parent / "data" / "schemes.json").read_text(encoding="utf-8"))
     n = 0
     for sc in data["schemes"]:
         row = db.get(Scheme, sc["id"])

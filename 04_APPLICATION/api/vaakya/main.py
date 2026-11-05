@@ -24,10 +24,11 @@ MAX_MULTIPART_BYTES = 11 * 1024 * 1024
 
 def create_app(features: Features | None = None) -> FastAPI:
     settings = get_settings()
+    prod = settings.env == "production"  # no interactive docs or schema on a production server
     configure()
     app = FastAPI(title="VAAKYA API", version=__version__,
                   description="VAAKYA - AI Financial Guardian. Educational guidance; every money figure comes from tested calculators.",
-                  docs_url="/docs", redoc_url=None, openapi_url="/openapi.json")
+                  docs_url=None if prod else "/docs", redoc_url=None, openapi_url=None if prod else "/openapi.json")
     app.state.features = features or Features()
     log = structlog.get_logger()
 

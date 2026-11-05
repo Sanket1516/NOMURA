@@ -7,12 +7,14 @@ import { Alert } from "@/components/ui/alert";
 import { useAnnounce } from "@/components/a11y/live-region";
 import { api } from "@/lib/client/api";
 import { cn } from "@/lib/cn";
-import type { Problem } from "@/lib/types";
+import type { Lang, Problem } from "@/lib/types";
+import { tr, trf, type PageKey } from "@/lib/i18n/pages";
 
 export interface QuizQuestion { id: string; q: string; options: string[] }
 interface Result { correct: number; total: number; results: Record<string, boolean>; explanations: Record<string, string>; score_overall: number }
 
-export function Quiz({ moduleId, questions }: { moduleId: string; questions: QuizQuestion[] }) {
+export function Quiz({ moduleId, questions, lang = "en" }: { moduleId: string; questions: QuizQuestion[]; lang?: Lang }) {
+  const t = (k: PageKey) => tr(lang, k);
   const router = useRouter();
   const announce = useAnnounce();
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -22,14 +24,14 @@ export function Quiz({ moduleId, questions }: { moduleId: string; questions: Qui
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (Object.keys(answers).length < questions.length) { setProblem({ type: "validation", title: "Answer every question", status: 422 }); return; }
+    if (Object.keys(answers).length < questions.length) { setProblem({ type: "validation", title: t("quiz.all"), status: 422 }); return; }
     setBusy(true); setProblem(null);
     await api(`/v1/learning/modules/${moduleId}/complete`, { method: "POST", json: {} });
     const r = await api<Result>(`/v1/learning/modules/${moduleId}/quiz-attempts`, { method: "POST", json: { answers } });
     setBusy(false);
     if (!r.ok) { setProblem(r.problem); return; }
     setResult(r.data);
-    announce(`${r.data.correct} of ${r.data.total} correct. Your score is now ${r.data.score_overall}.`, "assertive");
+    announce(trf(lang, "quiz.result", { c: r.data.correct, t: r.data.total, s: r.data.score_overall }), "assertive");
     router.refresh();
   }
 
@@ -47,18 +49,18 @@ export function Quiz({ moduleId, questions }: { moduleId: string; questions: Qui
                   <input type="radio" name={q.id} className="size-5" checked={answers[q.id] === oi} disabled={Boolean(result)}
                     onChange={() => setAnswers({ ...answers, [q.id]: oi })} />
                   <span className="flex-1">{o}</span>
-                  {verdict === true ? <CheckCircle2 aria-label="Correct" className="size-5 text-success" /> : verdict === false ? <XCircle aria-label="Not correct" className="size-5 text-danger" /> : null}
+                  {verdict === true ? <CheckCircle2 aria-label={t("quiz.correct")} className="size-5 text-success" /> : verdict === false ? <XCircle aria-label={t("quiz.wrong")} className="size-5 text-danger" /> : null}
                 </label>
               );
             })}
           </div>
-          {result && !result.results[q.id] ? <p className="mt-2 text-sm text-ink-2"><strong>Answer:</strong> {result.explanations[q.id]}</p> : null}
+          {result && !result.results[q.id] ? <p className="mt-2 text-sm text-ink-2"><strong>{t("quiz.answer")}</strong> {result.explanations[q.id]}</p> : null}
         </fieldset>
       ))}
       {problem ? <Alert tone="danger" role="alert" title={problem.title}>{problem.detail}</Alert> : null}
       {result ? (
-        <Alert tone="success" role="status" title={`${result.correct} of ${result.total} correct`}>Your Confidence Score is now {result.score_overall}.</Alert>
-      ) : <Button type="submit" disabled={busy} className="w-full">{busy ? "Checking…" : "Submit answers"}</Button>}
+        <Alert tone="success" role="status" title={trf(lang, "quiz.title", { c: result.correct, t: result.total })}>{trf(lang, "quiz.now", { s: result.score_overall })}</Alert>
+      ) : <Button type="submit" disabled={busy} className="w-full">{busy ? t("quiz.checking") : t("quiz.submit")}</Button>}
     </form>
   );
 }
