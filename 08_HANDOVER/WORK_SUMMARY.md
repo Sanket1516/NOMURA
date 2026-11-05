@@ -28,8 +28,8 @@ Landing, login, registration, onboarding (consent → persona → profile → mo
 |---|---|
 | API unit + integration (real PostgreSQL, Neo4j, SeaweedFS, Qdrant) | 156 passed, 4 skipped (host-OCR tests); same with RLS enforced (re-run 2026-11-05) |
 | Inference service (real Tesseract and eSpeak NG) | 10 passed |
-| Web unit | 23 passed |
-| Web preview E2E (axe WCAG 2.2 AA: 0 serious/critical; 360 and 768 px no overflow; keyboard; CSP; CSRF; translated Scam Shield) | 27 passed |
+| Web unit | 26 passed (cloud run, 2026-11-05 later) |
+| Web preview E2E (axe WCAG 2.2 AA: 0 serious/critical; 360 and 768 px no overflow; keyboard; CSP; CSRF; translated Scam Shield) | 29 passed with the nonce CSP and the install button (cloud run; the 27 earlier ran before the CSP change) |
 | Live E2E through real Keycloak on the full Docker stack | 8 journeys passed over https behind Caddy, with the restricted RLS role (2026-11-05) |
 | Backup → restore rehearsal | Row counts identical; backup files contain no plaintext |
 

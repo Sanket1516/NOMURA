@@ -140,6 +140,25 @@ test("PWA manifest and service worker are served", async ({ request }) => {
   expect((await request.get("/icons/icon-512.png")).status()).toBe(200);
 });
 
+test("install button appears only when the browser offers installation, and works", async ({ page }) => {
+  await previewAs(page);
+  await page.goto("/home");
+  await expect(page.getByRole("button", { name: "Install app" })).toHaveCount(0);
+  await page.evaluate(() => {
+    const e = new Event("beforeinstallprompt", { cancelable: true }) as Event & { prompt: () => Promise<void>; userChoice: Promise<unknown> };
+    (window as unknown as { __prompted: boolean }).__prompted = false;
+    e.prompt = async () => { (window as unknown as { __prompted: boolean }).__prompted = true; };
+    e.userChoice = Promise.resolve({ outcome: "accepted" });
+    window.dispatchEvent(e);
+  });
+  const btn = page.getByRole("button", { name: "Install app" });
+  await expect(btn).toBeVisible();
+  expect(await axe(page)).toEqual([]);
+  await btn.click();
+  await expect(btn).toHaveCount(0);
+  expect(await page.evaluate(() => (window as unknown as { __prompted: boolean }).__prompted)).toBe(true);
+});
+
 test("API proxy refuses without session and in preview", async ({ page, request }) => {
   expect((await request.get("/api/proxy/v1/dashboard")).status()).toBe(401);
   await previewAs(page);

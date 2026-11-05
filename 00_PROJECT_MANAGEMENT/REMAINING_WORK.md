@@ -35,6 +35,12 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 19 | Production profile: Caddy TLS, Prometheus/Loki/Grafana, encrypted backups | DONE except running Prometheus/Grafana (rate limit); 8 live journeys pass over HTTPS; `06_DOCUMENTATION/OPERATIONS.md` |
 | 20 | PostgreSQL Row Level Security as second line of defence | DONE: migration 0003, restricted `vaakya_api` role; API suite passes normal and with RLS; full Compose stack rebuilt from scratch, seeded, 8 live journeys pass over https://localhost (2026-11-05) |
 | 21 | Page-content translations (hi, mr, kn) beyond navigation | DONE as drafts (2026-11-05): all interface text on every screen, including landing, sign-in, onboarding, errors, forms, charts and shared components, in `lib/i18n/pages.ts` (about 630 strings). Still English because it comes from the API: scheme names and criteria, lesson and quiz content, agent answers, score explanations. Needs native-speaker review (all of it) and, for the consent wording, legal review. A user's chosen language is a cookie; the profile's preferred language is a separate setting |
+| 22 | `/metrics` bearer token (KI-13) | CODE WRITTEN 2026-11-05; guard checked directly; DB-backed test and Prometheus scrape not run |
+| 23 | CI workflow `.github/workflows/ci.yml` (KI-16, KI-12) | CODE WRITTEN; never run on GitHub |
+| 24 | Interface language from the profile on first sign-in (KI-19) | CODE WRITTEN; 3 unit tests; not tried through Keycloak |
+| 25 | PWA install button | DONE in preview (E2E with a synthetic install event); real install prompt not tried on a device |
+| 26 | Nonce CSP | Preview E2E 29/29 passes; Docker rebuild and live E2E TODO (`08_HANDOVER/OWNER_LOCAL_TASKS.md` B1) |
+| 27 | Everything that needs the owner's machine | See `08_HANDOVER/OWNER_LOCAL_TASKS.md` |
 
 ## Found along the way (to do)
 

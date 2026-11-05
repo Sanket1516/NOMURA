@@ -13,13 +13,14 @@ READ FIRST, IN ORDER
 2. 00_PROJECT_MANAGEMENT/KNOWN_ISSUES.md and REMAINING_WORK.md
 3. 00_PROJECT_MANAGEMENT/HANDOVER.md (rules, code map, Windows notes)
 4. 05_TESTING/audit/FINAL_PROJECT_AUDIT.md
-Verify claims by running the tests before building on them. Nothing from the last session is committed; check `git status` first.
+Also read 08_HANDOVER/OWNER_LOCAL_TASKS.md: it lists what a cloud session could not run (live stack, Ollama, CI) and is the checklist for your first hour.
+Verify claims by running the tests before building on them. The work is committed on branch claude/tender-allen-nshe5u (merge or cherry-pick to main only when the owner asks); check `git status` and `git log` first.
 
 YOUR TASKS, IN ORDER
-1. Finish the nonce-based CSP (HANDOFF_STATUS 3a): run the preview E2E, rebuild the web image, run the live E2E. If it breaks, revert to the previous policy and record why.
+1. Do OWNER_LOCAL_TASKS sections A and B first. Nonce CSP (3a): the preview E2E already passes (29/29, cloud run); rebuild the web image and run the live E2E. If it breaks, revert to the previous policy and record why.
 2. Switch on the local Ollama model (3b): qwen2:7b for both tiers via VAAKYA_OLLAMA_URL=http://host.docker.internal:11434. Confirm llm_used true on Educator answers, safety review still blocks invented numbers and product pushing, tests and live E2E green. Do NOT add Gemini unless the owner explicitly decides and supplies a key.
 3. Check Prometheus targets and Grafana (3c).
-4. Work through section 5 of the hand-off in order. Keep every suite green: API (normal and VAAKYA_TEST_RLS=1), inference, web unit, preview E2E, live E2E.
+4. Work through the open items of section 5 of the hand-off (metrics token, CI workflow, language-from-profile and the PWA install button are written but unverified on the live stack; KI-18, KI-10, KI-09, KI-05 remain). Keep every suite green: API (normal and VAAKYA_TEST_RLS=1), inference, web unit, preview E2E, live E2E.
 5. Update trackers (FEATURE_TRACKER via tools_update_tracker.py, TASK_TRACKER, CHANGELOG, CURRENT_STATUS, HANDOVER, REMAINING_WORK, KNOWN_ISSUES, WORK_SUMMARY, HANDOFF_STATUS) and ask the owner whether to commit.
 
 RULES

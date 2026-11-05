@@ -31,9 +31,15 @@ All run on a fresh Windows build of the production overlay (https://localhost be
 - Fixed: CRLF line endings (Postgres init), UTF-8 file reads (rupee sign), CSP added, CSRF Origin check, API docs off in production, misleading UI claims (lessons "reviewed", "simple words mode").
 - Reports: `05_TESTING/audit/` (TEST_REPORT, SECURITY_AUDIT, PERFORMANCE_REPORT, FINAL_PROJECT_AUDIT), `00_PROJECT_MANAGEMENT/KNOWN_ISSUES.md` (KI-01..KI-20), `REMAINING_WORK.md`, `DECISIONS_LOG.md` (D-036).
 
-## 3. In flight at the moment tokens may run out (UNCOMMITTED, partly UNVERIFIED)
+## 2b. Update from the cloud session (2026-11-05, later)
 
-`git status` shows ~99 changed files, **none committed**. Do not lose them: commit when the owner agrees.
+Committed on branch `claude/tender-allen-nshe5u` (not merged to main). Run in the cloud container: preview E2E **29 passed** (nonce CSP, new install-button test), web unit **26 passed**, typecheck and ruff clean. **Not run** (no Docker, Ollama or GPU there): DB-backed API tests, live E2E, CI on GitHub.
+Written, unverified on the live stack: `/metrics` bearer token (KI-13), `.github/workflows/ci.yml` (KI-16, KI-12), interface language from the profile on first sign-in (KI-19), PWA install button (shows only when the browser offers installation). Everything that needs your machine is in `08_HANDOVER/OWNER_LOCAL_TASKS.md`.
+Sections 3a to 3c below are still open; the "uncommitted" wording in section 3 is out of date because that work is now committed.
+
+## 3. In flight (partly UNVERIFIED; committed on the branch above)
+
+The ~99 changed files from the earlier session are now committed on the branch. Merge to main when the owner agrees.
 
 ### 3a. Nonce-based Content-Security-Policy – coded, NOT yet verified
 - Changed: `04_APPLICATION/web/proxy.ts` (per-request nonce + CSP, `strict-dynamic`), `app/layout.tsx` (reads `x-nonce`, nonce on the inline boot script), `next.config.ts` (static CSP removed), `e2e/preview.spec.ts` (new tests: nonce present, no `'unsafe-inline'` in script-src, fresh nonce per request, no CSP violations in console).
@@ -121,13 +127,14 @@ READ FIRST, IN ORDER
 2. 00_PROJECT_MANAGEMENT/KNOWN_ISSUES.md and REMAINING_WORK.md
 3. 00_PROJECT_MANAGEMENT/HANDOVER.md (rules, code map, Windows notes)
 4. 05_TESTING/audit/FINAL_PROJECT_AUDIT.md
-Verify claims by running the tests before building on them. Nothing from the last session is committed; check `git status` first.
+Also read 08_HANDOVER/OWNER_LOCAL_TASKS.md: it lists what a cloud session could not run (live stack, Ollama, CI) and is the checklist for your first hour.
+Verify claims by running the tests before building on them. The work is committed on branch claude/tender-allen-nshe5u (merge or cherry-pick to main only when the owner asks); check `git status` and `git log` first.
 
 YOUR TASKS, IN ORDER
-1. Finish the nonce-based CSP (HANDOFF_STATUS 3a): run the preview E2E, rebuild the web image, run the live E2E. If it breaks, revert to the previous policy and record why.
+1. Do OWNER_LOCAL_TASKS sections A and B first. Nonce CSP (3a): the preview E2E already passes (29/29, cloud run); rebuild the web image and run the live E2E. If it breaks, revert to the previous policy and record why.
 2. Switch on the local Ollama model (3b): qwen2:7b for both tiers via VAAKYA_OLLAMA_URL=http://host.docker.internal:11434. Confirm llm_used true on Educator answers, safety review still blocks invented numbers and product pushing, tests and live E2E green. Do NOT add Gemini unless the owner explicitly decides and supplies a key.
 3. Check Prometheus targets and Grafana (3c).
-4. Work through section 5 of the hand-off in order. Keep every suite green: API (normal and VAAKYA_TEST_RLS=1), inference, web unit, preview E2E, live E2E.
+4. Work through the open items of section 5 of the hand-off (metrics token, CI workflow, language-from-profile and the PWA install button are written but unverified on the live stack; KI-18, KI-10, KI-09, KI-05 remain). Keep every suite green: API (normal and VAAKYA_TEST_RLS=1), inference, web unit, preview E2E, live E2E.
 5. Update trackers (FEATURE_TRACKER via tools_update_tracker.py, TASK_TRACKER, CHANGELOG, CURRENT_STATUS, HANDOVER, REMAINING_WORK, KNOWN_ISSUES, WORK_SUMMARY, HANDOFF_STATUS) and ask the owner whether to commit.
 
 RULES
