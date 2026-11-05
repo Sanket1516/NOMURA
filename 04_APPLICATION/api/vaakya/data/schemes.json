@@ -1,0 +1,149 @@
+{
+  "catalogue_version": "2026-11-05",
+  "verification": "unverified_draft",
+  "note": "Summarised from official scheme portals by the development team. NOT yet verified by a human reviewer (T0.12). Every scheme links to its official source; final eligibility is decided by the scheme authority. Criteria use profile fields; an unknown field gives 'unknown', never a guess.",
+  "fields": {
+    "age": "years, from birth year",
+    "has_bank_account": "bool", "owns_farmland": "bool: owns cultivable land", "is_cultivator": "bool: owner, tenant or sharecropper farming land",
+    "income_tax_payer": "bool", "institutional_landholder": "bool", "constitutional_post_holder": "bool",
+    "govt_employee_excluded": "bool: serving or retired government officer (other than Group D / MTS)",
+    "pensioner_10k_plus": "bool: monthly pension of ₹10,000 or more (other than Group D / MTS)",
+    "practising_professional": "bool: registered doctor, engineer, lawyer, CA or architect in practice",
+    "grows_notified_crop": "bool: grows a crop notified for insurance in the area this season", "allied_farming": "bool: animal husbandry or fisheries",
+    "has_daughter_under_10": "bool", "has_disability": "bool", "disability_percent": "int", "bpl_household": "bool",
+    "runs_micro_enterprise": "bool: runs or is starting a non-farm income-generating micro or small business"
+  },
+  "schemes": [
+    {
+      "id": "pm-kisan", "name": "PM-KISAN", "category": "agriculture", "authority": "Ministry of Agriculture & Farmers Welfare",
+      "summary": "Income support of ₹6,000 a year, paid in three instalments of ₹2,000, to eligible landholding farmer families.",
+      "benefit": {"kind": "fixed", "amount_paise_per_year": 600000, "text": "₹6,000 a year in three instalments of ₹2,000"},
+      "criteria": [
+        {"id": "farmland", "label": "Family owns cultivable land", "field": "owns_farmland", "op": "eq", "value": true, "ask": "Does your family own farmland in its name?"},
+        {"id": "not_institutional", "label": "Not an institutional landholder", "field": "institutional_landholder", "op": "eq", "value": false, "ask": "Is the land held by a trust, company or institution?"},
+        {"id": "not_taxpayer", "label": "No family member paid income tax last assessment year", "field": "income_tax_payer", "op": "eq", "value": false, "ask": "Did anyone in your family pay income tax last year?"},
+        {"id": "not_constitutional", "label": "No family member holds a constitutional post", "field": "constitutional_post_holder", "op": "eq", "value": false, "ask": "Does anyone in the family hold or hold a constitutional post (MP, MLA, minister and similar)?"},
+        {"id": "not_govt", "label": "Not a serving or retired government officer (Group D / MTS are not excluded)", "field": "govt_employee_excluded", "op": "eq", "value": false, "ask": "Is anyone a serving or retired government officer above Group D?"},
+        {"id": "not_pensioner", "label": "No pension of ₹10,000 a month or more (Group D / MTS are not excluded)", "field": "pensioner_10k_plus", "op": "eq", "value": false, "ask": "Does anyone get a pension of ₹10,000 a month or more?"},
+        {"id": "not_professional", "label": "Not a practising doctor, engineer, lawyer, CA or architect", "field": "practising_professional", "op": "eq", "value": false, "ask": "Is anyone a registered professional in practice?"}
+      ],
+      "documents": ["Aadhaar", "Land ownership record (for example 7/12 extract or RTC)", "Bank account linked to Aadhaar"],
+      "steps": [
+        {"n": 1, "text": "Register on the PM-KISAN portal (Farmers Corner) or at a Common Service Centre."},
+        {"n": 2, "text": "Complete e-KYC with Aadhaar; it is required to receive instalments."},
+        {"n": 3, "text": "Your state verifies land records; then instalments go to your bank account."},
+        {"n": 4, "text": "Check status on the portal using Aadhaar or registration number."}
+      ],
+      "source_url": "https://pmkisan.gov.in", "rules_version": "1"
+    },
+    {
+      "id": "pmfby", "name": "Pradhan Mantri Fasal Bima Yojana", "category": "agriculture", "authority": "Ministry of Agriculture & Farmers Welfare",
+      "summary": "Crop insurance against yield loss from natural risks, for notified crops in notified areas.",
+      "benefit": {"kind": "insurance", "text": "Claim for insured yield loss. Farmer premium is capped: 2% of sum insured for kharif, 1.5% for rabi, 5% for commercial and horticultural crops."},
+      "criteria": [
+        {"id": "cultivator", "label": "Grows crops as owner, tenant or sharecropper", "field": "is_cultivator", "op": "eq", "value": true, "ask": "Do you grow crops this season, on your own or rented land?"},
+        {"id": "notified", "label": "Crop is notified for insurance in your area this season", "field": "grows_notified_crop", "op": "eq", "value": true, "ask": "Is your crop on the notified list for your area? Your bank, CSC or the PMFBY portal can tell you."}
+      ],
+      "documents": ["Aadhaar", "Bank account details", "Land record or tenancy / sowing certificate", "Sowing declaration for the season"],
+      "steps": [
+        {"n": 1, "text": "Before the season's cut-off date, apply through your bank, a Common Service Centre or the PMFBY portal."},
+        {"n": 2, "text": "Pay your share of the premium and keep the receipt."},
+        {"n": 3, "text": "Report crop loss quickly through the crop insurance app, helpline or your bank, as the scheme rules require."}
+      ],
+      "source_url": "https://pmfby.gov.in", "rules_version": "1"
+    },
+    {
+      "id": "kcc", "name": "Kisan Credit Card", "category": "credit", "authority": "Banks, under RBI and NABARD guidelines",
+      "summary": "A bank credit limit for crop cultivation and allied activities such as animal husbandry and fisheries.",
+      "benefit": {"kind": "credit", "text": "Short-term credit at concessional interest through banks; interest subvention schemes apply to eligible limits. Confirm current rates with your bank."},
+      "criteria": [
+        {"id": "farming", "label": "Farmer (owner, tenant, sharecropper) or engaged in animal husbandry or fisheries", "field": "is_cultivator", "op": "eq", "value": true, "or_field": "allied_farming", "ask": "Do you farm, keep animals or fish for income?"},
+        {"id": "bank", "label": "Can open or has a bank account", "field": "has_bank_account", "op": "eq", "value": true, "ask": "Do you have a bank account?"}
+      ],
+      "documents": ["Identity proof", "Address proof", "Land record or tenancy proof", "Passport-size photo"],
+      "steps": [
+        {"n": 1, "text": "Visit your bank branch (commercial, regional rural or cooperative bank) and ask for the KCC application."},
+        {"n": 2, "text": "Submit the form with documents; the bank sets a limit based on your crops and land."},
+        {"n": 3, "text": "Repay on time to keep any interest benefits."}
+      ],
+      "source_url": "https://www.myscheme.gov.in", "rules_version": "1"
+    },
+    {
+      "id": "pmjjby", "name": "PM Jeevan Jyoti Bima Yojana", "category": "insurance", "authority": "Department of Financial Services",
+      "summary": "Life cover of ₹2 lakh for bank account holders aged 18 to 50, renewed every year.",
+      "benefit": {"kind": "insurance", "text": "₹2 lakh to the nominee on death from any cause. Yearly premium of ₹436, auto-debited."},
+      "criteria": [
+        {"id": "age", "label": "Aged 18 to 50 when joining", "field": "age", "op": "between", "value": [18, 50], "ask": "What is your age?"},
+        {"id": "bank", "label": "Has a savings bank or post office account", "field": "has_bank_account", "op": "eq", "value": true, "ask": "Do you have a savings bank account?"}
+      ],
+      "documents": ["Bank account", "Aadhaar (as KYC)", "Nominee details"],
+      "steps": [{"n": 1, "text": "Enrol through your bank branch, net banking or the Jan Suraksha portal."}, {"n": 2, "text": "Give consent for yearly auto-debit of the premium."}],
+      "source_url": "https://jansuraksha.gov.in", "rules_version": "1"
+    },
+    {
+      "id": "pmsby", "name": "PM Suraksha Bima Yojana", "category": "insurance", "authority": "Department of Financial Services",
+      "summary": "Accident cover for bank account holders aged 18 to 70, renewed every year.",
+      "benefit": {"kind": "insurance", "text": "₹2 lakh for accidental death or total permanent disability, ₹1 lakh for partial permanent disability. Yearly premium of ₹20."},
+      "criteria": [
+        {"id": "age", "label": "Aged 18 to 70", "field": "age", "op": "between", "value": [18, 70], "ask": "What is your age?"},
+        {"id": "bank", "label": "Has a savings bank or post office account", "field": "has_bank_account", "op": "eq", "value": true, "ask": "Do you have a savings bank account?"}
+      ],
+      "documents": ["Bank account", "Aadhaar (as KYC)", "Nominee details"],
+      "steps": [{"n": 1, "text": "Enrol through your bank branch, net banking or the Jan Suraksha portal."}, {"n": 2, "text": "Give consent for yearly auto-debit of the premium."}],
+      "source_url": "https://jansuraksha.gov.in", "rules_version": "1"
+    },
+    {
+      "id": "apy", "name": "Atal Pension Yojana", "category": "pension", "authority": "PFRDA",
+      "summary": "A guaranteed pension of ₹1,000 to ₹5,000 a month from age 60, for subscribers who join between 18 and 40.",
+      "benefit": {"kind": "pension", "text": "Guaranteed monthly pension of ₹1,000 to ₹5,000 from 60, depending on contribution and joining age."},
+      "criteria": [
+        {"id": "age", "label": "Aged 18 to 40 when joining", "field": "age", "op": "between", "value": [18, 40], "ask": "What is your age?"},
+        {"id": "bank", "label": "Has a savings bank account", "field": "has_bank_account", "op": "eq", "value": true, "ask": "Do you have a savings bank account?"},
+        {"id": "not_taxpayer", "label": "Not an income-tax payer (rule from 1 October 2022)", "field": "income_tax_payer", "op": "eq", "value": false, "ask": "Do you pay income tax?"}
+      ],
+      "documents": ["Savings bank account", "Aadhaar", "Mobile number"],
+      "steps": [{"n": 1, "text": "Register at your bank or post office, or online through your bank."}, {"n": 2, "text": "Choose the pension amount; monthly contributions are auto-debited."}],
+      "source_url": "https://www.pfrda.org.in", "rules_version": "1"
+    },
+    {
+      "id": "ssy", "name": "Sukanya Samriddhi Yojana", "category": "savings", "authority": "Ministry of Finance (small savings)",
+      "summary": "A savings account for a girl child under 10, opened by a parent or guardian, with a government-set interest rate.",
+      "benefit": {"kind": "savings", "text": "Deposits from ₹250 to ₹1.5 lakh a year; interest rate set by the government each quarter."},
+      "criteria": [{"id": "daughter", "label": "Parent or guardian of a girl under 10", "field": "has_daughter_under_10", "op": "eq", "value": true, "ask": "Do you have a daughter under 10?"}],
+      "documents": ["Girl's birth certificate", "Parent's identity and address proof"],
+      "steps": [{"n": 1, "text": "Open the account at a post office or authorised bank with the first deposit."}],
+      "source_url": "https://www.indiapost.gov.in", "rules_version": "1"
+    },
+    {
+      "id": "mudra", "name": "PM Mudra Yojana", "category": "credit", "authority": "Banks, NBFCs and MFIs under MUDRA",
+      "summary": "Loans for non-farm micro and small businesses, in categories up to ₹20 lakh.",
+      "benefit": {"kind": "credit", "text": "Business loans in Shishu, Kishore, Tarun and Tarun Plus categories, up to ₹20 lakh."},
+      "criteria": [{"id": "business", "label": "Runs or is starting a non-farm income-generating business", "field": "runs_micro_enterprise", "op": "eq", "value": true, "ask": "Do you run or plan a small business (not farming)?"}],
+      "documents": ["Identity and address proof", "Business plan or proof of business", "Bank statements if available"],
+      "steps": [{"n": 1, "text": "Apply at a bank, NBFC or microfinance institution, or through the official portal."}],
+      "source_url": "https://www.mudra.org.in", "rules_version": "1"
+    },
+    {
+      "id": "udid", "name": "UDID card (Unique Disability ID)", "category": "disability", "authority": "Department of Empowerment of Persons with Disabilities",
+      "summary": "A single national disability ID and certificate that many disability benefits ask for.",
+      "benefit": {"kind": "document", "text": "One ID accepted across states for disability benefits and concessions."},
+      "criteria": [{"id": "disability", "label": "Has a disability", "field": "has_disability", "op": "eq", "value": true, "ask": "Do you have a disability?"}],
+      "documents": ["Photo", "Identity and address proof", "Existing disability certificate, if any"],
+      "steps": [{"n": 1, "text": "Apply online on the Swavlamban card portal."}, {"n": 2, "text": "Attend the medical assessment at the hospital you are assigned."}, {"n": 3, "text": "Download the e-card; the physical card is posted to you."}],
+      "source_url": "https://www.swavlambancard.gov.in", "rules_version": "1"
+    },
+    {
+      "id": "igndps", "name": "Indira Gandhi National Disability Pension Scheme", "category": "disability", "authority": "Ministry of Rural Development (NSAP), through states",
+      "summary": "A monthly pension for adults with severe or multiple disabilities in below-poverty-line households. States may add to the central amount.",
+      "benefit": {"kind": "pension", "text": "Central assistance of ₹300 a month (more from age 80), often topped up by the state. Confirm with your state."},
+      "criteria": [
+        {"id": "age", "label": "Aged 18 to 79", "field": "age", "op": "between", "value": [18, 79], "ask": "What is your age?"},
+        {"id": "severity", "label": "Disability of 80% or more", "field": "disability_percent", "op": "gte", "value": 80, "ask": "What percentage is on your disability certificate?"},
+        {"id": "bpl", "label": "Household is below the poverty line", "field": "bpl_household", "op": "eq", "value": true, "ask": "Is your household on the BPL list?"}
+      ],
+      "documents": ["Disability certificate", "BPL card", "Age proof", "Bank account"],
+      "steps": [{"n": 1, "text": "Apply to your gram panchayat, municipality or district social welfare office, as your state requires."}],
+      "source_url": "https://nsap.nic.in", "rules_version": "1"
+    }
+  ]
+}

@@ -2,6 +2,17 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Step 3 of 6, data layer
+
+### Added
+
+- Neo4j Financial Life Graph gateway with named, user-anchored queries; outbox relay from PostgreSQL; `GET /v1/twin`.
+- Encrypted SeaweedFS document vault (AES-256-GCM envelope, path-bound).
+- Scheme catalogue (10 schemes, unverified drafts), migration 0002, loader that preserves human verification.
+- Retention purge, worker process, four synthetic demo accounts, generated `06_DOCUMENTATION/DATABASE_SCHEMA.md`.
+- `00_PROJECT_MANAGEMENT/REMAINING_WORK.md`, kept up to date continuously (owner request).
+- 11 tests against real Neo4j and SeaweedFS; 57 backend tests in total.
+
 ## 2026-11-05: Step 2 of 6, backend
 
 ### Added

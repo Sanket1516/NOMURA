@@ -9,7 +9,8 @@ from ..auth import User_
 from ..core.errors import ConflictError
 from ..db import get_db
 from ..ratelimit import limit
-from ..services import dashboard, learning, notifications
+from ..features import Features, features, need
+from ..services import dashboard, learning, notifications, twin
 from ..services.score import history, score_view
 
 router = APIRouter(prefix="/v1", tags=["score", "dashboard", "learning", "notifications"])
@@ -32,6 +33,13 @@ def get_score(user: User_, db: DB) -> dict:
 @router.get("/score/history")
 def get_history(user: User_, db: DB) -> list[dict]:
     return history(db, user.id, months=24)
+
+
+@router.get("/twin", summary="Financial Life Graph from Neo4j: nodes, edges, accessible outline, insights")
+def get_twin(user: User_, db: DB, f: Annotated[Features, Depends(features)]) -> dict:
+    graph = need(f.graph, "The Financial Life Graph")
+    graph.sync_user(user.id, twin.snapshot(db, user.id))  # read-your-writes for this user
+    return twin.twin_view(graph, user.id)
 
 
 @router.get("/learning/modules")
