@@ -109,6 +109,21 @@ async def transcribe(user: User_, db: DB, f: F, audio: UploadFile = File(...), l
     return speech.transcribe(await read_capped(audio, 5 * 1024 * 1024), lang)
 
 
+@router.post("/voice/speak", dependencies=[limit("voice")], summary="Text to speech for page summaries (Voice Summary)")
+def speak(body: dict, user: User_, f: F) -> dict:
+    from ..core.errors import DomainValidationError
+    text, lang = str(body.get("text", ""))[:1500], str(body.get("lang", "en"))
+    if not text.strip():
+        raise DomainValidationError("text is required")
+    return need(f.speech, "Speech output").speak(user.id, text, lang)
+
+
+@router.get("/voice/audio/{audio_id}", summary="Fetch a generated answer's audio (5-minute lifetime, owner only)")
+def audio(audio_id: str, user: User_, f: F):
+    from fastapi.responses import Response
+    return Response(need(f.speech, "Speech output").get_audio(user.id, audio_id), media_type="audio/wav", headers={"cache-control": "no-store"})
+
+
 @router.post("/voice/query", dependencies=[limit("voice")], summary="Audio question → transcript, answer, spoken audio")
 async def voice_query(request: Request, user: User_, db: DB, f: F, audio: UploadFile = File(...), lang: str = Form("en")) -> dict:
     speech = need(f.speech, "Voice")
