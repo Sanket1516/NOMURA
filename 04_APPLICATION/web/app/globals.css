@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+/*
+ * VAAKYA design tokens.
+ * Identity: warm paper, deep ink, a growth-green primary and a marigold accent.
+ * Every text/background pair below meets WCAG 2.2 AA (4.5:1) in its theme.
+ */
+:root {
+  --paper: #fbf8f3;
+  --surface: #ffffff;
+  --surface-2: #f4efe6;
+  --ink: #13213a;
+  --ink-2: #44506a;
+  --ink-3: #5e6880;
+  --line: #e4ddd0;
+  --primary: #0b6b57;
+  --primary-ink: #ffffff;
+  --primary-soft: #e3f1ec;
+  --accent: #945800;
+  --accent-soft: #fbefd9;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  --warning: #9a5b00;
+  --warning-soft: #fff4dc;
+  --success: #12704a;
+  --success-soft: #e4f4ea;
+  --focus: #1d4ed8;
+  --educator: #4338ca;
+  --educator-soft: #eceafd;
+  --strategy: #0b6b57;
+  --strategy-soft: #e3f1ec;
+  --sentinel: #b42318;
+  --sentinel-soft: #fdecea;
+  --connector: #9a5b00;
+  --connector-soft: #fff4dc;
+  --demo: #6b3fa0;
+  --demo-soft: #f2ecfa;
+  --shadow: 0 1px 2px rgb(19 33 58 / 0.06), 0 8px 24px -12px rgb(19 33 58 / 0.18);
+  --radius: 14px;
+  --text-scale: 1;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-contrast="high"]) {
+    --paper: #0d1526;
+    --surface: #131e33;
+    --surface-2: #1a2742;
+    --ink: #eef2f8;
+    --ink-2: #c3cad8;
+    --ink-3: #a3acbf;
+    --line: #2a3756;
+    --primary: #4fc7a6;
+    --primary-ink: #062b23;
+    --primary-soft: #133a33;
+    --accent: #f2b24f;
+    --accent-soft: #3a2d14;
+    --danger: #ff8a7d;
+    --danger-soft: #3d1b1a;
+    --warning: #f2b24f;
+    --warning-soft: #3a2d14;
+    --success: #6ad6a3;
+    --success-soft: #133a2a;
+    --focus: #8fb2ff;
+    --educator: #a9a2ff;
+    --educator-soft: #24224a;
+    --strategy: #4fc7a6;
+    --strategy-soft: #133a33;
+    --sentinel: #ff8a7d;
+    --sentinel-soft: #3d1b1a;
+    --connector: #f2b24f;
+    --connector-soft: #3a2d14;
+    --demo: #c9a7f5;
+    --demo-soft: #2c2140;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"]:not([data-contrast="high"]) {
+  --paper: #0d1526;
+  --surface: #131e33;
+  --surface-2: #1a2742;
+  --ink: #eef2f8;
+  --ink-2: #c3cad8;
+  --ink-3: #a3acbf;
+  --line: #2a3756;
+  --primary: #4fc7a6;
+  --primary-ink: #062b23;
+  --primary-soft: #133a33;
+  --accent: #f2b24f;
+  --accent-soft: #3a2d14;
+  --danger: #ff8a7d;
+  --danger-soft: #3d1b1a;
+  --warning: #f2b24f;
+  --warning-soft: #3a2d14;
+  --success: #6ad6a3;
+  --success-soft: #133a2a;
+  --focus: #8fb2ff;
+  --educator: #a9a2ff;
+  --educator-soft: #24224a;
+  --strategy: #4fc7a6;
+  --strategy-soft: #133a33;
+  --sentinel: #ff8a7d;
+  --sentinel-soft: #3d1b1a;
+  --connector: #f2b24f;
+  --connector-soft: #3a2d14;
+  --demo: #c9a7f5;
+  --demo-soft: #2c2140;
+  color-scheme: dark;
+}
+
+/* High contrast: black on white, thick borders, yellow focus. Overrides any theme. */
+:root[data-contrast="high"] {
+  --paper: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #ffffff;
+  --ink: #000000;
+  --ink-2: #000000;
+  --ink-3: #1a1a1a;
+  --line: #000000;
+  --primary: #004d3d;
+  --primary-ink: #ffffff;
+  --primary-soft: #ffffff;
+  --accent: #6b3d00;
+  --accent-soft: #ffffff;
+  --danger: #8a0000;
+  --danger-soft: #ffffff;
+  --warning: #5c3300;
+  --warning-soft: #ffffff;
+  --success: #004d2a;
+  --success-soft: #ffffff;
+  --focus: #000000;
+  --educator: #2a1f9e;
+  --educator-soft: #ffffff;
+  --strategy: #004d3d;
+  --strategy-soft: #ffffff;
+  --sentinel: #8a0000;
+  --sentinel-soft: #ffffff;
+  --connector: #5c3300;
+  --connector-soft: #ffffff;
+  --demo: #4a1f80;
+  --demo-soft: #ffffff;
+  --shadow: none;
+  color-scheme: light;
+}
+:root[data-contrast="high"] .card,
+:root[data-contrast="high"] .ring-line {
+  border-width: 2px !important;
+  border-color: #000 !important;
+}
+:root[data-contrast="high"] *:focus-visible {
+  outline: 4px solid #000 !important;
+  box-shadow: 0 0 0 7px #ffd400 !important;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-primary-ink: var(--primary-ink);
+  --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-focus: var(--focus);
+  --color-educator: var(--educator);
+  --color-educator-soft: var(--educator-soft);
+  --color-strategy: var(--strategy);
+  --color-strategy-soft: var(--strategy-soft);
+  --color-sentinel: var(--sentinel);
+  --color-sentinel-soft: var(--sentinel-soft);
+  --color-connector: var(--connector);
+  --color-connector-soft: var(--connector-soft);
+  --color-demo: var(--demo);
+  --color-demo-soft: var(--demo-soft);
+  --font-sans: var(--font-body), "Noto Sans Devanagari", "Noto Sans Kannada", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-face), Georgia, serif;
+  --radius-xl: var(--radius);
+  --shadow-card: var(--shadow);
+}
+
+html {
+  font-size: calc(100% * var(--text-scale));
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+fieldset {
+  min-width: 0; /* default min-content lets scrolling rows widen the page */
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  font-feature-settings: "ss01", "cv11";
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+*:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Reduced motion: explicit setting or OS preference. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-rise {
+  animation: rise 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--danger) 45%, transparent); }
+  100% { box-shadow: 0 0 0 18px transparent; }
+}
+.animate-listening {
+  animation: pulse-ring 1.4s ease-out infinite;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Low-literacy mode enlarges icons and spacing; content components also swap copy. */
+:root[data-literacy="low"] .lit-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}

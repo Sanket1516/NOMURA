@@ -6,13 +6,17 @@
 
 ## Stop here first
 
-**Do not write application code in `04_APPLICATION/` until the Phase 0 gate passes.**
+**The owner waived the Phase 0 gate for software work (D-032).** Model choice, scheme verification and legal scoping still gate their features.
 
 If you are starting a new session:
 
 1. Read this file, `CURRENT_STATUS.md`, `DECISIONS_LOG.md` (D-026 to D-031), and `08_HANDOVER/NEXT_AI_PROMPT.md`.
 2. Read `02_ARCHITECTURE/SYSTEM_ARCHITECTURE.md` and the document it points to for your task.
 3. Check whether the owner has confirmed D-029. Do not claim plan approval beyond what is recorded.
+
+## Build progress (D-032)
+
+Step 1 frontend: DONE (`04_APPLICATION/web`, results `05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md`). Steps 2 to 6: see `TASK_TRACKER.md` "Build sequence".
 
 ## Latest session (2026-11-05)
 

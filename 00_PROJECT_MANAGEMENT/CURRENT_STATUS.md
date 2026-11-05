@@ -1,7 +1,7 @@
 # Current Status
 
 **Last updated:** 2026-11-05
-**Current stage:** **Phase 0 in progress.** T0.06 done. Architecture set v1.0 written. No application code.
+**Current stage:** **Build sequence (D-032), Step 1 of 6 done: frontend.** Steps 2 to 6 (backend, data, AI, agents, integration) follow in order.
 **Owner:** Sanket Mali
 **Next gate:** Phase 0 gate (IMPLEMENTATION_ROADMAP PH0 acceptance criteria)
 
@@ -17,8 +17,8 @@
 | Architecture | **v1.0 in `02_ARCHITECTURE/`**: 10 documents, 29 diagrams (all render), coverage review |
 | Architecture coverage | 170 defined, 27 partial, 11 no strategy (all 11 are P2/P3 or need an external data source) |
 | Phase 0 | T0.06 DONE, T0.15 DONE. 10 tasks TODO, 3 dropped |
-| Application code | **None** |
-| Tests | Spike tests only: smoke, service round trips, licence checks (all pass) |
+| Application code | **Frontend only** (`04_APPLICATION/web`). No backend yet, so data screens run on labelled sample data |
+| Tests | Frontend: 19 unit + 12 E2E with axe, all pass. Spike tests from T0.06 |
 | Deployment | **None** |
 | Git | `main`: commit b3abcb7 plus this session's final commit |
 
