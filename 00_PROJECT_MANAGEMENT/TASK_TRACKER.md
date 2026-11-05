@@ -6,7 +6,9 @@ Execution tasks for the phases in `IMPLEMENTATION_ROADMAP.md`. Task statuses: TO
 
 Sanket Mali owns all tasks (D-005). Tasks marked R3 belong to Release 3.
 
-**No task, including Phase 0 work, may begin before the plan is approved. No PH1+ task may begin before the Phase 0 gate has passed.**
+**Phase 0 started on 2026-11-05 (D-029: approval taken from the owner's instruction to continue; owner to confirm). No PH1+ task may begin before the Phase 0 gate has passed.**
+
+**Tasks needing the owner's machine (RTX 3050):** T0.03, T0.04, T0.07, T0.08, T0.09, T0.10, T0.11 (GPU part), T0.13. **Human tasks:** T0.12 verification, T0.14 legal advice.
 
 
 ## PH0: Decisions and spikes
@@ -18,7 +20,7 @@ Sanket Mali owns all tasks (D-005). Tasks marked R3 belong to Release 3.
 | T0.03 | LLM evaluation of open-licence models on the RTX 3050: reasoning, accuracy, Indian-language quality, speed, memory | Sanket | - | FR-ORC-07, FR-DL-02 | TODO |
 | T0.04 | Private Tier spike: redaction in four languages and field extraction on the target hardware | Sanket | T0.03 | FR-DL-01 | TODO |
 | T0.05 | Close naming, roles and language scope. Done through Q4, Q5 and Q6 | Sanket | - | - | DROPPED |
-| T0.06 | Select current stable versions, build the API image and smoke-test imports; start the licence register | Sanket | - | NFR-MAINT-01, NFR-LIC-01 | TODO |
+| T0.06 | Select current stable versions, build the API image and smoke-test imports; start the licence register | Sanket | - | NFR-MAINT-01, NFR-LIC-01 | DONE (2026-11-05, Linux; evidence `05_TESTING/evaluations/T0.06_RESULTS.md`. Inference packages excluded, see T0.03/07/08/13) |
 | T0.07 | Open text-to-speech evaluation for English, Hindi, Marathi, Kannada, including licence check | Sanket | - | FR-VOI-02 | TODO |
 | T0.08 | faster-whisper evaluation for English, Hindi, Marathi, Kannada on the RTX 3050 and on CPU | Sanket | - | FR-VOI-01 | TODO |
 | T0.09 | Translation evaluation: IndicTrans2 versus native model output, with a financial glossary | Sanket | T0.03 | FR-LNG-02 | TODO |
@@ -27,6 +29,7 @@ Sanket Mali owns all tasks (D-005). Tasks marked R3 belong to Release 3.
 | T0.12 | Produce human-verified scheme fact sheet from official sources | Sanket | - | NFR-ACC-01 | TODO |
 | T0.13 | OCR evaluation for Kannada and Devanagari: PaddleOCR versus Tesseract | Sanket | T0.06 | FR-DOC-03 | TODO |
 | T0.14 | Scope DPDP and SEBI obligations with a qualified adviser before any real user data | Sanket | - | NFR-PRIV-03 | TODO |
+| T0.15 | Architecture document set (10 documents + coverage review) in `02_ARCHITECTURE/` | Sanket | - | NFR-MAINT-05 | DONE (2026-11-05, design only; owner review pending) |
 
 ## PH1: Foundations
 

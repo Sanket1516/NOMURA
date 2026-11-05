@@ -1,6 +1,8 @@
 # Feature Tracker
 
-**Last updated:** 2026-11-05 | **Single source of truth for feature status.**
+**Last updated:** 2026-11-05 (T0.06 + architecture) | **Single source of truth for feature status.**
+
+**Implementation strategy per feature:** `02_ARCHITECTURE/ARCHITECTURE_COVERAGE.md` (170 defined, 27 partial, 11 with no strategy).
 
 ## Rules
 
@@ -22,12 +24,13 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 199 |
+| PLANNED | 197 |
+| IN PROGRESS | 2 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
 | Implemented, Tested, Verified | 0 |
 
-**No application code exists. Every feature is classified NOT IMPLEMENTED.**
+**No application code exists. Every feature is classified NOT IMPLEMENTED.** NFR-MAINT-01 and NFR-LIC-01 are IN PROGRESS from the T0.06 spike, which is evaluation code, not the app.
 
 The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTIONAL_REQUIREMENTS.md`. Source tags are defined there too.
 
@@ -350,12 +353,12 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-COMP-02 | Limited bandwidth | PS-A1; PS-Q5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-OBS-01 | Tracing | ER; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-OBS-02 | Monitoring | ER; UB-FOSS; D-007 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-MAINT-01 | Pinned versions | ER; UB-Q1; D-020 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-MAINT-01 | Pinned versions | ER; UB-Q1; D-020 | P0 | Yes | No | No | No | IN PROGRESS | T0.06 spike lockfiles rebuilt cleanly: `05_TESTING/evaluations/T0.06_RESULTS.md`. Not yet in the app (T1.01) | NOT IMPLEMENTED |
 | NFR-MAINT-02 | Documentation currency | UB-RULES | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-MAINT-03 | Automated quality gates | ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-MAINT-04 | Deployment automation | ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-MAINT-05 | Maintained documentation set | UB-Q9 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-COST-01 | Model resource control | DK-s12; DK-s14 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-COST-02 | Usage limits | UB-Q7; ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-LIC-01 | Free and open-source software only | UB-FOSS; D-026 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-LIC-01 | Free and open-source software only | UB-FOSS; D-026 | P0 | Yes | No | No | No | IN PROGRESS | Licence register started; spike licence checks pass 155/155 Python, 126/126 npm: `06_DOCUMENTATION/LICENCE_REGISTER.md`. Inference models not yet registered | NOT IMPLEMENTED |
 | NFR-LIC-02 | No required paid or proprietary service | UB-FOSS; D-026 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |

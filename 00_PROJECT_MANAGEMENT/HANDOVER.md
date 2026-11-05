@@ -2,18 +2,25 @@
 
 **Last updated:** 2026-11-05
 **For:** Any person or AI model continuing this project.
-**State:** Plan updated with the owner's decisions. **Implementation and Phase 0 are not approved yet.**
+**State:** Phase 0 in progress (D-029, owner to confirm). T0.06 and the architecture set (T0.15) are done. **No application code. PH1 must wait for the Phase 0 gate.**
 
 ## Stop here first
 
-**Do not write application code or begin Phase 0 until Sanket Mali explicitly approves the plan.**
+**Do not write application code in `04_APPLICATION/` until the Phase 0 gate passes.**
 
 If you are starting a new session:
 
-1. Read this file.
-2. Read `CURRENT_STATUS.md`.
-3. Read `DECISIONS_LOG.md`.
-4. Ask whether the plan is approved. Do not assume it.
+1. Read this file, `CURRENT_STATUS.md`, `DECISIONS_LOG.md` (D-026 to D-031), and `08_HANDOVER/NEXT_AI_PROMPT.md`.
+2. Read `02_ARCHITECTURE/SYSTEM_ARCHITECTURE.md` and the document it points to for your task.
+3. Check whether the owner has confirmed D-029. Do not claim plan approval beyond what is recorded.
+
+## Latest session (2026-11-05)
+
+- **T0.06 done** in a Linux cloud container: lockfiles, API image, smoke tests, service probe, licence checks. Evidence: `05_TESTING/evaluations/T0.06_RESULTS.md`.
+- **Licence register** started: `06_DOCUMENTATION/LICENCE_REGISTER.md`.
+- **Architecture v1.0** in `02_ARCHITECTURE/`, with a generated coverage review over all 208 features.
+- The owner first asked for an architecture on the Executive Summary stack (Firebase, AWS, Gemini, 2024 pins), then said "just go with the plan you have created". **D-026 stands.** Do not reintroduce proprietary services.
+- Commits go to `main` with author `sanket1516 <sanketmali0909@gmail.com>`, as the owner asked.
 
 ## What this project is
 
@@ -35,7 +42,11 @@ The Executive Summary and decks name Firebase, AWS and Gemini. Do not use them. 
 | `NOMURA/INVINCIBLES/` | Problem statement PDF and Executive Summary |
 | `00_PROJECT_MANAGEMENT/` | Plan, roadmap, trackers, decisions, status |
 | `01_REQUIREMENTS/` | Requirements, personas, acceptance criteria |
-| `02_ARCHITECTURE/` to `08_HANDOVER/` | Purpose notes only |
+| `02_ARCHITECTURE/` | Architecture set v1.0, coverage review, `evaluations/T0.06_stack/` spike |
+| `05_TESTING/evaluations/` | Phase 0 evidence |
+| `06_DOCUMENTATION/LICENCE_REGISTER.md` | Licence register |
+| `08_HANDOVER/NEXT_AI_PROMPT.md` | Prompt for the next AI session |
+| `04_APPLICATION/`, `07_HACKATHON_DELIVERABLES/` | Purpose notes only |
 
 This repository root is the project root (D-001). Do not create a `Nomura/` folder, because it would collide with `NOMURA/` on Windows.
 
@@ -48,7 +59,9 @@ This repository root is the project root (D-001). Do not create a `Nomura/` fold
 | What is its status? | `FEATURE_TRACKER.md` |
 | What is the order of work? | `IMPLEMENTATION_ROADMAP.md` |
 | What was decided? | `DECISIONS_LOG.md` |
-| What is the overall design? | `MASTER_PLAN.md` |
+| What is the overall design? | `MASTER_PLAN.md`, detailed in `02_ARCHITECTURE/` |
+| Which component implements a feature? | `02_ARCHITECTURE/ARCHITECTURE_COVERAGE.md` |
+| Which licences are approved? | `06_DOCUMENTATION/LICENCE_REGISTER.md` |
 | What was in the source files? | `MASTER_PLAN.md` Appendix A |
 
 ## How the sources work
@@ -71,14 +84,14 @@ This repository root is the project root (D-001). Do not create a `Nomura/` fold
 10. If something promised cannot be delivered, say so and record it.
 11. No real user financial data until the legal gate passes (NFR-PRIV-03).
 
-## Recommended next step after approval
+## Recommended next steps
 
 Phase 0, in this order:
 
 1. T0.03: open LLM evaluation on the RTX 3050. Start Ollama first.
 2. T0.07, T0.08, T0.09: speech and translation evaluations.
 3. T0.13: Kannada and Devanagari OCR.
-4. T0.06, T0.11: stack build and shared-resource test.
+4. T0.11: shared-resource test on the GPU. T0.06 is done; reuse `02_ARCHITECTURE/evaluations/T0.06_stack/infra/compose.spike.yaml`.
 5. T0.12, T0.14: scheme fact sheet and legal scoping.
 
 **If T0.03 shows open models are not good enough on this hardware, stop and tell the owner.** The options are better hardware or relaxing the open-source rule, and only the owner can choose.
@@ -93,6 +106,11 @@ Windows 11, Python 3.11.9 only, Node 22.14, Docker 29.4 (about 7.6 GB allocated)
 
 ## Git
 
-- Branch `main` has no commits. Everything is untracked.
+- Default branch `main`. The owner asked for commits on `main` with author `sanket1516 <sanketmali0909@gmail.com>`.
 - Commit only when asked.
-- `NOMURA/` is about 134 MB and contains personal portrait photos. Decide whether it belongs in version control before the first commit, especially for a public repository.
+- `NOMURA/` (about 134 MB, includes personal portrait photos) is already committed. Removing it from history would need a rewrite; ask the owner first.
+
+## Environment notes from the cloud session
+
+- Docker works after starting `dockerd`. Docker Hub pulls work. `ghcr.io` and `quay.io` blobs were blocked by that session's network policy, so the Dockerfile installs uv from PyPI and Keycloak comes from Docker Hub.
+- The GitHub API for third-party repositories was not available, so licences were verified from images and package metadata instead.
