@@ -24,14 +24,14 @@
 | Functional | 159 |
 | Non-functional | 49 |
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
-| PLANNED | 157 |
-| IN PROGRESS | 5 |
-| PARTIALLY IMPLEMENTED | 30 |
-| IMPLEMENTED | 1 |
-| TESTED | 6 |
+| PLANNED | 133 |
+| IN PROGRESS | 4 |
+| PARTIALLY IMPLEMENTED | 41 |
+| IMPLEMENTED | 3 |
+| TESTED | 18 |
+| VERIFIED | 0 |
 | BLOCKED | 0 |
 | NOT STARTED (backlog) | 9 |
-| VERIFIED | 0 |
 
 **Step 1 (frontend) is built.** UI-only features that need no backend are TESTED. Features that need the API are PARTIALLY IMPLEMENTED: their screens exist and run on clearly labelled sample data, but nothing is saved and no AI runs until Steps 2 to 6. No feature is VERIFIED.
 
@@ -44,16 +44,16 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-ONB-01 | Account registration and login | ES-STACK; DK-s10; DK-s11; UI-01; UB-FOSS; D-027 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. OIDC PKCE BFF code written; not yet run against Keycloak (Step 6) | PARTIAL IMPLEMENTATION |
 | FR-ONB-02 | Landing experience | UI-01; PS-U2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Landing page, axe-clean | REAL IMPLEMENTATION |
-| FR-ONB-03 | Profile setup | DK-s11; DK-s12; PS-U3 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Profile form with validation; API /v1/me/profile not built yet | PARTIAL IMPLEMENTATION |
-| FR-ONB-04 | Consent capture | DK-s8; PS-R3 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Itemised consent UI with required item; API not built yet | PARTIAL IMPLEMENTATION |
-| FR-ONB-05 | Two onboarding paths | DK-s12 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Persona + path choice UI; API not built yet | PARTIAL IMPLEMENTATION |
-| FR-ONB-06 | Context-adaptive onboarding | PS-Q1; PS-U3; PN-RAJ-1; PN-KIS-1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Persona templates set income type and literacy defaults; API not built yet | PARTIAL IMPLEMENTATION |
+| FR-ONB-03 | Profile setup | DK-s11; DK-s12; PS-U3 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. API real and tested; web form not yet wired to live API (Step 6) | PARTIAL IMPLEMENTATION |
+| FR-ONB-04 | Consent capture | DK-s8; PS-R3 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Append-only consent API real and tested; consent enforced on uploads, chat, voice; web wiring Step 6 | PARTIAL IMPLEMENTATION |
+| FR-ONB-05 | Two onboarding paths | DK-s12 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. API real; web wiring Step 6 | PARTIAL IMPLEMENTATION |
+| FR-ONB-06 | Context-adaptive onboarding | PS-Q1; PS-U3; PN-RAJ-1; PN-KIS-1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Seasonal income adds harvest question; tested | PARTIAL IMPLEMENTATION |
 
 ## DOC: Document intelligence and Document Hub
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-DOC-01 | Document upload | DK-s12; DK-s11; ES-A5 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-DOC-01 | Document upload | DK-s12; DK-s11; ES-A5 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Upload API real and tested; storage Step 3 | PARTIAL IMPLEMENTATION |
 | FR-DOC-02 | Secure document vault | ES-STACK; DK-s14; DK-s12; UB-FOSS; D-024 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-DOC-03 | OCR extraction | ES-STACK; DK-s12 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-DOC-04 | Structured AI extraction | DK-s12 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -66,11 +66,11 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-ASM-01 | Assessment wizard | UI-02; DK-s29 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Two-part wizard with step progress and Back; API not built yet | PARTIAL IMPLEMENTATION |
-| FR-ASM-02 | Dynamic questionnaire | DK-s12; DK-s11; UI-02 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-ASM-03 | Core data fields | DK-s12; UI-02 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-ASM-01 | Assessment wizard | UI-02; DK-s29 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. API real; web wiring Step 6 | PARTIAL IMPLEMENTATION |
+| FR-ASM-02 | Dynamic questionnaire | DK-s12; DK-s11; UI-02 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. GET /v1/assessment/next asks only unanswered questions; tested | REAL IMPLEMENTATION |
+| FR-ASM-03 | Core data fields | DK-s12; UI-02 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Expenses, EMIs, dependants, goal, risk preference stored; tested | REAL IMPLEMENTATION |
 | FR-ASM-04 | Voice answers | UI-02; PS-A2; PN-DIV-1 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-ASM-05 | Baseline score trigger | DK-s11; DK-s29 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-ASM-05 | Baseline score trigger | DK-s11; DK-s29 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Completing assessment creates the baseline fcs-1 score; tested | REAL IMPLEMENTATION |
 
 ## FLG: Financial Life Graph (Financial Digital Twin)
 
@@ -92,11 +92,11 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-FCS-01 | Overall score | ES-INV; UB-IN3; UI-04; UI-10 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Score screen on SAMPLE data; engine not built | PARTIAL IMPLEMENTATION |
-| FR-FCS-02 | Score dimensions | ES-INV; UI-10 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FCS-03 | Deterministic explainable formula | ER; PS-R1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FCS-04 | Confidence Engine | DK-s29 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-FCS-05 | Improvement actions | UI-10; UI-11; DK-s26 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Improvement actions UI on sample data | PARTIAL IMPLEMENTATION |
-| FR-FCS-06 | Score history | UI-04; UI-13; DK-s11 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. History chart on sample data | PARTIAL IMPLEMENTATION |
+| FR-FCS-02 | Score dimensions | ES-INV; UI-10 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Six dimensions (D-035); tested | REAL IMPLEMENTATION |
+| FR-FCS-03 | Deterministic explainable formula | ER; PS-R1 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Versioned deterministic formula from recorded activity; unit + integration tests | REAL IMPLEMENTATION |
+| FR-FCS-04 | Confidence Engine | DK-s29 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Recomputed on assessment, lessons, quizzes; Sentinel/scheme inputs arrive in Step 5 | PARTIAL IMPLEMENTATION |
+| FR-FCS-05 | Improvement actions | UI-10; UI-11; DK-s26 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Actions with point estimates from the formula; web wiring Step 6 | PARTIAL IMPLEMENTATION |
+| FR-FCS-06 | Score history | UI-04; UI-13; DK-s11 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Snapshots and /v1/score/history real; web wiring Step 6 | PARTIAL IMPLEMENTATION |
 
 ## ORC: Multi-agent orchestration
 
@@ -134,7 +134,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
 | FR-ASK-01 | Chat interface | UI-05; DK-s26 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Chat UI: agent selector, SSE client, voice, image, errors; refuses to fake answers; backend not built | PARTIAL IMPLEMENTATION |
-| FR-ASK-02 | Why this recommendation | UI-05; PS-U2; PS-R1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. 'Why this plan?' panel on planning page from sample figures; calculators not built | PARTIAL IMPLEMENTATION |
+| FR-ASK-02 | Why this recommendation | UI-05; PS-U2; PS-R1 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Plan inputs, formula, assumptions, limitations via API; web shows them (Step 6 wiring) | PARTIAL IMPLEMENTATION |
 | FR-ASK-03 | Conversation history | UI-14; DK-s14 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 
 ## EDU: Educator Agent and Learning Academy
@@ -144,11 +144,11 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | FR-EDU-01 | Grounded financial Q&A | ES-A1; ES-A5; PS-E1; DK-s29 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-EDU-02 | Simple-language explanations | ES-A1; DK-s15; PN-PRI-1; PS-U1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-EDU-03 | Role-based content | DK-s24; PN-PRI-5; PN-RAJ-6; PN-KIS-7 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-EDU-04 | Micro-learning modules | UI-08; DK-s15; DK-s24; PS-E1 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Learning Academy module list with progress on sample data; lesson content not built | PARTIAL IMPLEMENTATION |
-| FR-EDU-05 | Quizzes and knowledge-gap detection | DK-s24 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-EDU-04 | Micro-learning modules | UI-08; DK-s15; DK-s24; PS-E1 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Six lessons API real; content draft, unreviewed | PARTIAL IMPLEMENTATION |
+| FR-EDU-05 | Quizzes and knowledge-gap detection | DK-s24 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Quiz scoring server-side, answers hidden, gaps returned; tested | PARTIAL IMPLEMENTATION |
 | FR-EDU-06 | Adaptive learning path | DK-s15; DK-s24; DK-s25 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-EDU-07 | Reviewed learning content | DK-s8; PS-R4 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-EDU-08 | Learning progress | DK-s29; DK-s14 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Progress bars on sample data | PARTIAL IMPLEMENTATION |
+| FR-EDU-08 | Learning progress | DK-s29; DK-s14 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Progress persisted and feeds the score; tested | PARTIAL IMPLEMENTATION |
 | FR-EDU-09 | Product evaluation assistant | ES-2.2; DK-s6; PN-PRI-3 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-EDU-10 | Statement explanation | PN-DIV-5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-EDU-11 | Tax-saving education | PN-DIV-4; UI-11; DK-s6 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -157,18 +157,18 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-STR-01 | Goal Studio | DK-s11; DK-s24; UI-02; UI-03; PN-PRI-2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Goal Studio list + create form; API not built | PARTIAL IMPLEMENTATION |
+| FR-STR-01 | Goal Studio | DK-s11; DK-s24; UI-02; UI-03; PN-PRI-2 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Goal CRUD API real with idempotency; web wiring Step 6 | PARTIAL IMPLEMENTATION |
 | FR-STR-02 | AI-recommended goals | DK-s24 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-03 | Feasibility analysis | DK-s24; UI-03 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-04 | Deterministic financial calculators | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-05 | AI roadmap | DK-s24; DK-s11; ES-A2; UI-03 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-06 | Irregular-income planning | PS-E3; PS-E9; PN-RAJ-1; PN-RAJ-2; ES-2.2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-07 | Seasonal-income planning | PS-E3; PS-E9; PN-KIS-1; PN-KIS-4 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-08 | Goal progress tracking | DK-s29; DK-s25; UI-03 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Goal progress UI on sample data | PARTIAL IMPLEMENTATION |
-| FR-STR-09 | Bite-sized next steps | PN-RAJ-5; DK-s15 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-STR-03 | Feasibility analysis | DK-s24; UI-03 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Feasibility verdicts and suggested date; tested | REAL IMPLEMENTATION |
+| FR-STR-04 | Deterministic financial calculators | ER; PS-R2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Calculators unit-tested with hand-checked values | REAL IMPLEMENTATION |
+| FR-STR-05 | AI roadmap | DK-s24; DK-s11; ES-A2; UI-03 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Monthly targets and 12 milestones; AI wording comes with Strategy Builder (Step 5) | PARTIAL IMPLEMENTATION |
+| FR-STR-06 | Irregular-income planning | PS-E3; PS-E9; PN-RAJ-1; PN-RAJ-2; ES-2.2 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Percentage-plus-floor rule; tested | REAL IMPLEMENTATION |
+| FR-STR-07 | Seasonal-income planning | PS-E3; PS-E9; PN-KIS-1; PN-KIS-4 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Seasonal calculator real and tested; seasonal plan generation in Strategy Builder (Step 5) | PARTIAL IMPLEMENTATION |
+| FR-STR-08 | Goal progress tracking | DK-s29; DK-s25; UI-03 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Contributions update progress and on-track; graph projection Step 3 | PARTIAL IMPLEMENTATION |
+| FR-STR-09 | Bite-sized next steps | PN-RAJ-5; DK-s15 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. next_steps from plan verdicts | PARTIAL IMPLEMENTATION |
 | FR-STR-10 | Retirement planning | PN-PRI-2; PS-E9; DK-s24 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-STR-11 | Proactive nudges | ES-A5; ES-APPB; PS-U1 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-STR-12 | Debt-trap guidance | PN-RAJ-4; PN-KIS-2; PS-Q4 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-STR-12 | Debt-trap guidance | PN-RAJ-4; PN-KIS-2; PS-Q4 | P1 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Loan cost APR calculator real; agent guidance Step 5 | PARTIAL IMPLEMENTATION |
 | FR-STR-13 | Trade-off guidance | PN-KIS-5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-STR-14 | Farming context information | PN-KIS-6; PS-E9 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 
@@ -215,7 +215,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-DSH-01 | Home dashboard | UI-04; DK-s24; DK-s10 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Dashboard complete on SAMPLE data only; /v1/dashboard not built | PARTIAL IMPLEMENTATION |
+| FR-DSH-01 | Home dashboard | UI-04; DK-s24; DK-s10 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. /v1/dashboard real; web wiring Step 6 | PARTIAL IMPLEMENTATION |
 | FR-DSH-02 | Risk profile | UI-04; UI-02 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-DSH-03 | Recent activity | UI-04 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-DSH-04 | Spending overview | UI-13; PN-PRI-7 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -245,7 +245,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 
 | Feature ID | Feature | Source | Priority | Planned | Implemented | Tested | Verified | Status | Evidence | Classification |
 |---|---|---|---|---|---|---|---|---|---|---|
-| FR-IMP-01 | Behaviour event log | ES-INV; UB-IN8; PS-I1; PS-Q7 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| FR-IMP-01 | Behaviour event log | ES-INV; UB-IN8; PS-I1; PS-Q7 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Append-only events for every outcome-relevant action | REAL IMPLEMENTATION |
 | FR-IMP-02 | Three-tier impact framework | ES-APPB; UB-IN8; PS-E7; PS-I1 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-IMP-03 | Verified rupee change | ES-APPB; UB-IN8; PS-Q7 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-IMP-04 | Pre and post literacy measurement | PS-I1; PS-Q7 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -302,7 +302,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | FR-SAF-03 | Output guardrails | PS-R2; PS-Q4 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-SAF-04 | Source citations | PS-U2; PS-Q4; UI-01 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | FR-SAF-05 | Human escalation | PS-R4; DK-s10-OLD | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| FR-SAF-06 | Data controls | PS-R3; DK-s8 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. Export and delete UI with typed confirmation; API not built | PARTIAL IMPLEMENTATION |
+| FR-SAF-06 | Data controls | PS-R3; DK-s8 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Export and erase real for PostgreSQL; vault/graph erase via interfaces (Step 3); Keycloak account deletion manual | PARTIAL IMPLEMENTATION |
 
 ## BIZ: Ecosystem and future business (vision only)
 
@@ -320,21 +320,21 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-PERF-02 | Voice round trip | ER; PS-A2 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-PERF-03 | Dashboard load | ER; DK-s14 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-PERF-04 | Scam check time | ER; DK-s15 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-SCAL-01 | Stateless API tier | DK-s10; PS-I3 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-SCAL-01 | Stateless API tier | DK-s10; PS-I3 | P0 | Yes | Partial | No | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Stateless except in-memory rate limiter | PARTIAL IMPLEMENTATION |
 | NFR-SCAL-02 | Scale path documented | DK-s7; PS-I3 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-SCAL-03 | Inference queue | ER; UB-FOSS | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-AVAIL-01 | LLM failure handling | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-AVAIL-02 | Environments and rollback | ER; UB-Q1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-AVAIL-03 | Data durability | ER; D-007 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-SEC-01 | Authentication everywhere | ER; ES-STACK; D-027 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-SEC-02 | Per-user authorisation | ER; PS-R3 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-SEC-01 | Authentication everywhere | ER; ES-STACK; D-027 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Auth dependency on every /v1 route; token tests; no live Keycloak yet | REAL IMPLEMENTATION |
+| NFR-SEC-02 | Per-user authorisation | ER; PS-R3 | P0 | Yes | Partial | Yes | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Repository scoping + 404 tested and mutation-checked; RLS and graph gateway not yet | PARTIAL IMPLEMENTATION |
 | NFR-SEC-03 | Encryption | DK-s14; DK-s25 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-SEC-04 | Secrets management | ER; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-SEC-05 | Upload safety | ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-SEC-05 | Upload safety | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Magic bytes, 10 MB cap, EXIF strip, risky PDF rejection, consent; tested | REAL IMPLEMENTATION |
 | NFR-SEC-06 | Prompt-injection resistance | ER; PS-R2 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-SEC-07 | Safe logging | ER; PS-R3 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-SEC-07 | Safe logging | ER; PS-R3 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Allow-listed structlog keys, HMAC user ids, PII regex backstop | REAL IMPLEMENTATION |
 | NFR-SEC-08 | Patched dependencies | ER; D-020 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-SEC-09 | Abuse limits | ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-SEC-09 | Abuse limits | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Per-user buckets, 429 + Retry-After; single-replica in-memory | REAL IMPLEMENTATION |
 | NFR-SEC-10 | Pre-launch security review | ER; UB-Q1; UB-FOSS | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-PRIV-01 | Data minimisation | DK-s12; PS-R3 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-PRIV-02 | Retention and deletion | PS-R3; ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -346,7 +346,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-I18N-01 | Script support | ER; PN-KIS-7 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-I18N-02 | Indian number formats | ER; UI-03 | P1 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/web; e2e 05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md. en-IN lakh/crore formatting + spoken form for screen readers; unit tests | REAL IMPLEMENTATION |
 | NFR-ACC-01 | Scheme fact accuracy | DK-s8; ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-ACC-02 | Financial arithmetic correctness | ER; C-015 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-ACC-02 | Financial arithmetic correctness | ER; C-015 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Calculators tested; cross-screen reconciliation pending Step 6 | PARTIAL IMPLEMENTATION |
 | NFR-ACC-03 | Grounded answers | ER; ES-A5 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-ACC-04 | Scam detection quality | ER; DK-s8 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-ACC-05 | Routing accuracy | ER | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
@@ -356,12 +356,12 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-COMP-02 | Limited bandwidth | PS-A1; PS-Q5 | P2 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-OBS-01 | Tracing | ER; ES-STACK | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-OBS-02 | Monitoring | ER; UB-FOSS; D-007 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-MAINT-01 | Pinned versions | ER; UB-Q1; D-020 | P0 | Yes | No | No | No | IN PROGRESS | T0.06 spike lockfiles rebuilt cleanly: `05_TESTING/evaluations/T0.06_RESULTS.md`. Not yet in the app (T1.01) | NOT IMPLEMENTED |
+| NFR-MAINT-01 | Pinned versions | ER; UB-Q1; D-020 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. uv.lock and package-lock.json; API image built from frozen lock | REAL IMPLEMENTATION |
 | NFR-MAINT-02 | Documentation currency | UB-RULES | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-MAINT-03 | Automated quality gates | ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-MAINT-04 | Deployment automation | ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-MAINT-05 | Maintained documentation set | UB-Q9 | P1 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-COST-01 | Model resource control | DK-s12; DK-s14 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
-| NFR-COST-02 | Usage limits | UB-Q7; ER | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
+| NFR-COST-02 | Usage limits | UB-Q7; ER | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Chat/voice/sentinel/upload limits defined | PARTIAL IMPLEMENTATION |
 | NFR-LIC-01 | Free and open-source software only | UB-FOSS; D-026 | P0 | Yes | No | No | No | IN PROGRESS | Licence register started; spike licence checks pass 155/155 Python, 126/126 npm: `06_DOCUMENTATION/LICENCE_REGISTER.md`. Inference models not yet registered | NOT IMPLEMENTED |
 | NFR-LIC-02 | No required paid or proprietary service | UB-FOSS; D-026 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |

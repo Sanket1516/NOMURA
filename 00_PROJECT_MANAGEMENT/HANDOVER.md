@@ -16,7 +16,7 @@ If you are starting a new session:
 
 ## Build progress (D-032)
 
-Step 1 frontend: DONE (`04_APPLICATION/web`, results `05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md`). Steps 2 to 6: see `TASK_TRACKER.md` "Build sequence".
+Step 1 frontend: DONE (`04_APPLICATION/web`, results `05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md`). Step 2 backend: DONE (`04_APPLICATION/api`, results `05_TESTING/backend/STEP2_BACKEND_RESULTS.md`). Steps 2 to 6: see `TASK_TRACKER.md` "Build sequence".
 
 ## Latest session (2026-11-05)
 
