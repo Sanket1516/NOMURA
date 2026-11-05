@@ -8,11 +8,11 @@ import structlog
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, Response
 
 from . import __version__
 from .config import get_settings
-from .core import errors
+from .core import errors, metrics
 from .core.logging import configure
 from .db import engine
 from .features import Features
@@ -45,9 +45,12 @@ def create_app(features: Features | None = None) -> FastAPI:
                                 status_code=413, media_type="application/problem+json", headers={"x-request-id": rid})
         start = time.perf_counter()
         response = await call_next(request)
-        route = request.scope.get("route")
-        log.info("request", method=request.method, route=getattr(route, "path", "unmatched"), status=response.status_code,
-                 duration_ms=round((time.perf_counter() - start) * 1000, 1))
+        route = getattr(request.scope.get("route"), "path", "unmatched")
+        elapsed = time.perf_counter() - start
+        log.info("request", method=request.method, route=route, status=response.status_code, duration_ms=round(elapsed * 1000, 1))
+        if route != "/metrics":
+            metrics.HTTP_REQUESTS.labels(request.method, route, str(response.status_code)).inc()
+            metrics.HTTP_LATENCY.labels(route).observe(elapsed)
         response.headers["x-request-id"] = rid
         response.headers["cache-control"] = response.headers.get("cache-control", "no-store")
         response.headers["x-content-type-options"] = "nosniff"
@@ -63,6 +66,12 @@ def create_app(features: Features | None = None) -> FastAPI:
     @app.get("/healthz", tags=["health"])
     def healthz() -> dict:
         return {"status": "ok", "version": __version__}
+
+    @app.get("/metrics", include_in_schema=False)
+    def prometheus() -> Response:
+        """Internal network only: the public entry (Caddy → web) never routes here, and the web proxy forwards /v1 only."""
+        body, ctype = metrics.render()
+        return Response(body, media_type=ctype)
 
     @app.get("/readyz", tags=["health"])
     def readyz() -> JSONResponse:

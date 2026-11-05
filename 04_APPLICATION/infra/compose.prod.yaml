@@ -1,0 +1,67 @@
+# Production overlay: docker compose -f compose.yaml -f compose.prod.yaml up -d
+# Adds Caddy (TLS) as the only public entry, puts Keycloak behind /auth, removes host ports, turns preview off.
+# Monitoring (Prometheus, Grafana; Apache-2.0 / AGPLv3 unmodified, D-031): add --profile monitoring.
+
+x-prod-api-env: &prod_api_env
+  VAAKYA_ENV: production
+  VAAKYA_OIDC_ISSUER: https://${VAAKYA_DOMAIN:?set VAAKYA_DOMAIN}/auth/realms/vaakya
+  VAAKYA_OIDC_JWKS_URL: http://keycloak:8080/auth/realms/vaakya/protocol/openid-connect/certs
+
+services:
+  caddy:
+    image: caddy:2.11
+    ports: ["80:80", "443:443"]
+    environment: { VAAKYA_DOMAIN: "${VAAKYA_DOMAIN}" }
+    volumes: [./caddy/Caddyfile:/etc/caddy/Caddyfile:ro, caddy_data:/data, caddy_config:/config]
+    depends_on: [web, keycloak]
+    networks: [app]
+    restart: unless-stopped
+
+  keycloak:
+    command: start --import-realm
+    ports: !reset []
+    environment:
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HOSTNAME: https://${VAAKYA_DOMAIN}/auth
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+      KC_METRICS_ENABLED: "true"
+      VAAKYA_APP_URL: https://${VAAKYA_DOMAIN}
+    restart: unless-stopped
+
+  web:
+    ports: !reset []
+    environment:
+      APP_URL: https://${VAAKYA_DOMAIN}
+      OIDC_ISSUER: http://keycloak:8080/auth/realms/vaakya
+      OIDC_PUBLIC_ISSUER: https://${VAAKYA_DOMAIN}/auth/realms/vaakya
+      PREVIEW_MODE: ${PREVIEW_MODE:-off}
+    restart: unless-stopped
+
+  api:
+    environment: *prod_api_env
+    restart: unless-stopped
+  worker:
+    environment: *prod_api_env
+    restart: unless-stopped
+  postgres: { restart: unless-stopped }
+  neo4j: { restart: unless-stopped }
+  qdrant: { restart: unless-stopped }
+  seaweedfs: { restart: unless-stopped }
+  inference: { restart: unless-stopped }
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    profiles: [monitoring]
+    volumes: [./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro, promdata:/prometheus]
+    networks: [app]
+  grafana:
+    image: grafana/grafana-oss:12.1.1
+    profiles: [monitoring]
+    environment: { GF_SERVER_ROOT_URL: "http://localhost:3001", GF_AUTH_ANONYMOUS_ENABLED: "false" }
+    ports: ["127.0.0.1:3001:3000"]   # local only: reach it through an SSH tunnel
+    volumes: [grafanadata:/var/lib/grafana]
+    networks: [app]
+
+volumes: { caddy_data: {}, caddy_config: {}, promdata: {}, grafanadata: {} }

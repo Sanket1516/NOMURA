@@ -72,3 +72,10 @@ def test_text_is_normalised_and_control_chars_removed(alice):
     from ..conftest import PROFILE
     r = alice.put("/v1/me/profile", json={**PROFILE, "display_name": "Pri\u0000ya\u0007 "})
     assert r.status_code == 200 and r.json()["display_name"] == "Priya"
+
+
+def test_metrics_endpoint_counts_requests_without_user_data(client, alice):
+    alice.get("/v1/me")
+    body = client.get("/metrics").text
+    assert 'vaakya_http_requests_total{method="GET",route="/v1/me",status="200"}' in body
+    assert "alice" not in body

@@ -2,6 +2,13 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Production profile (REMAINING_WORK 19)
+
+- `compose.prod.yaml`: Caddy TLS as the only public entry, Keycloak in production mode at `/auth` with the admin console blocked, no other ports, preview off; optional Prometheus/Grafana profile.
+- Prometheus metrics in the API; encrypted backups (`backup.sh`) and a restore rehearsal (`restore.sh`) that passed.
+- Preview UI fully hidden when preview is off. `06_DOCUMENTATION/OPERATIONS.md`.
+- All 8 live journeys pass over https://localhost.
+
 ## 2026-11-05: Documents with real OCR extraction (REMAINING_WORK 18)
 
 - Upload → Tesseract OCR or PDF text → rule-based fields (net, gross, deductions, pay month; balances, salary credit) with confidence and a net ≤ gross check → user confirms or corrects → monthly income.

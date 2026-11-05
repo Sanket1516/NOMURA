@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const { error, next } = await searchParams;
   const live = liveEnabled();
   return (
-    <div className="mx-auto grid max-w-5xl gap-8 px-4 py-8 lg:grid-cols-2">
+    <div className={`mx-auto grid max-w-5xl gap-8 px-4 py-8 ${config.previewEnabled ? "lg:grid-cols-2" : "max-w-xl"}`}>
       <section aria-labelledby="signin-h" className="rounded-[1.75rem] border border-line bg-surface p-7 shadow-card">
         <h1 id="signin-h" className="font-display text-4xl">Welcome back</h1>
         <p className="mt-2 text-ink-2">Sign in with your email, or with Google if your account uses it. You will continue on VAAKYA&apos;s secure sign-in page.</p>
@@ -39,11 +39,11 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <p className="mt-6 text-sm text-ink-3">No CAPTCHA. The sign-in page works with screen readers and keyboard. You can turn on two-step verification in your account.</p>
       </section>
 
-      <section id="preview" aria-labelledby="preview-h" className="rounded-[1.75rem] border border-dashed border-demo/60 bg-demo-soft/40 p-7">
+      {config.previewEnabled ? <section id="preview" aria-labelledby="preview-h" className="rounded-[1.75rem] border border-dashed border-demo/60 bg-demo-soft/40 p-7">
         <h2 id="preview-h" className="font-display text-3xl">Preview with sample data</h2>
         <p className="mt-2 text-ink-2">Explore VAAKYA as one of four example people. Everything is synthetic, nothing is saved, and AI agents are not connected in preview.</p>
-        {config.previewEnabled ? <PersonaPicker next={next ?? "/home"} action="/api/auth/preview" submitLabel="Preview as" /> : <p className="mt-4 font-semibold">Preview is turned off on this server.</p>}
-      </section>
+        <PersonaPicker next={next ?? "/home"} action="/api/auth/preview" submitLabel="Preview as" />
+      </section> : null}
     </div>
   );
 }

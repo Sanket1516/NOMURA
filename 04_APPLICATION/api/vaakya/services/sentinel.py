@@ -42,6 +42,8 @@ class SentinelService:
         db.add(row)
         db.flush()
         emit(db, user_id, "ScamChecked", {"level": v["risk_level"], "agent": "sentinel"})
+        from ..core import metrics
+        metrics.SENTINEL_CHECKS.labels(v["risk_level"]).inc()
         from .score import recompute
         recompute(db, user_id, reason="scam_checked")
         cites = [{"id": f"scam:{p['id']}", "title": p["title"], "publisher": "VAAKYA scam awareness (draft)", "url": p["url"], "effective_date": None}

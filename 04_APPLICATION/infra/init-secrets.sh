@@ -13,6 +13,7 @@ printf 'NEO4J_AUTH=neo4j/%s\n' "$NEO" > secrets/neo4j.env
 printf 'INFERENCE_TOKEN=%s\n' "$INF" > secrets/inference.env
 printf 'VAAKYA_DATABASE_URL=postgresql+psycopg://vaakya:%s@postgres:5432/vaakya\nVAAKYA_NEO4J_PASSWORD=%s\nVAAKYA_INFERENCE_TOKEN=%s\nVAAKYA_LOG_HMAC_KEY=%s\nVAAKYA_VAULT_KEK_B64=%s\n' \
   "$PG" "$NEO" "$INF" "$(rand)" "$(head -c 32 /dev/urandom | base64)" > secrets/api.env
+printf 'VAAKYA_BACKUP_KEY_B64=%s\n' "$(head -c 32 /dev/urandom | base64)" >> secrets/api.env
 printf 'OIDC_CLIENT_SECRET=%s\n' "$WEB" > secrets/web.env
 chmod 600 secrets/*
 # Compose file secrets are bind-mounted with host permissions; the postgres user must read these two.

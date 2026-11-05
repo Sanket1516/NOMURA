@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { config } from "@/lib/server/config";
 import { ArrowRight, Mic, Accessibility, Lock, Scale, Sparkles } from "lucide-react";
 import { AGENTS } from "@/components/ai/agent";
 import { buttonVariants } from "@/components/ui/button";
@@ -90,7 +91,7 @@ export default function Landing() {
           </div>
           <div className="flex flex-col justify-center gap-3">
             <Link href="/register" className={cn(buttonVariants({ size: "lg" }), "bg-paper text-ink")}>Create a free account</Link>
-            <Link href="/login#preview" className="text-center font-semibold underline underline-offset-4">Or preview with sample data</Link>
+            {config.previewEnabled ? <Link href="/login#preview" className="text-center font-semibold underline underline-offset-4">Or preview with sample data</Link> : null}
           </div>
         </div>
       </section>
