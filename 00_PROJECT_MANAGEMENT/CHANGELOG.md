@@ -2,6 +2,22 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Step 1 of 6, frontend
+
+### Added
+
+- `04_APPLICATION/web/`: Next.js 16 PWA with a design system (warm paper, ink, growth green, marigold; Fraunces + Inter), light, dark and high-contrast themes, text scaling and reduced motion.
+- Screens: landing, login, registration, onboarding (consent, persona selection, profile and money questions), dashboard, AI assistant, financial planning, goals, Scam Shield, schemes, learning, Confidence Score, voice, accessibility settings, profile with data controls, notifications, about AI, offline.
+- Keycloak OIDC Authorization Code + PKCE through a Next.js backend-for-frontend; tokens kept server-side. Token-attaching API proxy with SSE streaming.
+- Sample-data preview mode for the four personas (D-033), labelled on every screen. AI screens never fake answers.
+- Accessible SVG charts with text summaries and data tables; lakh/crore formatting with spoken forms.
+- Tests: 19 unit, 12 Playwright E2E with axe. 58 screenshots.
+- Decisions D-032 to D-035.
+
+### Fixed during testing
+
+- Accent colour contrast, three mobile overflow causes, distorted chart labels.
+
 ## 2026-11-05: Phase 0 started, T0.06 done, architecture set v1.0
 
 ### Added

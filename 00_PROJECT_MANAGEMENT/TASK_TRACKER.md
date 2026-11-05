@@ -11,6 +11,19 @@ Sanket Mali owns all tasks (D-005). Tasks marked R3 belong to Release 3.
 **Tasks needing the owner's machine (RTX 3050):** T0.03, T0.04, T0.07, T0.08, T0.09, T0.10, T0.11 (GPU part), T0.13. **Human tasks:** T0.12 verification, T0.14 legal advice.
 
 
+## Build sequence (D-032)
+
+The owner asked for six build steps in order. Each step is committed to `main` when done.
+
+| Step | Scope | Maps to | Status | Evidence |
+|---|---|---|---|---|
+| 1 | Frontend: design system, 17 screens, BFF auth, accessibility, PWA, screenshots | T1.02, T3.06, T4.01, T9.03/T9.04 parts | DONE (UI); live integration in Step 6 | `05_TESTING/frontend/STEP1_FRONTEND_RESULTS.md` |
+| 2 | Backend: FastAPI modules, auth, validation, errors, logging, rate limits, uploads | T1.03, T1.06, T3.09 parts | TODO | |
+| 3 | Data layer: PostgreSQL, Neo4j Life Graph, SeaweedFS vault, seed data | T2.01, T2.02, T2.07 | TODO | |
+| 4 | AI infrastructure: LLM adapter, LangGraph, RAG with Qdrant, Dual-LLM tiers | T1.07, T2.04, T3.01-T3.04 | TODO | |
+| 5 | Four agents + Confidence Engine | T3.05, T5.x, T6.x, T7.x, T8.01 | TODO | |
+| 6 | Integration and end-to-end journeys | T10.01 parts | TODO | |
+
 ## PH0: Decisions and spikes
 
 | Task | Description | Owner | Depends on | Covers | Status |

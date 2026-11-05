@@ -274,6 +274,25 @@ One gate applies later: before real people enter their own financial data, take 
 - **Decision:** psycopg (LGPL-3.0) is accepted in the API process. Neo4j Community (GPLv3), Grafana OSS and Loki (AGPLv3) are accepted as separate, unmodified servers. Details and conditions are in `06_DOCUMENTATION/LICENCE_REGISTER.md`.
 - **Why:** All are OSI-approved, so they meet D-026. Their obligations apply only to modification and distribution or network exposure, which VAAKYA does not plan.
 
+### D-032: Owner instruction to build the application; Phase 0 gate waived for software work
+- **Status:** APPROVED by the owner's instruction on 2026-11-05 ("Build the complete VAAKYA frontend / backend / data layer / AI / agents / integration", "perform them one by one in same sequence").
+- **Decision:** Build in six steps, in the order given: frontend, backend, data layer, AI infrastructure, agents, integration. Commit to `main` after each.
+- **Gate:** The PH0 gate is waived for software work. It is **not** waived for model selection (T0.03), scheme fact verification (T0.12) or legal scoping (T0.14). Features depending on those stay PARTIAL.
+- **Stack:** The prompts named the hackathon stack (Next.js 14, Firebase, Firestore, Gemini, LangGraph 0.2). The owner had already said to keep the open-source plan ("just go with the plan you have created"). D-026 and D-030 therefore stand: Keycloak replaces Firebase Auth, PostgreSQL replaces Firestore, SeaweedFS replaces Firebase Storage, Ollama replaces Gemini.
+
+### D-033: Preview mode with synthetic sample data
+- **Status:** ACTIVE
+- **Decision:** The web app has a sample-data preview: choose one of the four personas without an account. Every screen shows "Sample data" and a banner. Nothing is saved. The API proxy returns `503 Preview mode`, so AI screens show "not connected" and never a fabricated answer. `PREVIEW_MODE=off` disables it in production.
+- **Why:** The owner asked for demonstration data that is clearly distinguished from persisted data.
+
+### D-034: Screenshot location
+- **Status:** ACTIVE
+- **Decision:** Screenshots are saved to `07_HACKATHON_DELIVERABLES/PRODUCT_SCREENSHOTS/FRONTEND/` at the repository root, not under a new `Nomura/` folder, because D-001 forbids a `Nomura/` folder (it collides with `NOMURA/` on Windows).
+
+### D-035: Six Confidence Score dimensions
+- **Status:** ACTIVE. Owner to confirm. Amends D-011.
+- **Decision:** Add **Debt awareness** as a sixth dimension, because the owner's agent brief lists "debt management awareness". FCS = round(mean of six dimensions). Formula version `fcs-1`. Details in the scoring documentation written in Step 5.
+
 ---
 
 ## 3. Source conflict register
