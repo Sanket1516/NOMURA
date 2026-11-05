@@ -2,6 +2,13 @@
 
 All notable changes to project plans, requirements and code. Newest first.
 
+## 2026-11-05: Row Level Security (REMAINING_WORK 20, in progress); session stopped by the owner
+
+- Migration 0003: RLS enabled and forced on 20 user-owned tables with `owner_only` policies keyed on a per-transaction `vaakya.user_id`.
+- API connects as the restricted `vaakya_api` role (member of `vaakya_app`); migrations, seed, worker and backups use the owner connection (`VAAKYA_ADMIN_DATABASE_URL`).
+- Tests: 3 RLS tests; the full API suite (155) passes both normally and with `VAAKYA_TEST_RLS=1` (restricted role).
+- Not yet done: re-running the Compose stack and live journeys with the new role (the reset had just completed when the session stopped).
+
 ## 2026-11-05: Production profile (REMAINING_WORK 19)
 
 - `compose.prod.yaml`: Caddy TLS as the only public entry, Keycloak in production mode at `/auth` with the admin console blocked, no other ports, preview off; optional Prometheus/Grafana profile.

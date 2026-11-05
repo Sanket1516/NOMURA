@@ -9,7 +9,8 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="VAAKYA_", env_file=".env", extra="ignore")
 
     env: str = Field("development", description="development | test | production")
-    database_url: str = Field(..., description="postgresql+psycopg://user:pass@host:5432/db")
+    database_url: str = Field(..., description="postgresql+psycopg://user:pass@host:5432/db (the API's restricted role)")
+    admin_database_url: str | None = Field(None, description="Owner connection for migrations, seeding and the worker; defaults to database_url")
     oidc_issuer: str = Field(..., description="Issuer as it appears in tokens, e.g. https://host/auth/realms/vaakya")
     oidc_jwks_url: str | None = Field(None, description="JWKS URL if it differs from <issuer>/protocol/openid-connect/certs")
     oidc_audience: str = "vaakya-api"

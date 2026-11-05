@@ -1,3 +1,8 @@
--- Separate databases and roles for the application and Keycloak (least privilege).
+-- Separate databases and roles (least privilege).
+-- keycloak: owns the Keycloak database.
+-- vaakya_app: NOLOGIN group that migration 0003 grants table rights to; Row Level Security applies to it.
+-- vaakya_api: the API's login role, a member of vaakya_app. Not an owner, not a superuser, so RLS is enforced.
 CREATE ROLE keycloak LOGIN PASSWORD :'kc_password';
 CREATE DATABASE keycloak OWNER keycloak;
+CREATE ROLE vaakya_app NOLOGIN;
+CREATE ROLE vaakya_api LOGIN PASSWORD :'api_password' IN ROLE vaakya_app;

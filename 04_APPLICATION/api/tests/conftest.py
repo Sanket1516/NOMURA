@@ -10,7 +10,11 @@ import jwt
 import pytest
 from cryptography.hazmat.primitives.asymmetric import rsa
 
-os.environ.setdefault("VAAKYA_DATABASE_URL", "postgresql+psycopg://postgres:test@localhost:55432/vaakya")
+ADMIN_URL = os.environ.get("VAAKYA_DATABASE_URL", "postgresql+psycopg://postgres:test@localhost:55432/vaakya")
+os.environ["VAAKYA_ADMIN_DATABASE_URL"] = ADMIN_URL
+# VAAKYA_TEST_RLS=1 runs the whole suite as a restricted, non-owner role so Row Level Security is enforced.
+RLS = os.environ.get("VAAKYA_TEST_RLS") == "1"
+os.environ["VAAKYA_DATABASE_URL"] = ADMIN_URL.replace("postgres:test@", "vaakya_api_test:test@") if RLS else ADMIN_URL
 os.environ.setdefault("VAAKYA_OIDC_ISSUER", "https://issuer.test/realms/vaakya")
 os.environ.setdefault("VAAKYA_ENV", "test")
 
@@ -34,7 +38,7 @@ def make_token(sub: str, *, aud: str = "vaakya-api", exp_in: int = 300, key=KEY,
 def _db_reachable() -> bool:
     from sqlalchemy import create_engine, text
     try:
-        with create_engine(os.environ["VAAKYA_DATABASE_URL"]).connect() as c:
+        with create_engine(ADMIN_URL).connect() as c:
             c.execute(text("select 1"))
         return True
     except Exception:  # noqa: BLE001
@@ -48,6 +52,11 @@ def app():
     from alembic import command
     from alembic.config import Config
     command.upgrade(Config(os.path.join(os.path.dirname(__file__), "..", "alembic.ini")), "head")
+    if RLS:
+        from sqlalchemy import create_engine, text
+        with create_engine(ADMIN_URL).begin() as c:
+            c.execute(text("DO $$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'vaakya_api_test') THEN "
+                           "CREATE ROLE vaakya_api_test LOGIN PASSWORD 'test' IN ROLE vaakya_app; END IF; END $$"))
     from vaakya.main import create_app
     a = create_app()
     a.state.key_resolver = StaticResolver()
@@ -62,9 +71,9 @@ def clean(request):
     from sqlalchemy import text
 
     from vaakya import ratelimit
-    from vaakya.db import engine
+    from vaakya.db import admin_engine
     ratelimit.reset()
-    with engine().begin() as c:
+    with admin_engine().begin() as c:
         c.execute(text("TRUNCATE users, outbox, schemes RESTART IDENTITY CASCADE"))
     yield
 

@@ -22,7 +22,7 @@ pytestmark = pytest.mark.skipif(not _up(), reason="inference service not running
 def wired(app):
     from vaakya.ai.inference import InferenceClient
     from vaakya.bootstrap import build_agents
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.seed import load_schemes
     with session_factory()() as db:
         load_schemes(db)
