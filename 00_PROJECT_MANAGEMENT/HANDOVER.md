@@ -1,6 +1,6 @@
 # Handover
 
-**Last updated:** 2026-11-05 (all six build steps done; continuing with REMAINING_WORK items 16-21)
+**Last updated:** 2026-11-05 (session stopped by the owner; read `08_HANDOVER/WORK_SUMMARY.md` first)
 **For:** any person or AI model continuing VAAKYA.
 **Read next:** `REMAINING_WORK.md` (live checklist), `CURRENT_STATUS.md`, `08_HANDOVER/NEXT_AI_PROMPT.md`.
 
@@ -70,6 +70,9 @@ cd ../web && LIVE_E2E=1 E2E_BASE_URL=http://localhost:3000 DEMO_PASSWORD=... npx
 If Docker Hub refuses `ubuntu:24.04`, build a base with `debootstrap --variant=minbase noble <dir> http://archive.ubuntu.com/ubuntu`, `docker import`, and pass `--build-arg BASE=<that image>` to the inference build.
 
 ## Next steps
+
+**First:** verify Row Level Security on the full stack (WORK_SUMMARY §5 step 1). The API now connects as `vaakya_api` (restricted) and uses `VAAKYA_ADMIN_DATABASE_URL` for migrations, seed and worker.
+
 
 Work through `REMAINING_WORK.md` items 16-21 in order: proactive nudges, monthly review, document upload and extraction review, production profile (Caddy TLS, monitoring, backups), PostgreSQL RLS, page translations. Keep the test suites green and update trackers with `tools_update_tracker.py`.
 

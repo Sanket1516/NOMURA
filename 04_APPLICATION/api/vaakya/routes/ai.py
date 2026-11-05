@@ -32,6 +32,8 @@ def chat(body: s.ChatIn, request: Request, user: User_, db: DB, f: F):
     def stream():
         # Own session: the request-scoped one closes when the handler returns.
         with session_factory()() as sdb:
+            from ..db import scope_to_user
+            scope_to_user(sdb, user.id)
             try:
                 for event, data in orch.run(sdb, user.id, body, request_id=request_id):
                     yield f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"

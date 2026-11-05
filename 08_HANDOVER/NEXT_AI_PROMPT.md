@@ -8,6 +8,7 @@ You are continuing **VAAKYA – AI Financial Guardian**, a free-and-open-source 
 
 ## Read first
 
+0. `08_HANDOVER/WORK_SUMMARY.md` – one-page summary of done, tested, mocked and remaining
 1. `00_PROJECT_MANAGEMENT/HANDOVER.md` – rules, code map, test commands, **next steps in order**
 2. `00_PROJECT_MANAGEMENT/REMAINING_WORK.md` – the live checklist (keep it updated as you work)
 3. `00_PROJECT_MANAGEMENT/CURRENT_STATUS.md`
@@ -23,7 +24,9 @@ Verify claims by running the tests before you build on them.
 
 ## Your task
 
-Continue `00_PROJECT_MANAGEMENT/REMAINING_WORK.md` items 16-21 in order: proactive nudges job; monthly review and report screen; document upload with OCR extraction and review; production profile (Caddy TLS, Prometheus/Loki/Grafana, encrypted backups); PostgreSQL Row Level Security; page-content translations. Keep every test suite green (API, inference, web unit, preview E2E, live E2E) and update the trackers.
+1. Verify Row Level Security on the full Docker stack: `cd 04_APPLICATION/infra && VAAKYA_DOMAIN=localhost docker compose -f compose.yaml -f compose.prod.yaml up -d --no-build`, seed, then run the 8 live journeys over https://localhost (`04_APPLICATION/web/e2e/live.spec.ts`). Fix anything the restricted `vaakya_api` role breaks.
+2. Continue `REMAINING_WORK.md` item 21 (page translations) and any items found along the way.
+3. Keep every suite green (API normal and `VAAKYA_TEST_RLS=1`, inference, web unit, preview E2E, live E2E) and update the trackers and WORK_SUMMARY.
 
 ## Rules
 

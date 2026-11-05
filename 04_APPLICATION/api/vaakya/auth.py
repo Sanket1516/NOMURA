@@ -80,6 +80,8 @@ def current_user(request: Request, db: Annotated[Session, Depends(get_db)],
         user = User(keycloak_sub=sub)
         db.add(user)
         db.flush()
+    from .db import scope_to_user
+    scope_to_user(db, user.id)  # Row Level Security: every following query in this request sees only this user's rows
     if user.status != "active":
         raise AuthError("Account is being deleted")
     roles = frozenset((claims.get("realm_access") or {}).get("roles", []))

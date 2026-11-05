@@ -26,8 +26,8 @@
 | P0 / P1 / P2 / P3 | 113 / 59 / 27 / 9 |
 | PLANNED | 64 |
 | IN PROGRESS | 4 |
-| PARTIALLY IMPLEMENTED | 51 |
-| IMPLEMENTED | 4 |
+| PARTIALLY IMPLEMENTED | 50 |
+| IMPLEMENTED | 5 |
 | TESTED | 76 |
 | VERIFIED | 0 |
 | BLOCKED | 0 |
@@ -327,7 +327,7 @@ The planned target classification for each feature is in `01_REQUIREMENTS/FUNCTI
 | NFR-AVAIL-02 | Environments and rollback | ER; UB-Q1 | P0 | Yes | No | No | No | PLANNED | None | NOT IMPLEMENTED |
 | NFR-AVAIL-03 | Data durability | ER; D-007 | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/infra/{compose.prod.yaml,caddy,backup.sh,restore.sh}; 06_DOCUMENTATION/OPERATIONS.md. Encrypted backup + restore rehearsal matched row counts | REAL IMPLEMENTATION |
 | NFR-SEC-01 | Authentication everywhere | ER; ES-STACK; D-027 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Auth dependency on every /v1 route; token tests; no live Keycloak yet | REAL IMPLEMENTATION |
-| NFR-SEC-02 | Per-user authorisation | ER; PS-R3 | P0 | Yes | Partial | Yes | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Repository scoping + 404 tested and mutation-checked; RLS and graph gateway not yet | PARTIAL IMPLEMENTATION |
+| NFR-SEC-02 | Per-user authorisation | ER; PS-R3 | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/api/migrations/versions/0003_row_level_security.py; tests/integration/test_row_level_security.py. Code scoping + PostgreSQL RLS (forced, owner_only policies); full API suite passes as a restricted role; Compose run with the new vaakya_api role not yet re-verified | REAL IMPLEMENTATION |
 | NFR-SEC-03 | Encryption | DK-s14; DK-s25 | P0 | Yes | Partial | Partial | No | PARTIALLY IMPLEMENTED | 04_APPLICATION/infra/{compose.prod.yaml,caddy,backup.sh,restore.sh}; 06_DOCUMENTATION/OPERATIONS.md. TLS via Caddy tested on localhost CA; documents and backups AES-256-GCM; disk encryption is a host task | PARTIAL IMPLEMENTATION |
 | NFR-SEC-04 | Secrets management | ER; ES-STACK | P0 | Yes | Yes | Partial | No | IMPLEMENTED | 04_APPLICATION/infra/{compose.prod.yaml,caddy,backup.sh,restore.sh}; 06_DOCUMENTATION/OPERATIONS.md. Random secrets in a gitignored directory; nothing secret in the repository or images | REAL IMPLEMENTATION |
 | NFR-SEC-05 | Upload safety | ER | P0 | Yes | Yes | Yes | No | TESTED | 04_APPLICATION/api; 05_TESTING/backend/STEP2_BACKEND_RESULTS.md. Magic bytes, 10 MB cap, EXIF strip, risky PDF rejection, consent; tested | REAL IMPLEMENTATION |

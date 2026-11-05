@@ -182,7 +182,7 @@ def test_parameterised_queries_resist_injection(graph):
 
 @needs_neo4j
 def test_outbox_relay_projects_postgres_into_neo4j(app, onboarded, graph):
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.services import twin
     onboarded.post("/v1/goals", json={"type": "emergency_fund", "title": "Emergency fund", "target": {"paise": 7_800_000},
                                       "target_date": date(date.today().year + 2, 1, 1).isoformat()})
@@ -212,7 +212,7 @@ def test_outbox_relay_projects_postgres_into_neo4j(app, onboarded, graph):
 def test_retention_purge(app, onboarded):
     from datetime import datetime, timedelta, timezone
 
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.models import Conversation, Message, User
     from vaakya.services import retention
     with session_factory()() as db:

@@ -5,7 +5,8 @@ from vaakya.config import get_settings
 from vaakya.models import Base
 
 config = context.config
-config.set_main_option("sqlalchemy.url", get_settings().database_url.replace("%", "%%"))
+_s = get_settings()
+config.set_main_option("sqlalchemy.url", (_s.admin_database_url or _s.database_url).replace("%", "%%"))
 target_metadata = Base.metadata
 
 

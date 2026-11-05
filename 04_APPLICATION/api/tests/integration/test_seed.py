@@ -3,7 +3,7 @@ from sqlalchemy import func, select
 
 def test_seed_is_idempotent_consistent_and_flagged_demo(app):
     from vaakya import seed
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.models import Scheme, User
     from vaakya.services.dashboard import build
     with session_factory()() as db:
@@ -26,7 +26,7 @@ def test_scheme_load_keeps_human_verification(app):
     from datetime import date
 
     from vaakya import seed
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.models import Scheme
     with session_factory()() as db:
         seed.load_schemes(db)

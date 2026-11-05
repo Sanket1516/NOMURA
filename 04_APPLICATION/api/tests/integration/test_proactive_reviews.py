@@ -9,7 +9,7 @@ def _goal(api):
 def test_goal_drift_nudge_once_and_one_per_day(app, onboarded):
     from sqlalchemy import select
 
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.models import User
     from vaakya.services import proactive
     _goal(onboarded)
@@ -29,7 +29,7 @@ def test_goal_drift_nudge_once_and_one_per_day(app, onboarded):
 def test_on_track_goal_gets_no_nudge(app, onboarded):
     from sqlalchemy import select
 
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.models import User
     from vaakya.services import proactive
     _goal(onboarded)
@@ -41,7 +41,7 @@ def test_on_track_goal_gets_no_nudge(app, onboarded):
 def test_newly_eligible_scheme_nudge(app, onboarded):
     from sqlalchemy import select
 
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.models import User
     from vaakya.seed import load_schemes
     from vaakya.services import proactive

@@ -33,7 +33,7 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 | 17 | Monthly review generation and report screen (FR-COA-01/02) | DONE (API + screen; live E2E) |
 | 18 | Document upload screen + extraction review (FR-DOC-01..05) using real OCR | DONE (live journey 8; double-count bug found and fixed) |
 | 19 | Production profile: Caddy TLS, Prometheus/Loki/Grafana, encrypted backups | DONE except running Prometheus/Grafana (rate limit); 8 live journeys pass over HTTPS; `06_DOCUMENTATION/OPERATIONS.md` |
-| 20 | PostgreSQL Row Level Security as second line of defence | TODO |
+| 20 | PostgreSQL Row Level Security as second line of defence | IN PROGRESS: migration 0003 + restricted `vaakya_api` role written; 155 API tests pass with RLS enforced; **next: re-run the Compose stack from scratch (`VAAKYA_DOMAIN=localhost docker compose -f compose.yaml -f compose.prod.yaml down -v && ... up`), seed, and the 8 live journeys over https://localhost** |
 | 21 | Page-content translations (hi, mr, kn) beyond navigation | TODO |
 
 ## Found along the way (to do)
@@ -42,7 +42,6 @@ Statuses: TODO · IN PROGRESS · DONE · BLOCKED (reason given).
 |---|---|
 | Disk space in the build container | Docker build cache filled the disk to 94% and broke SeaweedFS; run `docker builder prune` periodically |
 | Independent labelled scam set (T6.05) | Sentinel rules were tuned on the developer set |
-| PostgreSQL Row Level Security | Isolation is enforced and tested in code; RLS is the second line of defence |
 
 ## Outside what software can close in this environment
 

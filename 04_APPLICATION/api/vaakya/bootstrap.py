@@ -58,7 +58,7 @@ def build_features() -> Features:
         f.speech = InferenceClient(s.inference_url, s.inference_token)
         ocr = f.speech.ocr
     try:
-        from .db import session_factory
+        from .db import admin_session_factory as session_factory
         from .models import Scheme
         from .seed import load_schemes
         with session_factory()() as db:

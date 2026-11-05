@@ -21,7 +21,7 @@ def _up(port):
 def agents(app):
     from vaakya.ai.knowledge import KnowledgeStore
     from vaakya.bootstrap import build_agents
-    from vaakya.db import session_factory
+    from vaakya.db import admin_session_factory as session_factory
     from vaakya.seed import load_schemes
     with session_factory()() as db:
         load_schemes(db)

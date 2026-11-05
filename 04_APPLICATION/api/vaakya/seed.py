@@ -16,7 +16,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from . import schemas as s
-from .db import session_factory
+from .db import admin_session_factory as session_factory
 from .models import Scheme, ScoreSnapshot, User
 from .services import assessment, goals, learning, profile
 from .services.common import today_ist

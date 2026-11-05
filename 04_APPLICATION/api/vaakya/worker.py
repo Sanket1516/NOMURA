@@ -7,7 +7,7 @@ import structlog
 
 from .bootstrap import build_features
 from .core.logging import configure
-from .db import session_factory
+from .db import admin_session_factory as session_factory
 from .services import proactive, retention, twin
 
 
