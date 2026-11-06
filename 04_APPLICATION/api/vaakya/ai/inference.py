@@ -73,4 +73,4 @@ class InferenceClient:
         spoken = final["text"].split("\n\nAssumptions:")[0]
         return {"transcript": t, "answer": {"text": final["text"], "ai": {"agents": final["agents"], "notice": NOTICE, "citations": final["citations"],
                                                                           "llm_used": final["llm_used"], "translated": final["translated"]}},
-                "audio": self.speak(user_id, spoken, lang)}
+                "audio": self.speak(user_id, spoken, lang if final["translated"] else "en")}  # untranslated English text must not go through a Hindi/Marathi/Kannada voice

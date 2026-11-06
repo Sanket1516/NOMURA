@@ -5,6 +5,7 @@ import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, Form, Request, UploadFile
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import StreamingResponse
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -108,7 +109,8 @@ def eligibility(scheme_id: str, user: User_, db: DB, f: F) -> dict:
 async def transcribe(user: User_, db: DB, f: F, audio: UploadFile = File(...), lang: str = Form("en")) -> dict:
     speech = need(f.speech, "Speech recognition")
     require_consent(db, user.id, "voice_processing")
-    return speech.transcribe(await read_capped(audio, 5 * 1024 * 1024), lang)
+    data = await read_capped(audio, 5 * 1024 * 1024)
+    return await run_in_threadpool(speech.transcribe, data, lang)  # blocking HTTP to the inference service: keep it off the event loop
 
 
 @router.post("/voice/speak", dependencies=[limit("voice")], summary="Text to speech for page summaries (Voice Summary)")
@@ -132,4 +134,5 @@ async def voice_query(request: Request, user: User_, db: DB, f: F, audio: Upload
     orch = need(f.orchestrator, "The AI assistant")
     require_consent(db, user.id, "voice_processing")
     require_consent(db, user.id, "ai_processing")
-    return speech.query(db, user.id, orch, await read_capped(audio, 5 * 1024 * 1024), lang, getattr(request.state, "request_id", ""))
+    data = await read_capped(audio, 5 * 1024 * 1024)
+    return await run_in_threadpool(speech.query, db, user.id, orch, data, lang, getattr(request.state, "request_id", ""))
