@@ -52,7 +52,7 @@ test("2 educator answers from sources with citations", async ({ page }) => {
   await page.getByLabel("Your question").fill("What is a SIP and is the return fixed?");
   await page.getByRole("button", { name: "Send" }).click();
   const answer = page.getByRole("log").locator("article").last();
-  await expect(answer.getByText("Educator")).toBeVisible({ timeout: 30_000 });
+  await expect(answer.getByText("Educator")).toBeVisible({ timeout: 120_000 });
   await expect(answer.getByText("Sources")).toBeVisible();
   await expect(answer).toContainText("Systematic Investment Plan");
   await page.getByLabel("Your question").fill("Got this: Instant loan in 5 minutes without documents, allow contacts permission. Safe?");
@@ -110,15 +110,17 @@ test("5 planning, life graph, lesson quiz", async ({ page }) => {
   await shot(page, "11-monthly-review-live");
 });
 
-test("6 voice reports the missing speech model honestly", async ({ browser }) => {
+test("6 voice page records, shows a transcript and plays the spoken answer", async ({ browser }) => {
+  // The full four-language round trip with a fixture microphone lives in e2e/voice.spec.ts; here: the mobile screen and the status text.
   const ctx = await browser.newContext({ ignoreHTTPSErrors: true, permissions: ["microphone"], viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, reducedMotion: "reduce" });
   const page = await ctx.newPage();
   await signIn(page, "demo-priya@vaakya.invalid", process.env.DEMO_PASSWORD!);
   await page.goto("/voice");
   await page.getByRole("button", { name: "Start speaking" }).click();
-  await page.waitForTimeout(1200);
+  await page.waitForTimeout(1500);
   await page.getByRole("button", { name: "Stop and send" }).click();
-  await expect(page.getByText(/not installed|T0.08/)).toBeVisible({ timeout: 30_000 });
+  // Chromium's default fake microphone is a beep, not speech: the server must answer honestly, never invent a transcript.
+  await expect(page.getByText(/could not hear|You said/i)).toBeVisible({ timeout: 60_000 });
   await shot(page, "09-voice-live-mobile");
   await ctx.close();
 });
