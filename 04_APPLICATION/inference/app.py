@@ -8,11 +8,13 @@ Internal network only; every request needs the shared token. Inputs are processe
 """
 from __future__ import annotations
 
+import importlib.util
 import io
 import os
 import shutil
 import subprocess
 import tempfile
+import threading
 
 from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
 from fastapi.responses import Response
@@ -30,6 +32,41 @@ app = FastAPI(title="VAAKYA inference", version="0.1.0", docs_url=None, redoc_ur
 _whisper = None
 
 
+def _stt_ready() -> str | None:
+    """None when speech recognition can run, otherwise the reason it cannot (so /health and /stt never overclaim)."""
+    if not (WHISPER_DIR and os.path.isdir(WHISPER_DIR)):
+        return "Speech recognition model is not installed on this server (faster-whisper weights, task T0.08)."
+    if not os.path.isfile(os.path.join(WHISPER_DIR, "model.bin")):
+        return "Speech recognition weights are missing: no model.bin in the model folder (task T0.08)."
+    if importlib.util.find_spec("faster_whisper") is None:
+        return "The faster-whisper package is not installed in this inference image."
+    return None
+
+
+def _load_whisper():
+    global _whisper
+    if _whisper is None:
+        from faster_whisper import WhisperModel  # imported lazily; only present in the full image
+        try:
+            _whisper = WhisperModel(WHISPER_DIR, device=os.environ.get("STT_DEVICE", "cpu"),
+                                    compute_type=os.environ.get("STT_COMPUTE_TYPE", "int8"))
+        except Exception as e:  # CUDA out of memory, missing cuDNN, corrupt weights: say so instead of a bare 500
+            raise HTTPException(503, f"Speech recognition model could not be loaded: {type(e).__name__}") from e
+    return _whisper
+
+
+@app.on_event("startup")
+def _warm_up() -> None:
+    """Load Whisper in the background at start so the first voice question does not wait ~50 s for the model."""
+    def go() -> None:
+        try:
+            _load_whisper()
+        except Exception:
+            pass  # /stt reports the load failure itself
+    if _stt_ready() is None:
+        threading.Thread(target=go, daemon=True).start()
+
+
 def _auth(token: str | None) -> None:
     if not TOKEN or token != TOKEN:
         raise HTTPException(401, "invalid inference token")
@@ -40,7 +77,7 @@ def health() -> dict:
     langs = subprocess.run(["tesseract", "--list-langs"], capture_output=True, text=True, timeout=10).stdout.split()[1:] if shutil.which("tesseract") else []
     return {"status": "ok", "ocr": {"engine": "tesseract", "languages": sorted(set(langs) & OCR_LANGS)},
             "tts": {"engine": "espeak-ng" if shutil.which("espeak-ng") else None, "languages": sorted(VOICES)},
-            "stt": {"engine": "faster-whisper" if WHISPER_DIR and os.path.isdir(WHISPER_DIR) else None}}
+            "stt": {"engine": "faster-whisper" if _stt_ready() is None else None, "reason": _stt_ready(), "loaded": _whisper is not None}}
 
 
 @app.post("/ocr")
@@ -89,22 +126,16 @@ def tts(body: TtsIn, x_inference_token: str | None = Header(None)) -> Response:
 @app.post("/stt")
 async def stt(audio: UploadFile = File(...), lang: str = Form("en"), x_inference_token: str | None = Header(None)) -> dict:
     _auth(x_inference_token)
-    global _whisper
-    if not (WHISPER_DIR and os.path.isdir(WHISPER_DIR)):
-        raise HTTPException(503, "Speech recognition model is not installed on this server (faster-whisper weights, task T0.08).")
+    reason = _stt_ready()
+    if reason:
+        raise HTTPException(503, reason)
     data = await audio.read(MAX_AUDIO + 1)
     if len(data) > MAX_AUDIO:
         raise HTTPException(413, "audio too large")
-    if _whisper is None:
-        from faster_whisper import WhisperModel  # imported lazily; only present in the full image
-        _whisper = WhisperModel(
-            WHISPER_DIR,
-            device=os.environ.get("STT_DEVICE", "cpu"),
-            compute_type=os.environ.get("STT_COMPUTE_TYPE", "int8"),
-        )
+    model = _load_whisper()
     with tempfile.NamedTemporaryFile(suffix=".audio", dir="/tmp") as tmp:
         tmp.write(data)
         tmp.flush()
-        segments, info = _whisper.transcribe(tmp.name, language=lang if lang in VOICES else None, vad_filter=True)
+        segments, info = model.transcribe(tmp.name, language=lang if lang in VOICES else None, vad_filter=True)
         text = " ".join(s.text.strip() for s in segments)
     return {"text": text, "lang": info.language, "confidence": round(float(info.language_probability), 2)}

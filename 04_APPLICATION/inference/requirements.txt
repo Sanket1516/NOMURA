@@ -4,3 +4,4 @@ python-multipart==0.0.33
 pillow==13.0.0
 pydantic==2.14.3
 faster-whisper==1.2.1
+av==15.1.0  # faster-whisper 1.2.1 calls av.open(metadata_errors=...), which newer PyAV (19.x) rejects

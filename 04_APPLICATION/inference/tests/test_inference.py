@@ -75,3 +75,12 @@ def test_tts_validation():
 def test_stt_without_model_is_honest_503():
     r = client.post("/stt", files={"audio": ("a.webm", b"1234", "audio/webm")}, headers=H)
     assert r.status_code == 503 and "T0.08" in r.json()["detail"]
+
+
+def test_stt_is_unavailable_not_500_when_weights_or_package_missing(tmp_path, monkeypatch):
+    """Regression: /health used to claim faster-whisper whenever the model folder existed, and /stt then crashed with a bare 500."""
+    monkeypatch.setattr(svc, "WHISPER_DIR", str(tmp_path))  # folder exists but holds no model.bin
+    h = client.get("/health").json()
+    assert h["stt"]["engine"] is None and "model.bin" in h["stt"]["reason"]
+    r = client.post("/stt", files={"audio": ("a.wav", b"RIFF", "audio/wav")}, data={"lang": "en"}, headers=H)
+    assert r.status_code == 503 and "model.bin" in r.json()["detail"]
