@@ -40,3 +40,9 @@ def test_unknown_emi_does_not_award_points_and_band_edges():
 def test_actions_target_weakest_dimensions():
     d = {"literacy": 80, "safety": 10, "goal_planning": 50, "scheme_awareness": 0, "savings_discipline": 90, "debt_awareness": 30}
     assert [a["dimension"] for a in s.actions(d)] == ["scheme_awareness", "safety", "debt_awareness"]
+
+
+def test_overall_matches_the_spec_example():
+    """Spec example: 82, 90, 75, 68, 76 gives 78. The mean is taken over however many dimensions exist (six since D-035)."""
+    from vaakya.domain.score import overall
+    assert overall({"a": 82, "b": 90, "c": 75, "d": 68, "e": 76}) == 78
