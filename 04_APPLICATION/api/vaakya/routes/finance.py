@@ -13,7 +13,7 @@ from ..services import budget, goals
 from ..services.common import emit, today_ist
 
 router = APIRouter(prefix="/v1", tags=["finance", "goals", "planning"])
-DB = Annotated[Session, Depends(get_db)]
+DB = Annotated[Session, Depends(get_db, scope="function")]
 
 
 @router.get("/financial-items", response_model=list[s.ItemOut])

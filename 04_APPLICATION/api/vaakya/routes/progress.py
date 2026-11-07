@@ -14,7 +14,7 @@ from ..services import dashboard, learning, notifications, reviews, twin
 from ..services.score import history, score_view
 
 router = APIRouter(prefix="/v1", tags=["score", "dashboard", "learning", "notifications"])
-DB = Annotated[Session, Depends(get_db)]
+DB = Annotated[Session, Depends(get_db, scope="function")]
 
 
 @router.get("/dashboard", summary="Home dashboard view model")

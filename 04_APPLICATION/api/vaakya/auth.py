@@ -68,7 +68,7 @@ def verify(token: str, resolver: KeyResolver, settings: Settings) -> dict:
         raise AuthError("Invalid token") from e
 
 
-def current_user(request: Request, db: Annotated[Session, Depends(get_db)],
+def current_user(request: Request, db: Annotated[Session, Depends(get_db, scope="function")],
                  settings: Annotated[Settings, Depends(get_settings)]) -> CurrentUser:
     auth = request.headers.get("authorization", "")
     if not auth.lower().startswith("bearer "):

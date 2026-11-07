@@ -14,7 +14,7 @@ from ..services import documents
 from ..services.common import get_owned
 
 router = APIRouter(prefix="/v1/documents", tags=["documents"])
-DB = Annotated[Session, Depends(get_db)]
+DB = Annotated[Session, Depends(get_db, scope="function")]
 F = Annotated[Features, Depends(features)]
 
 

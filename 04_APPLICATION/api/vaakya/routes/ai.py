@@ -20,7 +20,7 @@ from ..services.common import get_owned, require_consent
 from .documents import read_capped
 
 router = APIRouter(prefix="/v1", tags=["assistant", "sentinel", "schemes", "voice"])
-DB = Annotated[Session, Depends(get_db)]
+DB = Annotated[Session, Depends(get_db, scope="function")]
 F = Annotated[Features, Depends(features)]
 
 

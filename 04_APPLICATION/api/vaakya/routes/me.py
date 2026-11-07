@@ -11,7 +11,7 @@ from ..ratelimit import limit
 from ..services import assessment, data_rights, profile
 
 router = APIRouter(prefix="/v1", tags=["me", "onboarding", "assessment"])
-DB = Annotated[Session, Depends(get_db)]
+DB = Annotated[Session, Depends(get_db, scope="function")]
 
 
 @router.get("/me", response_model=s.MeOut, summary="Account summary and onboarding state")
