@@ -208,6 +208,5 @@ The application runs end to end on a local Docker stack. Language models have no
 **Team INVINCIBLES** — SVKM's NMIMS MPSTME
 
 - **Sanket Mali** — [@Sanket1516](https://github.com/Sanket1516)
-- **Pinak**
 
-Original hackathon pitch deck and diagrams: [`NOMURA/`](NOMURA).
+
